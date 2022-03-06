@@ -7,13 +7,13 @@ import moduleNavLinkVue from './moduleNavLink.vue';
         <ul>
             <moduleNavLinkVue text="produkty" 
             v-bind:children="[
-            {path: '/warehouse/items/find', text: 'zarejestrowane produkty'},
+            {path: '/warehouse/items', text: 'zarejestrowane produkty'},
             {path: '/warehouse/items/changeshelve', text: 'zmiana lokalizacji'}
             ]"/>
             <moduleNavLinkVue text="części zamienne"
             v-bind:children="[
             {path: '/warehouse/spareparts/orders', text: 'dostawy części'},
-            {path: '/warehouse/spareparts/categories', text: 'zarejestrowane części'},
+            {path: '/warehouse/spareparts', text: 'zarejestrowane części'},
             {path: '/warehouse/spareparts/stock', text: 'stan magazynowy'}
             ]"/>
             <moduleNavLinkVue text="miejsca magazynowe"
