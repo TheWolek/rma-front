@@ -29,9 +29,9 @@ export default {
     <li>
         <div class="mainLink" @click="toggleExpand">{{text}}</div>
         <div class="links">
-            <div v-for="child in children" :key="child.text" class="link">
-                <RouterLink :to="child.path">{{child.text}}</RouterLink>
-            </div> 
+            <RouterLink v-for="child in children" :key="child.text" :to="child.path" class="link">
+                {{child.text}}
+            </RouterLink> 
         </div>
     </li>
 </template>
@@ -45,13 +45,11 @@ export default {
         display: flex;
         flex-direction: column;
     }
-    .link a {
+    .link {
+        padding: .5em .8em;
         font-size: .9rem;
         line-height: normal;
         color: #fff
-    }
-    .link {
-        padding: .5em .8em;
     }
     .link:hover {
         background: rgb(102, 129, 167);
