@@ -13,6 +13,6 @@ import { RouterView } from 'vue-router'
 #warehouse {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 8% 1fr;
+    grid-template-columns: 10% 1fr;
 }
 </style>
