@@ -1,7 +1,8 @@
 <script>
 import ChangeShelveNew from "./ChangeShelveNew.vue"
+import ChangeShelveItemRow from "./ChangeShelveItemRow.vue"
 export default {
-    components: {ChangeShelveNew},
+    components: {ChangeShelveNew, ChangeShelveItemRow},
     data() {
         return {
             itemsToAdd: []
@@ -9,9 +10,52 @@ export default {
     },
     mounted() {
         this.emitter.on("itemAdded", evData => {
-            this.itemsToAdd.push(evData)
-            console.log(this.itemsToAdd)
+            if (this.itemsToAdd.includes(evData)) return this.addingFail()
+            if (this.IfCodeExistsInList(evData)) return this.addingFail()
+
+            fetch(`http://localhost:3000/warehouse/items/exists?barcode=${evData}`)
+            .then(async res => {
+                const resData = await res.json()
+                if (res.status == 404) {
+                    return this.addingFail()
+                }
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                let dataToPush = {
+                    barcode: evData,
+                    ticket_id: evData.split("-")[0],
+                    model: evData.split("-")[1],
+                    category: evData.split("-")[2]
+                }
+                this.itemsToAdd.push(dataToPush)
+                this.emitter.emit("addingSuccess")
+            })
+            .catch(error => {
+                return console.log(error)
+            })
         })
+    },
+    methods: {
+        addingFail() {
+            return this.emitter.emit("addingFail")
+        },
+        IfCodeExistsInList(code) {
+            let fail = false
+
+            if (this.itemsToAdd.length > 0) {
+                this.itemsToAdd.forEach(el => {
+                    if (el.ticket_id == code.split("-")[0]) {
+                        fail = true
+                        return
+                    }
+                })
+                return fail
+            }
+            return fail
+        }
     }
 }
 </script>
@@ -23,6 +67,7 @@ export default {
             <th>kategoria</th>
             <th>model</th>
         </tr>
+        <ChangeShelveItemRow v-for="item in itemsToAdd" :key="item.ticket_id" :item="item"/>
         <ChangeShelveNew/>
     </table>
 </template>
