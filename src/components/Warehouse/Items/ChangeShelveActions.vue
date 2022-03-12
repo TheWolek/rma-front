@@ -11,7 +11,7 @@ export default {
             document.getElementById("changeShelveModalWrap").classList.toggle("active")
         },
         clearForm() {
-            
+            this.emitter.emit("clear_shelves")
         }
     }
 }
@@ -20,6 +20,7 @@ export default {
     <div class="actions">
         <div class="actionBtn" id="btn1" @click="toggleChangeModal"> + Nowy</div>
         <div class="actionBtn" id="btn2" @click="clearForm">Anuluj</div>
+        <div class="actionBtn" id="btn3" @click="submit">Przetwarzaj</div>
     </div> 
 </template>
 <style>

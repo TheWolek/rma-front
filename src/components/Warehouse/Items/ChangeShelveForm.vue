@@ -16,6 +16,11 @@ export default {
             this.activeShelve = evData.active
             this.newShelve = evData.new
         })
+        this.emitter.on("clear_shelves", () => {
+            this.activeShelve = ''
+            this.newShelve = ''
+            this.Items = []
+        })
     },
     methods: {
         handleSubmit() {

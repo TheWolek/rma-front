@@ -49,6 +49,7 @@ export default {
             let new_find = this.shelves.find(o => o.code == this.new_code)
             if(acive_find == undefined) return this.displayError("podana lokalizacja nie istnieje", "active_code")
             if(new_find == undefined) return this.displayError("podana lokalizacja nie istnieje", "new_code")
+            
             if(this.active_code == this.new_code) return this.displayError("nowa lokalizacja nie może być identyczna jak obecna", "new_code")
             
             this.emitter.emit("active_shelve", {active: this.active_code, new: this.new_code})
