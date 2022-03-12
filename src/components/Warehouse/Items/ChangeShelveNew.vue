@@ -4,7 +4,8 @@ export default {
         return {
             codeToAdd: '',
             reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/,
-            waitingForRes: false
+            waitingForRes: false,
+            allowedProducts: []
         }
     },
     mounted() {
@@ -15,19 +16,41 @@ export default {
             this.codeToAdd = ''
             this.waitingForRes = false
         })
-        this.emitter.on("active_shelve", () => {
-            document.getElementById("addInput").disabled = false
-            document.getElementById("addInput").focus()
+        this.emitter.on("active_shelve", (evData) => {
+            let active_shelve = this.shelves.find(o => o.code == evData.active).shelve_id
+            fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${active_shelve}`)
+            .then(async res => {
+                const resData = await res.json()
+
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                resData.forEach(el => {
+                    let barcode = el.ticket_id + "-" + el.name + "-" + el.category
+                    this.allowedProducts.push(barcode)
+                })
+            })
+            .catch(error => {
+                return console.log(error)
+            })
+            .then(() => {
+                document.getElementById("addInput").disabled = false
+                document.getElementById("addInput").focus()
+            })
         })
         this.emitter.on("clear_shelves", () => {
             document.getElementById("addInput").disabled = true
             document.getElementById("addInput").classList.remove("fail")
             this.codeToAdd = ''
+            this.allowedProducts = []
         })
         this.emitter.on("changeShelve_success", () => {
             document.getElementById("addInput").disabled = true
             document.getElementById("addInput").classList.remove("fail")
             this.codeToAdd = ''
+            this.allowedProducts = []
         })
     },
     methods: {
@@ -35,6 +58,7 @@ export default {
             if (!this.waitingForRes) {
                 this.waitingForRes = true
                 if (!this.reg.test(this.codeToAdd)) return this.onFail()
+                if (!this.allowedProducts.includes(this.codeToAdd)) return this.onFail()
                 this.emitter.emit("itemAdded", this.codeToAdd)
             }
         },
