@@ -3,7 +3,16 @@ export default {
     methods: {
         toggleNewModal() {
             document.getElementById("itemCreateModalWrap").classList.toggle("active")
-        }
+        },
+        onRefresh() {
+            this.emitter.emit("itemsRefresh")
+        },
+
+    },
+    mounted() {
+        this.emitter.on("refreshing", () => {
+            document.querySelector("#btn5 img").classList.toggle("active");
+        })
     }
 }
 </script>
@@ -13,6 +22,7 @@ export default {
         <div class="actionBtn" id="btn2">Kod kreskowy</div>
         <div class="actionBtn" id="btn3">Półka</div>
         <div class="actionBtn" id="btn4">Usuń</div>
+        <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg"/></div>
     </div>    
 </template>
 <style>
@@ -28,10 +38,34 @@ export default {
         font-weight: bold;
         transition: background-color .2s ease-out;
         padding: .2em .5em;
+        position: relative;
+        display: flex;
     }
 
     .actionBtn:hover {
         cursor: pointer;
         background: rgb(195, 196, 197);
+    }
+
+    .actionBtn img {
+        width: 20px;
+    }
+
+    #btn5 img {
+        transition: transform .2s ease-out;
+    }
+
+    #btn5:hover img {
+        transform: rotate(90deg);
+    }
+
+    #btn5 img.active {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>

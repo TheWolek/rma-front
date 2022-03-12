@@ -5,11 +5,29 @@ export default {
     components: {itemRow},
     data() {
         return {
-            items: []
+            items: [],
+            shelves: [],
+            loading: false
         }
     },
     mounted() {
         this.emitter.on("addItem", evData => this.addItem(evData))
+        this.emitter.on("itemsRefresh", () => this.refreshTable())
+
+        fetch("http://localhost:3000/warehouse/shelve")
+        .then(async res => {
+            const resData = await res.json()
+
+            if (!res.ok) {
+                const error = (resData && resData.message) || res.status
+                return Promise.reject(error)
+            }
+
+            this.shelves = resData
+        })
+        .catch(error => {
+            console.log(error)
+        })
     },
     methods: {
         addItem(data) {
@@ -18,9 +36,37 @@ export default {
                 id: data.resData.id,
                 ticket_id: data.resData.ticket_id,
                 name: data.data.barcode.split("-")[1],
-                category: data.data.barcode.split("-")[2]
+                category: data.data.barcode.split("-")[2],
+                shelve_code: this.shelves[data.resData.shelve].code,
+                shelve: data.resData.shelve
             }
             this.items.push(item)
+        },
+        refreshTable() {
+            this.loading = true;
+            this.emitter.emit("refreshing")
+            fetch("http://localhost:3000/warehouse/items")
+            .then(async res => {
+                const resData = await res.json()
+                
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                setTimeout(()=>{
+                    resData.forEach(el => {
+                        el.shelve_code = this.shelves[el.shelve].code
+                    });
+
+                    this.items = resData
+                    this.loading = false
+                    this.emitter.emit("refreshing")
+                }, 500) 
+            })
+            .catch(error => {
+                return console.log(error)
+            })
         }
     }
 }
@@ -29,9 +75,11 @@ export default {
     <div class="itemsTable">
         <table>
             <tr>
+                <th></th>
                 <th>ID zgłoszenia</th>
                 <th>kategoria</th>
                 <th>model</th>
+                <th>Półka</th>
                 <th>akcje</th>
             </tr>
             <itemRow v-for="item in items" :key="item.id" :data="item"/>
@@ -78,10 +126,19 @@ export default {
     }
 
     table tr th:nth-child(1), table tr td:nth-child(1) {
-        width: 7%;
+        width: 3%;
     }
 
-    table tr th:nth-child(4), table tr td:nth-child(4) {
+    table tr th:nth-child(2), table tr td:nth-child(2) {
+        width: 7%;
+        padding: .3em;
+    }
+
+    table tr th:nth-child(5), table tr td:nth-child(5) {
+        width: 10%;
+    }
+
+    table tr th:last-of-type, table tr td:last-of-type {
         width: 12%;
     }
 </style>
