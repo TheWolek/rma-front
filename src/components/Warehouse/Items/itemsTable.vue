@@ -6,7 +6,6 @@ export default {
     data() {
         return {
             items: [],
-            shelves: [],
             loading: false
         }
     },
@@ -18,20 +17,20 @@ export default {
             this.items.push(evData.data)
         })
 
-        fetch("http://localhost:3000/warehouse/shelve")
-        .then(async res => {
-            const resData = await res.json()
+        // fetch("http://localhost:3000/warehouse/shelve")
+        // .then(async res => {
+        //     const resData = await res.json()
 
-            if (!res.ok) {
-                const error = (resData && resData.message) || res.status
-                return Promise.reject(error)
-            }
+        //     if (!res.ok) {
+        //         const error = (resData && resData.message) || res.status
+        //         return Promise.reject(error)
+        //     }
 
-            this.shelves = resData
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        //     this.shelves = resData
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
     },
     methods: {
         addItem(data) {
