@@ -9,6 +9,7 @@ export default {
     },
     mounted() {
         this.emitter.on("active_shelve", evData => {
+            console.log(evData)
             this.activeShelve = evData
         })
     },

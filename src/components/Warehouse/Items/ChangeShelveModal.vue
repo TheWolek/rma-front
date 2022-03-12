@@ -30,7 +30,10 @@ export default {
         handleSubmit() {
             if (this.active_code == "") return this.displayError("podaj kod lokalizacji")
             if (!this.code_reg.test(this.active_code)) return this.displayError("zły format kodu")
-            this.emitter.emit("active_shelve", active_code)
+            this.emitter.emit("active_shelve", this.active_code)
+            this.toggleModal()
+            this.active_code = ''
+            this.error_active_code = ''
         }
     }
 }
