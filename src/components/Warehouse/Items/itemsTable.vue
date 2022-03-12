@@ -76,7 +76,7 @@ export default {
                 <th>ID zgłoszenia</th>
                 <th>kategoria</th>
                 <th>model</th>
-                <th>Półka</th>
+                <th>lokalizacja</th>
                 <th>akcje</th>
             </tr>
             <itemRow v-for="item in items" :key="item.id" :data="item"/>
