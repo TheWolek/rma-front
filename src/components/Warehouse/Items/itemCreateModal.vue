@@ -10,6 +10,7 @@ export default {
     methods: {
         toggleModal() {
             document.getElementById("itemCreateModalWrap").classList.toggle("active")
+            this.error_barcode = ''
         },
         async handleSubmit() {
             if (this.barcode == "") return this.displayError("podaj kod kreskowy")
