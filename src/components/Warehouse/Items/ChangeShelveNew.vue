@@ -15,6 +15,10 @@ export default {
             this.codeToAdd = ''
             this.waitingForRes = false
         })
+        this.emitter.on("active_shelve", () => {
+            document.getElementById("addInput").disabled = false
+            document.getElementById("addInput").focus()
+        })
     },
     methods: {
         onAdd() {
@@ -40,8 +44,8 @@ export default {
 </script>
 <template>
     <tr>
-        <td>
-            <input id="addInput" type="text" v-model="codeToAdd" v-on:keyup.enter="onAdd" @change="onChange"/>
+        <td class="addInput">
+            <input id="addInput" type="text" v-model="codeToAdd" v-on:keyup.enter="onAdd" @change="onChange" disabled/>
         </td>
         <td></td>
         <td></td>
@@ -50,7 +54,11 @@ export default {
 </template>
 <style>
     input#addInput {
-        width: 99% !important;
+        width: 100% !important;
+    }
+
+    td.addInput {
+        padding: .2em 0;
     }
 
     input#addInput.fail:focus, input#addInput.fail {

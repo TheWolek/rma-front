@@ -13,7 +13,8 @@ export default {
     mounted() {
         this.emitter.on("active_shelve", evData => {
             console.log(evData)
-            this.activeShelve = evData
+            this.activeShelve = evData.active
+            this.newShelve = evData.new
         })
     },
     methods: {
@@ -32,7 +33,7 @@ export default {
             </div>
             <div class="form-group">
                 <label for="newShelve">Nowa lokalizacja</label>
-                <input type="text" id="newShelve" v-model="newShelve"/>
+                <input type="text" id="newShelve" v-model="newShelve" disabled/>
             </div>
         </div>
         <div class="tableWrap">
@@ -73,9 +74,9 @@ form input[type="text"] {
 }
 
 form input:disabled {
-    background: rgb(145, 145, 145);
+    background: rgb(209 209 209);
     border: 1px solid #000;
-    color: #fff;
+    color: var(--vt-c-black-mute)
 }
 
 form input:disabled:hover {
