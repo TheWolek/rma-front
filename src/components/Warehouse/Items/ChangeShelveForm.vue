@@ -1,5 +1,8 @@
 <script>
+import ChangeShelveTable from "./ChangeShelveTable.vue"
+
 export default {
+    components: {ChangeShelveTable},
     data() {
         return {
             activeShelve: '',
@@ -22,23 +25,29 @@ export default {
 </script>
 <template>
     <form id="changeShelveForm" v-on:submit.prevent="handleSubmit">
-        <div class="form-group">
-            <label for="activeShelve">Bierząca lokalizacja</label>
-            <input type="text" id="activeShelve" v-model="activeShelve" disabled/>
+        <div class="topBar">
+            <div class="form-group">
+                <label for="activeShelve">Bierząca lokalizacja</label>
+                <input type="text" id="activeShelve" v-model="activeShelve" disabled/>
+            </div>
+            <div class="form-group">
+                <label for="newShelve">Nowa lokalizacja</label>
+                <input type="text" id="newShelve" v-model="newShelve"/>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="newShelve">Nowa lokalizacja</label>
-            <input type="text" id="newShelve" v-model="newShelve"/>
+        <div class="tableWrap">
+            <ChangeShelveTable/>
         </div>
     </form>
 </template>
 <style>
 form#changeShelveForm {
     padding: 0;
-    display: flex;
-    flex-direction: row;
     width: 90%;
+}
+
+form .topBar {
+    display: flex;
     gap: 2em;
 }
 
