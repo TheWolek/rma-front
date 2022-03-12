@@ -3,18 +3,22 @@ import ItemsActions from "../../../components/Warehouse/Items/itemsActions.vue";
 import ItemCreateModal from "../../../components/Warehouse/Items/itemCreateModal.vue";
 import itemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
+import ItemFindModal from '../../../components/Warehouse/Items/itemFindModal.vue'
 
 export default {
-    components: { ItemsActions, ItemCreateModal, itemsTable, ItemsTable },
+    components: { ItemsActions, ItemCreateModal, itemsTable, ItemsTable, ItemFindModal },
 }
 </script>
 
 <template>
   <div id="warehouseItems">
     <ItemCreateModal/>
-    <ItemsActions/>
-    <h1>This is warehouse items page</h1>
-    <ItemsTable/>
+    <ItemFindModal/>
+    <div class="warehouseItems_wrap">
+      <ItemsActions/>
+      <h1>This is warehouse items page</h1>
+      <ItemsTable/>
+    </div>
   </div>
 </template>
 
@@ -23,11 +27,11 @@ export default {
     min-height: 94vh;
     display: flex;
     flex-direction: column;
-    padding: .5em;
     position: relative;
 }
 
-h1 {
-  grid-area: main;
+.warehouseItems_wrap {
+  padding: .5em;
 }
+
 </style>

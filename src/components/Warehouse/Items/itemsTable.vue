@@ -13,6 +13,10 @@ export default {
     mounted() {
         this.emitter.on("addItem", evData => this.addItem(evData))
         this.emitter.on("itemsRefresh", () => this.refreshTable())
+        this.emitter.on("findItem", evData => {
+            this.items = []
+            this.items.push(evData.data)
+        })
 
         fetch("http://localhost:3000/warehouse/shelve")
         .then(async res => {

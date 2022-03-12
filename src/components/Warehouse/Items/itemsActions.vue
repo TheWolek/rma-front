@@ -4,6 +4,9 @@ export default {
         toggleNewModal() {
             document.getElementById("itemCreateModalWrap").classList.toggle("active")
         },
+        toggleFindModal() {
+            document.getElementById("itemFindModalWrap").classList.toggle("active")
+        },
         onRefresh() {
             this.emitter.emit("itemsRefresh")
         },
@@ -18,8 +21,8 @@ export default {
 </script>
 <template>
     <div class="actions">
-        <div class="actionBtn" id="btn1" v-on:click="toggleNewModal"> + Nowy</div>
-        <div class="actionBtn" id="btn2">Kod kreskowy</div>
+        <div class="actionBtn" id="btn1" @click="toggleNewModal"> + Nowy</div>
+        <div class="actionBtn" id="btn2" @click="toggleFindModal">Kod kreskowy</div>
         <div class="actionBtn" id="btn3">Półka</div>
         <div class="actionBtn" id="btn4">Usuń</div>
         <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg"/></div>
