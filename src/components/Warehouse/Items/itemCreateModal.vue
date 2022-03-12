@@ -12,7 +12,7 @@ export default {
             document.getElementById("itemCreateModalWrap").classList.toggle("active")
             this.error_barcode = ''
         },
-        async handleSubmit() {
+        handleSubmit() {
             if (this.barcode == "") return this.displayError("podaj kod kreskowy")
             if (!this.barcode_reg.test(this.barcode)) return this.displayError("zły format kodu")
 
