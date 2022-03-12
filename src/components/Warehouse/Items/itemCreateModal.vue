@@ -36,8 +36,9 @@ export default {
                     return Promise.reject(error)
                 }
 
-                console.log(resData)
                 this.emitter.emit("addItem", {data, resData})
+                this.error_barcode = ""
+                this.barcode = ""
                 this.toggleModal()
             })
             .catch(error => {
