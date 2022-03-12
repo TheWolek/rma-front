@@ -1,17 +1,24 @@
 <script>
 export default {
     data() {
-        return {}
+        return {
+            active_shelve: false
+        }
     },
     mounted() {
-        
+        this.emitter.on("active_shelve", () => {
+            document.getElementById("btn1").classList.add("disabled")
+            this.active_shelve = true
+        }) 
     },
     methods: {
         toggleChangeModal() {
-            document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            if(!this.active_shelve) document.getElementById("changeShelveModalWrap").classList.toggle("active")
         },
         clearForm() {
             this.emitter.emit("clear_shelves")
+            document.getElementById("btn1").classList.remove("disabled")
+            this.active_shelve = false
         }
     }
 }
@@ -43,5 +50,12 @@ export default {
     .actionBtn:hover {
         cursor: pointer;
         background: rgb(195, 196, 197);
+    }
+
+    .actionBtn.disabled {
+        color: #939393;
+    }
+    .actionBtn.disabled:hover {
+        cursor: not-allowed;
     }
 </style>

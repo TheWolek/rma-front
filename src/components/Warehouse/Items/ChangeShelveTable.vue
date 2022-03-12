@@ -37,6 +37,10 @@ export default {
                 return console.log(error)
             })
         })
+
+        this.emitter.on("clear_shelves", () => {
+            this.itemsToAdd = []
+        })
     },
     methods: {
         addingFail() {
