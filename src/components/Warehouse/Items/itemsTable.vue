@@ -122,20 +122,20 @@ export default {
         border-bottom: 2px solid rgb(31, 125, 212);
     }
 
-    table tr th:nth-child(1), table tr td:nth-child(1) {
+    .itemsTable table tr th:nth-child(1), table tr td:nth-child(1) {
         width: 3%;
     }
 
-    table tr th:nth-child(2), table tr td:nth-child(2) {
+    .itemsTable table tr th:nth-child(2), table tr td:nth-child(2) {
         width: 7%;
         padding: .3em;
     }
 
-    table tr th:nth-child(5), table tr td:nth-child(5) {
+    .itemsTable table tr th:nth-child(5), table tr td:nth-child(5) {
         width: 10%;
     }
 
-    table tr th:last-of-type, table tr td:last-of-type {
+    .itemsTable table tr th:last-of-type, table tr td:last-of-type {
         width: 12%;
     }
 </style>
