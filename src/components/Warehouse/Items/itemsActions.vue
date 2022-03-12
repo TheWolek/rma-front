@@ -7,10 +7,12 @@ export default {
         toggleFindModal() {
             document.getElementById("itemFindModalWrap").classList.toggle("active")
         },
+        toggleShelveFindModal() {
+            document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
+        },
         onRefresh() {
             this.emitter.emit("itemsRefresh")
-        },
-
+        }
     },
     mounted() {
         this.emitter.on("refreshing", () => {
@@ -23,7 +25,7 @@ export default {
     <div class="actions">
         <div class="actionBtn" id="btn1" @click="toggleNewModal"> + Nowy</div>
         <div class="actionBtn" id="btn2" @click="toggleFindModal">Kod kreskowy</div>
-        <div class="actionBtn" id="btn3">Półka</div>
+        <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">Półka</div>
         <div class="actionBtn" id="btn4">Usuń</div>
         <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg"/></div>
     </div>    

@@ -14,23 +14,17 @@ export default {
         this.emitter.on("itemsRefresh", () => this.refreshTable())
         this.emitter.on("findItem", evData => {
             this.items = []
-            this.items.push(evData.data)
+            if (evData.data) {
+                evData.data.shelve_code = this.shelves[evData.data.shelve].code;
+                this.items.push(evData.data)
+            }
         })
-
-        // fetch("http://localhost:3000/warehouse/shelve")
-        // .then(async res => {
-        //     const resData = await res.json()
-
-        //     if (!res.ok) {
-        //         const error = (resData && resData.message) || res.status
-        //         return Promise.reject(error)
-        //     }
-
-        //     this.shelves = resData
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
+        this.emitter.on("findMulipleItems", evData => {
+            this.items = evData.data
+            this.items.forEach(el => {
+                el.shelve_code = this.shelves[el.shelve].code
+            });
+        })
     },
     methods: {
         addItem(data) {
