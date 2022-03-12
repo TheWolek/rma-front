@@ -19,9 +19,6 @@ export default {
             document.getElementById("addInput").disabled = false
             document.getElementById("addInput").focus()
         })
-        this.emitter.on("clear_shelves", () => {
-            document.getElementById("addInput").disabled = true
-        })
     },
     methods: {
         onAdd() {

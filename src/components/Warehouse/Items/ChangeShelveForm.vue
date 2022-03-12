@@ -17,14 +17,18 @@ export default {
             this.newShelve = evData.new
         })
         this.emitter.on("clear_shelves", () => {
-            this.activeShelve = ''
-            this.newShelve = ''
-            this.Items = []
+            this.clearForm()
         })
     },
     methods: {
         handleSubmit() {
 
+        },
+        clearForm() {
+            this.activeShelve = ''
+            this.newShelve = ''
+            this.Items = []
+            document.getElementById("addInput").disabled = true
         }
     }
 }
