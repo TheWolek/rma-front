@@ -24,6 +24,11 @@ export default {
             document.getElementById("addInput").classList.remove("fail")
             this.codeToAdd = ''
         })
+        this.emitter.on("changeShelve_success", () => {
+            document.getElementById("addInput").disabled = true
+            document.getElementById("addInput").classList.remove("fail")
+            this.codeToAdd = ''
+        })
     },
     methods: {
         onAdd() {

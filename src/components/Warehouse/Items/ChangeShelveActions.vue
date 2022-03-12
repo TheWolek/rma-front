@@ -8,8 +8,16 @@ export default {
     mounted() {
         this.emitter.on("active_shelve", () => {
             document.getElementById("btn1").classList.add("disabled")
+            document.getElementById("btn2").classList.remove("disabled")
+            document.getElementById("btn3").classList.remove("disabled")
             this.active_shelve = true
-        }) 
+        })
+        this.emitter.on("changeShelve_success", () => {
+            document.getElementById("btn1").classList.remove("disabled")
+            document.getElementById("btn2").classList.add("disabled")
+            document.getElementById("btn3").classList.add("disabled")
+            this.active_shelve = false
+        })
     },
     methods: {
         toggleChangeModal() {
@@ -18,7 +26,14 @@ export default {
         clearForm() {
             this.emitter.emit("clear_shelves")
             document.getElementById("btn1").classList.remove("disabled")
+            document.getElementById("btn2").classList.add("disabled")
+            document.getElementById("btn3").classList.add("disabled")
             this.active_shelve = false
+        },
+        submit() {
+            this.emitter.emit("changeShelve_process")
+            document.getElementById("btn2").classList.add("disabled")
+            document.getElementById("btn3").classList.add("disabled")
         }
     }
 }
@@ -26,8 +41,8 @@ export default {
 <template>
     <div class="actions">
         <div class="actionBtn" id="btn1" @click="toggleChangeModal"> + Nowy</div>
-        <div class="actionBtn" id="btn2" @click="clearForm">Anuluj</div>
-        <div class="actionBtn" id="btn3" @click="submit">Przetwarzaj</div>
+        <div class="actionBtn disabled" id="btn2" @click="clearForm">Anuluj</div>
+        <div class="actionBtn disabled" id="btn3" @click="submit">Przetwarzaj</div>
     </div> 
 </template>
 <style>

@@ -41,6 +41,12 @@ export default {
         this.emitter.on("clear_shelves", () => {
             this.itemsToAdd = []
         })
+        this.emitter.on("changeShelve_process", () => {
+            this.emitter.emit("changeShelve_submit", this.itemsToAdd)
+        })
+        this.emitter.on("changeShelve_success", () => {
+            this.itemsToAdd = []
+        })
     },
     methods: {
         addingFail() {
