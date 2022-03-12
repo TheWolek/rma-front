@@ -2,7 +2,8 @@
 export default {
     data() {
         return {
-            active_shelve: false
+            active_shelve: false,
+            response_msg: ''
         }
     },
     mounted() {
@@ -17,6 +18,10 @@ export default {
             document.getElementById("btn2").classList.add("disabled")
             document.getElementById("btn3").classList.add("disabled")
             this.active_shelve = false
+            this.response_msg = "produkty zostały pomyślnie przeniesione"
+            document.getElementById("changeShelveResponse-msg").classList.add("active")
+            document.getElementById("changeShelveResponse-msg").classList.add("succ")
+            this.ClearNotification("succ")
         })
     },
     methods: {
@@ -34,6 +39,16 @@ export default {
             this.emitter.emit("changeShelve_process")
             document.getElementById("btn2").classList.add("disabled")
             document.getElementById("btn3").classList.add("disabled")
+        },
+        ClearNotification(className) {
+            setTimeout(() => {
+                document.getElementById("changeShelveResponse-msg").classList.remove("active")
+            }, 2000)
+
+            setTimeout(() => {
+                this.response_msg = ''
+                document.getElementById("changeShelveResponse-msg").classList.remove(className)
+            }, 2500)
         }
     }
 }
@@ -43,6 +58,7 @@ export default {
         <div class="actionBtn" id="btn1" @click="toggleChangeModal"> + Nowy</div>
         <div class="actionBtn disabled" id="btn2" @click="clearForm">Anuluj</div>
         <div class="actionBtn disabled" id="btn3" @click="submit">Przetwarzaj</div>
+        <div id="changeShelveResponse-msg">{{response_msg}}</div>
     </div> 
 </template>
 <style>
@@ -70,7 +86,31 @@ export default {
     .actionBtn.disabled {
         color: #939393;
     }
+
     .actionBtn.disabled:hover {
         cursor: not-allowed;
+    }
+
+    #changeShelveResponse-msg {
+        background: rgba(81, 192, 114, 0.9);
+        color: #000;
+        font-size: 1em;
+        padding: 0 1em;
+        border: 1px solid #000;
+        border-radius: 7px;
+        opacity: 0;
+        transition: opacity .3s ease-out;
+    }
+
+    #changeShelveResponse-msg.succ {
+        background: rgba(81, 192, 114, 0.9);
+    }
+
+    #changeShelveResponse-msg.fail {
+        background: rgba(190, 75, 75, 0.9);
+    }
+
+    #changeShelveResponse-msg.active {
+        opacity: 1;
     }
 </style>
