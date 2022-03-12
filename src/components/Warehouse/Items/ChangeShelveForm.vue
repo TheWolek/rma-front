@@ -67,6 +67,7 @@ export default {
         },
         displayError(error) {
             console.log(error)
+            this.emitter.emit("changeShelve_fail", error)
         }
     }
 }

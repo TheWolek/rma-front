@@ -23,6 +23,14 @@ export default {
             document.getElementById("changeShelveResponse-msg").classList.add("succ")
             this.ClearNotification("succ")
         })
+        this.emitter.on("changeShelve_fail", (evData) => {
+            document.getElementById("btn2").classList.remove("disabled")
+            document.getElementById("btn3").classList.remove("disabled")
+            this.response_msg = evData
+            document.getElementById("changeShelveResponse-msg").classList.add("active")
+            document.getElementById("changeShelveResponse-msg").classList.add("fail")
+            this.ClearNotification("fail")
+        })
     },
     methods: {
         toggleChangeModal() {
