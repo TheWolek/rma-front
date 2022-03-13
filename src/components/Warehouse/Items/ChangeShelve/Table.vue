@@ -30,6 +30,9 @@ export default {
                     model: evData.split("-")[1],
                     category: evData.split("-")[2]
                 }
+                if (this.itemsToAdd.length == 0) {
+                    this.emitter.emit("changeShelve_ableToSubmit")
+                }
                 this.itemsToAdd.push(dataToPush)
                 this.emitter.emit("addingSuccess")
             })

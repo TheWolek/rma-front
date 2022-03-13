@@ -2,23 +2,28 @@
 export default {
     data() {
         return {
-            active_shelve: false,
-            response_msg: '',
-            fail: false
+            active_shelve: false, //flag: shelves were added, ready to take input
+            response_msg: '', //message to display in notification
+            resposne_type: null, //type of notifiaction, 0: success, 1: fail, null: default
+            fail: false, //flag: something went wrong on form submit, block submitting, allow canceling
+            submitted: false, //flag: form has been submited, waiting for results
+            ableToSubmit: false
         }
     },
     mounted() {
         this.emitter.on("active_shelve", () => {
-            document.getElementById("btn1").classList.add("disabled")
-            document.getElementById("btn2").classList.remove("disabled")
-            document.getElementById("btn3").classList.remove("disabled")
+            // document.getElementById("btn1").classList.add("disabled")
+            // document.getElementById("btn2").classList.remove("disabled")
+            // document.getElementById("btn3").classList.remove("disabled")
             this.active_shelve = true
         })
         this.emitter.on("changeShelve_success", () => {
-            document.getElementById("btn1").classList.remove("disabled")
-            document.getElementById("btn2").classList.add("disabled")
-            document.getElementById("btn3").classList.add("disabled")
+            // document.getElementById("btn1").classList.remove("disabled")
+            // document.getElementById("btn2").classList.add("disabled")
+            // document.getElementById("btn3").classList.add("disabled")
             this.active_shelve = false
+            this.submitted = false
+            this.ableToSubmit = false
             this.response_msg = "produkty zostały pomyślnie przeniesione"
             document.getElementById("changeShelveResponse-msg").classList.add("active")
             document.getElementById("changeShelveResponse-msg").classList.add("succ")
@@ -26,12 +31,17 @@ export default {
         })
         this.emitter.on("changeShelve_fail", (evData) => {
             this.fail = true
-            document.getElementById("btn2").classList.remove("disabled")
-            document.getElementById("btn3").classList.add("disabled")
+            this.submitted = false
+            this.ableToSubmit = false
+            // document.getElementById("btn2").classList.remove("disabled")
+            // document.getElementById("btn3").classList.add("disabled")
             this.response_msg = evData
             document.getElementById("changeShelveResponse-msg").classList.add("active")
             document.getElementById("changeShelveResponse-msg").classList.add("fail")
             this.clearNotification("fail")
+        }),
+        this.emitter.on("changeShelve_ableToSubmit", () => {
+            this.ableToSubmit = true
         })
     },
     methods: {
@@ -40,17 +50,20 @@ export default {
         },
         clearForm() {
             this.emitter.emit("clear_shelves")
-            document.getElementById("btn1").classList.remove("disabled")
-            document.getElementById("btn2").classList.add("disabled")
-            document.getElementById("btn3").classList.add("disabled")
+            // document.getElementById("btn1").classList.remove("disabled")
+            // document.getElementById("btn2").classList.add("disabled")
+            // document.getElementById("btn3").classList.add("disabled")
             this.active_shelve = false
             this.fail = false
+            this.submitted = false
+            this.ableToSubmit = false
         },
         submit() {
             if (!this.fail) {
+                this.submitted = true
                 this.emitter.emit("changeShelve_process")
-                document.getElementById("btn2").classList.add("disabled")
-                document.getElementById("btn3").classList.add("disabled")
+                // document.getElementById("btn2").classList.add("disabled")
+                // document.getElementById("btn3").classList.add("disabled")
             }
         },
         clearNotification(className) {
@@ -72,14 +85,34 @@ export default {
                 document.getElementById("changeShelveResponse-msg").classList.remove("fail")
             }, 500)
         }
+    },
+    computed: {
+        newBtnVisible() {
+            return {
+                disabled: this.active_shelve
+            }
+        },
+        CancelBtnVisible() {
+            // this.active_shelve = true = enable
+            // this.active_shelve = false = disable
+            // this.active_shelve = true && this.fail = true = enable
+            return {
+                disabled: !this.active_shelve
+            }
+        },
+        SubmitBtnVisible() {
+            return {
+                disabled: !this.ableToSubmit || this.fail
+            }
+        }
     }
 }
 </script>
 <template>
     <div class="actions">
-        <div class="actionBtn" id="btn1" @click="toggleChangeModal"> + Nowy</div>
-        <div class="actionBtn disabled" id="btn2" @click="clearForm">Anuluj</div>
-        <div class="actionBtn disabled" id="btn3" @click="submit">Przetwarzaj</div>
+        <div class="actionBtn" id="btn1" @click="toggleChangeModal" :class="newBtnVisible"> + Nowy</div>
+        <div class="actionBtn" id="btn2" @click="clearForm" :class="CancelBtnVisible">Anuluj</div>
+        <div class="actionBtn" id="btn3" @click="submit" :class="SubmitBtnVisible">Przetwarzaj</div>
         <div id="changeShelveResponse-msg">{{response_msg}}<span id="close_notifi" @click="disMissNotification"></span></div>
     </div> 
 </template>
