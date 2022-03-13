@@ -6,7 +6,8 @@ export default {
     data() {
         return {
             items: [],
-            loading: false
+            loading: false,
+            openedMenu: false
         }
     },
     mounted() {
@@ -24,6 +25,18 @@ export default {
             this.items.forEach(el => {
                 el.shelve_code = this.shelves[el.shelve].code
             });
+        }),
+        this.emitter.on("items_burgerMenuRequest", evData => {
+            if (this.openedMenu) {
+                this.emitter.emit("items_closeAllBurgerMenus")
+            }
+            setTimeout(() => {
+                this.emitter.emit("items_openBurgerMenu", evData.id)
+                this.openedMenu = true
+            }, 50)
+        })
+        this.emitter.on("items_burgerMenuClosed", evData => {
+            this.openedMenu = false
         })
     },
     methods: {
@@ -79,7 +92,7 @@ export default {
                 <th>lokalizacja</th>
                 <th>akcje</th>
             </tr>
-            <itemRow v-for="item in items" :key="item.id" :data="item"/>
+            <itemRow v-for="item in items" :key="item.item_id" :data="item"/>
         </table>
         
     </div>
@@ -136,6 +149,10 @@ export default {
     }
 
     .itemsTable table tr th:last-of-type, table tr td:last-of-type {
-        width: 12%;
+        width: 4%;
+    }
+
+    .itemsTable table tr td:last-of-type {
+        padding-left: 0px;
     }
 </style>
