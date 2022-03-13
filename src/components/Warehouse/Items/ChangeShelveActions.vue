@@ -80,9 +80,10 @@ export default {
 </template>
 <style>
     .actions {
-        padding: .3em 0 .8em 0;
+        padding: .5em;
         display: flex;
         gap: 1em;
+        border-bottom: 2px solid rgb(25, 103, 175);
     }
 
     .actionBtn {

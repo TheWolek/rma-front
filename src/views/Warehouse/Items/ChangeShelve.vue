@@ -10,9 +10,9 @@ export default {
 <template>
   <div id="warehouseItemsChangeShelve">
     <ChangeShelveModal/>
+    <ChangeShelveActions/>
     <div class="warehouseItemsChangeShelve_wrap">
-      <ChangeShelveActions/>
-      <h1>This is warehouse items change shelve page</h1>
+      <h1>Zmiana lokalizacji produktu</h1>
       <ChangeShelveForm/>
     </div>
   </div>
@@ -40,8 +40,8 @@ export default {
 
     .bigModal {
         position: absolute;
-        width: 99%;
-        height: 99%;
+        width: 100%;
+        height: 100%;
         z-index: 10;
         background: rgba(184, 184, 184, 0.8);
         display: none;

@@ -14,4 +14,10 @@ import { RouterView } from 'vue-router'
     display: grid;
     grid-template-columns: 10% 1fr;
 }
+#warehouse h1 {
+    font-size: 1.15em;
+    color: var(--vt-c-black-mute);
+    margin-bottom: .3em;
+    font-weight: 500;
+}
 </style>
