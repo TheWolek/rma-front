@@ -23,7 +23,7 @@ export default {
                 const resData = await res.json()
 
                 if (!res.ok) {
-                    const error = (resData && resData.message) || res.status
+                    const error = {status: res.status, resData}
                     return Promise.reject(error)
                 }
 
@@ -32,12 +32,16 @@ export default {
                     this.allowedProducts.push(barcode)
                 })
             })
-            .catch(error => {
-                return console.log(error)
-            })
             .then(() => {
                 document.getElementById("addInput").disabled = false
                 document.getElementById("addInput").focus()
+            })
+            .catch(error => {
+                if (error.status == 404) {
+                    return this.failNotify("Bierząca lokalizacja jest pusta")
+                }
+
+                return console.log(error)
             })
         })
         this.emitter.on("clear_shelves", () => {
@@ -55,7 +59,7 @@ export default {
     },
     methods: {
         onAdd() {
-            if (!this.waitingForRes) {
+            if (!this.waitingForRes && this.codeToAdd != '') {
                 this.waitingForRes = true
                 if (!this.reg.test(this.codeToAdd)) return this.onFail()
                 if (!this.allowedProducts.includes(this.codeToAdd)) return this.onFail()
@@ -72,6 +76,10 @@ export default {
         },
         clearFail() {
             document.getElementById("addInput").classList.remove("fail")
+        },
+        failNotify(err) {
+            document.getElementById("addInput").disabled = true
+            this.emitter.emit("changeShelve_fail", err)
         }
     }
 }

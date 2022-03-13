@@ -25,7 +25,7 @@ export default {
         })
         this.emitter.on("changeShelve_fail", (evData) => {
             document.getElementById("btn2").classList.remove("disabled")
-            document.getElementById("btn3").classList.remove("disabled")
+            document.getElementById("btn3").classList.add("disabled")
             this.response_msg = evData
             document.getElementById("changeShelveResponse-msg").classList.add("active")
             document.getElementById("changeShelveResponse-msg").classList.add("fail")
@@ -51,12 +51,12 @@ export default {
         clearNotification(className) {
             setTimeout(() => {
                 document.getElementById("changeShelveResponse-msg").classList.remove("active")
-            }, 2000)
+            }, 4000)
 
             setTimeout(() => {
                 this.response_msg = ''
                 document.getElementById("changeShelveResponse-msg").classList.remove(className)
-            }, 2500)
+            }, 4500)
         },
         disMissNotification() {
             document.getElementById("changeShelveResponse-msg").classList.remove("active")

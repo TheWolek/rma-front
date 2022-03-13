@@ -14,7 +14,6 @@ export default {
     },
     mounted() {
         this.emitter.on("active_shelve", evData => {
-            console.log(evData)
             this.activeShelve = evData.active
             this.newShelve = evData.new
             this.activeShelve_id = this.shelves.find(o => o.code == this.activeShelve).shelve_id
