@@ -12,6 +12,8 @@ export default {
     methods: {
         toggleModal() {
             document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            this.error_active_code = ''
+            this.error_new_code = ''
         },
         displayError(errMsg, context) {
             if (context == "active_code") this.error_active_code = errMsg
@@ -72,12 +74,12 @@ export default {
             <form v-on:submit.prevent="handleSubmit">
                 <label for="active_code">Kod bierzącej lokalizacji</label>
                 <div>
-                    <input type="text" id="active_code" v-model.lazy="active_code" @change="active_onChange"/>
+                    <input type="text" id="active_code" v-model="active_code" @change="active_onChange"/>
                     <p id="error_active_code" class="error_modal_form">{{this.error_active_code}}</p>
                 </div>
                 <label for="new_code">Kod nowej lokalizacji</label>
                 <div>
-                    <input type="text" id="new_code" v-model.lazy="new_code" @change="new_onChange"/>
+                    <input type="text" id="new_code" v-model="new_code" @change="new_onChange"/>
                     <p id="error_new_code" class="error_modal_form">{{this.error_new_code}}</p>
                 </div>
                 <input type="submit" value="Dodaj">
