@@ -21,8 +21,15 @@ export default {
             document.getElementById("error_" + context).style.opacity = 1
         },
         hideError(context) {
-            document.getElementById("error_active_code").style.opacity = 0
-            this.error_active_code = ''
+            
+            if (context == "new_code") {
+                document.getElementById("error_new_code").style.opacity = 0
+                this.error_new_code = ''
+            } else {
+                document.getElementById("error_active_code").style.opacity = 0
+                this.error_active_code = ''
+            }
+            
         },
         active_onChange() {
             if (this.active_code == '') return this.displayError("podaj kod lokalizacji", "active_code")

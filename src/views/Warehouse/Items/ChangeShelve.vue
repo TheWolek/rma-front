@@ -1,7 +1,7 @@
 <script>
-import ChangeShelveActions from "../../../components/Warehouse/Items/ChangeShelveActions.vue"
-import ChangeShelveModal from "../../../components/Warehouse/Items/ChangeShelveModal.vue"
-import ChangeShelveForm from "../../../components/Warehouse/Items/ChangeShelveForm.vue"
+import ChangeShelveActions from "../../../components/Warehouse/Items/ChangeShelve/Actions.vue"
+import ChangeShelveModal from "../../../components/Warehouse/Items/ChangeShelve/Modal.vue"
+import ChangeShelveForm from "../../../components/Warehouse/Items/ChangeShelve/Form.vue"
 
 export default {
   components: {ChangeShelveActions, ChangeShelveModal, ChangeShelveForm}

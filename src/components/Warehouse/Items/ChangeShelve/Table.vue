@@ -1,6 +1,6 @@
 <script>
-import ChangeShelveNew from "./ChangeShelveNew.vue"
-import ChangeShelveItemRow from "./ChangeShelveItemRow.vue"
+import ChangeShelveNew from "./AddNewRow.vue"
+import ChangeShelveItemRow from "./ItemRow.vue"
 export default {
     components: {ChangeShelveNew, ChangeShelveItemRow},
     data() {

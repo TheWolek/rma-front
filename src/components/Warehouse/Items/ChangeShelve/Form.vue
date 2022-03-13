@@ -1,5 +1,5 @@
 <script>
-import ChangeShelveTable from "./ChangeShelveTable.vue"
+import ChangeShelveTable from "./Table.vue"
 
 export default {
     components: {ChangeShelveTable},

@@ -3,7 +3,8 @@ export default {
     data() {
         return {
             active_shelve: false,
-            response_msg: ''
+            response_msg: '',
+            fail: false
         }
     },
     mounted() {
@@ -24,6 +25,7 @@ export default {
             this.clearNotification("succ")
         })
         this.emitter.on("changeShelve_fail", (evData) => {
+            this.fail = true
             document.getElementById("btn2").classList.remove("disabled")
             document.getElementById("btn3").classList.add("disabled")
             this.response_msg = evData
@@ -42,11 +44,14 @@ export default {
             document.getElementById("btn2").classList.add("disabled")
             document.getElementById("btn3").classList.add("disabled")
             this.active_shelve = false
+            this.fail = false
         },
         submit() {
-            this.emitter.emit("changeShelve_process")
-            document.getElementById("btn2").classList.add("disabled")
-            document.getElementById("btn3").classList.add("disabled")
+            if (!this.fail) {
+                this.emitter.emit("changeShelve_process")
+                document.getElementById("btn2").classList.add("disabled")
+                document.getElementById("btn3").classList.add("disabled")
+            }
         },
         clearNotification(className) {
             setTimeout(() => {
