@@ -21,7 +21,7 @@ export default {
             this.response_msg = "produkty zostały pomyślnie przeniesione"
             document.getElementById("changeShelveResponse-msg").classList.add("active")
             document.getElementById("changeShelveResponse-msg").classList.add("succ")
-            this.ClearNotification("succ")
+            this.clearNotification("succ")
         })
         this.emitter.on("changeShelve_fail", (evData) => {
             document.getElementById("btn2").classList.remove("disabled")
@@ -29,7 +29,7 @@ export default {
             this.response_msg = evData
             document.getElementById("changeShelveResponse-msg").classList.add("active")
             document.getElementById("changeShelveResponse-msg").classList.add("fail")
-            this.ClearNotification("fail")
+            this.clearNotification("fail")
         })
     },
     methods: {
@@ -48,7 +48,7 @@ export default {
             document.getElementById("btn2").classList.add("disabled")
             document.getElementById("btn3").classList.add("disabled")
         },
-        ClearNotification(className) {
+        clearNotification(className) {
             setTimeout(() => {
                 document.getElementById("changeShelveResponse-msg").classList.remove("active")
             }, 2000)
@@ -57,6 +57,15 @@ export default {
                 this.response_msg = ''
                 document.getElementById("changeShelveResponse-msg").classList.remove(className)
             }, 2500)
+        },
+        disMissNotification() {
+            document.getElementById("changeShelveResponse-msg").classList.remove("active")
+
+            setTimeout(() => {
+                this.response_msg = ''
+                document.getElementById("changeShelveResponse-msg").classList.remove("succ")
+                document.getElementById("changeShelveResponse-msg").classList.remove("fail")
+            }, 500)
         }
     }
 }
@@ -66,7 +75,7 @@ export default {
         <div class="actionBtn" id="btn1" @click="toggleChangeModal"> + Nowy</div>
         <div class="actionBtn disabled" id="btn2" @click="clearForm">Anuluj</div>
         <div class="actionBtn disabled" id="btn3" @click="submit">Przetwarzaj</div>
-        <div id="changeShelveResponse-msg">{{response_msg}}</div>
+        <div id="changeShelveResponse-msg">{{response_msg}}<span id="close_notifi" @click="disMissNotification"></span></div>
     </div> 
 </template>
 <style>
@@ -100,25 +109,58 @@ export default {
     }
 
     #changeShelveResponse-msg {
-        background: rgba(81, 192, 114, 0.9);
-        color: #000;
         font-size: 1em;
-        padding: 0 1em;
-        border: 1px solid #000;
-        border-radius: 7px;
+        padding: 0 .5em 0 1em;
+        border-radius: 5px;
         opacity: 0;
-        transition: opacity .3s ease-out;
+        transition: .2s ease-out;
+        cursor:pointer;
+        display: flex;
+        align-items: center;
+        gap: .5em;
     }
 
     #changeShelveResponse-msg.succ {
-        background: rgba(81, 192, 114, 0.9);
+        border: 1px solid rgba(36, 241, 6, 0.46);
+        background-color: rgba(7, 149, 66, 0.2);
+        box-shadow: 0px 0px 2px #259c08;
+        color: #0a8108;
+    }
+
+    #changeShelveResponse-msg.succ:hover {
+        background: rgba(7, 149, 66, 0.35);
+        color: #0b7007;
     }
 
     #changeShelveResponse-msg.fail {
-        background: rgba(190, 75, 75, 0.9);
+        border: 1px solid rgba(241, 6, 6, 0.81);
+        background: rgba(220, 17, 1, 0.16);
+        box-shadow: 0px 0px 2px #ff0303;
+        color: #ff0303;
+    }
+
+    #changeShelveResponse-msg.fail:hover {
+        background: rgba(220, 17, 1, 0.33);
+        color: #ee0202;
     }
 
     #changeShelveResponse-msg.active {
         opacity: 1;
+    }
+
+    #changeShelveResponse-msg.active #close_notifi::after {
+        opacity: 1;
+    }
+
+    #changeShelveResponse-msg #close_notifi {
+        height: 25px;
+    }
+
+    #changeShelveResponse-msg #close_notifi::after {
+        display: inline-block;
+        content: "\00d7";
+        font-size: 25px;
+        transform: translateY(-25%);
+        opacity: 0;
     }
 </style>
