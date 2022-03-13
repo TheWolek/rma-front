@@ -16,9 +16,9 @@ export default {
     <ItemCreateModal/>
     <ItemFindModal/>
     <itemShelveFindModal/>
+    <ItemsActions/>
     <div class="warehouseItems_wrap">
-      <ItemsActions/>
-      <h1>This is warehouse items page</h1>
+      <h1>Wszystkie zarejestrowane produkty</h1>
       <ItemsTable/>
     </div>
   </div>
