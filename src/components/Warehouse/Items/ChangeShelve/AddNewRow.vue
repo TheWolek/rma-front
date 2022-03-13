@@ -86,6 +86,7 @@ export default {
 </script>
 <template>
     <tr>
+        <td></td>
         <td class="addInput">
             <input id="addInput" type="text" v-model="codeToAdd" v-on:keyup.enter="onAdd" @change="onChange" disabled/>
         </td>

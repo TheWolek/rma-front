@@ -31,7 +31,7 @@ export default {
                     category: evData.split("-")[2]
                 }
                 if (this.itemsToAdd.length == 0) {
-                    this.emitter.emit("changeShelve_ableToSubmit")
+                    this.emitter.emit("changeShelve_ableToSubmit", true)
                 }
                 this.itemsToAdd.push(dataToPush)
                 this.emitter.emit("addingSuccess")
@@ -50,6 +50,17 @@ export default {
         this.emitter.on("changeShelve_success", () => {
             this.itemsToAdd = []
         })
+        this.emitter.on("changeShelve_deleteItem", (code) => {
+            let idToDelete
+            this.itemsToAdd.forEach(el=> {
+                if (el.barcode == code) {
+                    idToDelete = this.itemsToAdd.indexOf(el)
+                    return
+                }
+            })
+            this.itemsToAdd.splice(idToDelete, 1)
+            if (this.itemsToAdd.length == 0) this.emitter.emit("changeShelve_ableToSubmit", false)
+        })
     },
     methods: {
         addingFail() {
@@ -60,7 +71,7 @@ export default {
 
             if (this.itemsToAdd.length > 0) {
                 this.itemsToAdd.forEach(el => {
-                    if (el.ticket_id == code.split("-")[0]) {
+                    if (el.barcode == code) {
                         fail = true
                         return
                     }
@@ -75,6 +86,7 @@ export default {
 <template>
     <table id="changeShelve">
         <tr>
+            <th></th>
             <th>kod kreskowy</th>
             <th>ID zgłoszenia</th>
             <th>kategoria</th>
@@ -85,14 +97,20 @@ export default {
     </table>
 </template>
 <style>
-    table#changeShelve tr th:nth-child(1), table#changeShelve tr td:nth-child(1),
-    table#changeShelve tr th:nth-child(4), table#changeShelve tr td:nth-child(4) {
-        width: 35%;
+    table#changeShelve tr th:nth-child(1), table#changeShelve tr td:nth-child(1) {
+        width: 2%;
     }
-    table#changeShelve tr th:nth-child(2), table#changeShelve tr td:nth-child(2) {
-        width: 10%;
-    }
+
     table#changeShelve tr th:nth-child(3), table#changeShelve tr td:nth-child(3) {
-        width: 20%;
+        width: 8%;
     }
+
+    /* table#changeShelve tr th:nth-child(2), table#changeShelve tr td:nth-child(2),
+    table#changeShelve tr th:nth-child(4), table#changeShelve tr td:nth-child(4) {
+        width: 30%;
+    }
+    
+    table#changeShelve tr th:nth-child(5), table#changeShelve tr td:nth-child(5) {
+        width: 30%;
+    } */
 </style>

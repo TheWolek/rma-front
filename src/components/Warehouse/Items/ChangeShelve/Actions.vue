@@ -33,8 +33,8 @@ export default {
             this.resposne_type = 1 //set response type to fail
             this.clearNotification("fail") //queue the notification clear
         }),
-        this.emitter.on("changeShelve_ableToSubmit", () => {
-            this.ableToSubmit = true //enable submit btn
+        this.emitter.on("changeShelve_ableToSubmit", (state) => {
+            this.ableToSubmit = state //enable/disable submit btn
         })
     },
     methods: {
