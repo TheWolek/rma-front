@@ -6,14 +6,17 @@ export default {
             error_active_code: '',
             new_code: '',
             error_new_code: '',
-            code_reg: /^([A-Z]){1,}_([A-Z]){1,}_([0-9]){1,}$/
+            code_reg: /^([A-Z]){1,}_([A-Z]){1,}_([0-9]){1,}$/,
+            modal_active: false
         }
     },
     methods: {
         toggleModal() {
-            document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            // document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            this.modal_active = !this.modal_active
             this.error_active_code = ''
             this.error_new_code = ''
+            console.log("toggleModal")
         },
         displayError(errMsg, context) {
             if (context == "active_code") this.error_active_code = errMsg
@@ -68,14 +71,17 @@ export default {
             this.new_code = ''
             this.error_new_code = ''
         }
+    },
+    mounted() {
+        
     }
 }
 </script>
 <template>
-    <div id="changeShelveModalWrap" class="bigModal">
+    <div id="changeShelveModalWrap" class="bigModal" :class="{active: this.modal_active}">
         <div class="formWrap">
             <div class="header">
-                <div id="close" v-on:click="toggleModal"></div>
+                <div id="close" @click="toggleModal"></div>
                 <h4>Zmiana lokalizacji produktu</h4>
             </div>
             <form v-on:submit.prevent="handleSubmit">

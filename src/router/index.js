@@ -43,10 +43,12 @@ const router = createRouter({
       },
       {
         path: 'items/changeshelve',
+        name: 'itemsChangeShelve',
         components: {
           default: warehouse,
           innerView: warehouseItemsChangeShelve
         },
+        props: true,
       },
       {
         path: 'shelves',

@@ -39,7 +39,8 @@ export default {
     },
     methods: {
         toggleChangeModal() {
-            if(!this.active_shelve) document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            if(!this.active_shelve) this.emitter.emit("changeShelve_modal_toggle")
+            // document.getElementById("changeShelveModalWrap").classList.toggle("active")
         },
         clearForm() {
             this.emitter.emit("clear_shelves")

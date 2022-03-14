@@ -24,6 +24,15 @@ export default {
                 this.emitter.emit("items_burgerMenuClosed", {id: this.data.item_id})
                 this.activeMenu = false;
             }
+        },
+        changeLocalization() {
+            this.$router.push({ 
+                name: 'itemsChangeShelve', 
+                params: { 
+                    barcode: (this.data.ticket_id + "-" + this.data.name + "-" + this.data.category),
+                    activeShelve: this.data.shelve
+                }
+            })
         }
     }
 }
@@ -43,7 +52,7 @@ export default {
             </div>
             <div class="menu" :class="{active: this.activeMenu}">
                 <ul>
-                    <li>Zmień lokalizacje</li>
+                    <li @click="changeLocalization">Zmień lokalizacje</li>
                     <li>Usuń</li>
                 </ul>
             </div>

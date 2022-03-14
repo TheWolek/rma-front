@@ -1,10 +1,21 @@
 <script>
+import { useRoute } from "vue-router"
+
 import ChangeShelveActions from "../../../components/Warehouse/Items/ChangeShelve/Actions.vue"
 import ChangeShelveModal from "../../../components/Warehouse/Items/ChangeShelve/Modal.vue"
 import ChangeShelveForm from "../../../components/Warehouse/Items/ChangeShelve/Form.vue"
 
 export default {
-  components: {ChangeShelveActions, ChangeShelveModal, ChangeShelveForm}
+    components: {ChangeShelveActions, ChangeShelveModal, ChangeShelveForm},
+    mounted() {
+        const route = useRoute()
+        if (route.params.barcode != undefined && route.params.activeShelve != undefined) {
+            this.emitter.emit("changeShelve_outside_new", {
+                outside_barcode: route.params.barcode,
+                outside_shelve: route.params.activeShelve
+            })
+        }
+    }
 }
 </script>
 <template>
