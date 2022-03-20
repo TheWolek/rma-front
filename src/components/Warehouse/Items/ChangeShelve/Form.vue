@@ -24,18 +24,9 @@ export default {
             this.newShelve = ''
             this.Items = []
         })
-        this.emitter.on("changeShelve_submit", (evData) => {
-            let newArr = []
-            evData.forEach(el => {
-                newArr.push(el.barcode)
-            });
-            this.handleSubmit(newArr)
-        })
     },
     methods: {
-        handleSubmit(data) {
-            this.items = data
-
+        handleSubmit() {
             const requestOptions = {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

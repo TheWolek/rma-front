@@ -13,39 +13,21 @@ export default {
             if (this.itemsToAdd.includes(evData)) return this.addingFail()
             if (this.IfCodeExistsInList(evData)) return this.addingFail()
 
-            fetch(`http://localhost:3000/warehouse/items/exists?barcode=${evData}`)
-            .then(async res => {
-                const resData = await res.json()
-                if (res.status == 404) {
-                    return this.addingFail()
-                }
-                if (!res.ok) {
-                    const error = (resData && resData.message) || res.status
-                    return Promise.reject(error)
-                }
-
-                let dataToPush = {
-                    barcode: evData,
-                    ticket_id: evData.split("-")[0],
-                    model: evData.split("-")[1],
-                    category: evData.split("-")[2]
-                }
-                if (this.itemsToAdd.length == 0) {
-                    this.emitter.emit("changeShelve_ableToSubmit", true)
-                }
-                this.itemsToAdd.push(dataToPush)
-                this.emitter.emit("addingSuccess")
-            })
-            .catch(error => {
-                return console.log(error)
-            })
+            let dataToPush = {
+                barcode: evData,
+                ticket_id: evData.split("-")[0],
+                model: evData.split("-")[1],
+                category: evData.split("-")[2]
+            }
+            if (this.itemsToAdd.length == 0) {
+                this.emitter.emit("changeShelve_ableToSubmit", true)
+            }
+            this.itemsToAdd.push(dataToPush)
+            this.emitter.emit("addingSuccess")
         })
 
         this.emitter.on("clear_shelves", () => {
             this.itemsToAdd = []
-        })
-        this.emitter.on("changeShelve_process", () => {
-            this.emitter.emit("changeShelve_submit", this.itemsToAdd)
         })
         this.emitter.on("changeShelve_success", () => {
             this.itemsToAdd = []

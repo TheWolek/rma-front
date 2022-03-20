@@ -7,7 +7,7 @@ export default {
             new_code: '',
             error_new_code: '',
             code_reg: /^([A-Z]){1,}_([A-Z]){1,}_([0-9]){1,}$/,
-            modal_active: false
+            modal_active: false,
         }
     },
     methods: {
@@ -73,7 +73,9 @@ export default {
         }
     },
     mounted() {
-        
+        this.emitter.on("changeShelve_modal_toggle", () => {
+            this.toggleModal()
+        })
     }
 }
 </script>
