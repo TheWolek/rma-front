@@ -1,6 +1,7 @@
 <script>
 import ChangeShelveNew from "./AddNewRow.vue"
 import ChangeShelveItemRow from "./ItemRow.vue"
+import { mapState } from 'vuex'
 export default {
     components: {ChangeShelveNew, ChangeShelveItemRow},
     data() {
@@ -26,9 +27,7 @@ export default {
             this.emitter.emit("addingSuccess")
         })
 
-        this.emitter.on("clear_shelves", () => {
-            this.itemsToAdd = []
-        })
+        // this.emitter.on("clear_shelves", () => {})
         this.emitter.on("changeShelve_success", () => {
             this.itemsToAdd = []
         })
@@ -43,6 +42,18 @@ export default {
             this.itemsToAdd.splice(idToDelete, 1)
             if (this.itemsToAdd.length == 0) this.emitter.emit("changeShelve_ableToSubmit", false)
         })
+    },
+    computed: {
+        ...mapState({
+            form_active: state => state.changeShelve.form_active
+        }),
+    },
+    watch: {
+        form_active(status) {
+            if (!status.status) {
+                this.itemsToAdd = []
+            }
+        }
     },
     methods: {
         addingFail() {

@@ -1,4 +1,7 @@
 <script>
+import { mapState } from 'vuex'
+import store from "../../../../store"
+
 export default {
     data() {
         return {
@@ -10,13 +13,22 @@ export default {
             modal_active: false,
         }
     },
+    computed: {
+        ...mapState({
+            isModalActive: state => state.changeShelve.modal_active
+        })
+    },
+    watch: {
+        isModalActive(status) {
+            this.modal_active = status
+        }
+    },
     methods: {
         toggleModal() {
-            // document.getElementById("changeShelveModalWrap").classList.toggle("active")
-            this.modal_active = !this.modal_active
+            // this.modal_active = !this.modal_active
+            store.commit("toggleModal")
             this.error_active_code = ''
             this.error_new_code = ''
-            console.log("toggleModal")
         },
         displayError(errMsg, context) {
             if (context == "active_code") this.error_active_code = errMsg
@@ -64,7 +76,8 @@ export default {
             
             if(this.active_code == this.new_code) return this.displayError("nowa lokalizacja nie może być identyczna jak obecna", "new_code")
             
-            this.emitter.emit("active_shelve", {active: this.active_code, new: this.new_code})
+            // this.emitter.emit("active_shelve", {active: this.active_code, new: this.new_code})
+            store.commit("toggleFormStatus", {status: true, active: this.active_code, new: this.new_code})
             this.toggleModal()
             this.active_code = ''
             this.error_active_code = ''

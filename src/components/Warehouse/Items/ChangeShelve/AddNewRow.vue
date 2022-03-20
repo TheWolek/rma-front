@@ -1,4 +1,5 @@
 <script>
+import { mapState } from 'vuex'
 export default {
     data() {
         return {
@@ -16,46 +17,31 @@ export default {
             this.codeToAdd = ''
             this.waitingForRes = false
         })
-        this.emitter.on("active_shelve", (evData) => {
-            let active_shelve = this.shelves.find(o => o.code == evData.active).shelve_id
-            fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${active_shelve}`)
-            .then(async res => {
-                const resData = await res.json()
-
-                if (!res.ok) {
-                    const error = {status: res.status, resData}
-                    return Promise.reject(error)
-                }
-
-                resData.forEach(el => {
-                    let barcode = el.ticket_id + "-" + el.name + "-" + el.category
-                    this.allowedProducts.push(barcode)
-                })
-            })
-            .then(() => {
-                document.getElementById("addInput").disabled = false
-                document.getElementById("addInput").focus()
-            })
-            .catch(error => {
-                if (error.status == 404) {
-                    return this.failNotify("Bierząca lokalizacja jest pusta")
-                }
-
-                return console.log(error)
-            })
-        })
-        this.emitter.on("clear_shelves", () => {
-            document.getElementById("addInput").disabled = true
-            document.getElementById("addInput").classList.remove("fail")
-            this.codeToAdd = ''
-            this.allowedProducts = []
-        })
+        // this.emitter.on("active_shelve", (evData) => {})
+        // this.emitter.on("clear_shelves", () => {})
         this.emitter.on("changeShelve_success", () => {
             document.getElementById("addInput").disabled = true
             document.getElementById("addInput").classList.remove("fail")
             this.codeToAdd = ''
             this.allowedProducts = []
         })
+        if (this.form_active.status) {
+            this.fetchAllowedProducts(this.form_active.active)
+        }
+    },
+    computed: {
+        ...mapState({
+            form_active: state => state.changeShelve.form_active
+        }),
+    },
+    watch: {
+        form_active(status) {
+            if (status.status) {
+                this.fetchAllowedProducts(status.active)
+            } else {
+                this.clear()
+            }
+        }
     },
     methods: {
         onAdd() {
@@ -80,6 +66,40 @@ export default {
         failNotify(err) {
             document.getElementById("addInput").disabled = true
             this.emitter.emit("changeShelve_fail", err)
+        },
+        clear() {
+            document.getElementById("addInput").disabled = true
+            document.getElementById("addInput").classList.remove("fail")
+            this.codeToAdd = ''
+            this.allowedProducts = []
+        },
+        fetchAllowedProducts(currShelve) {
+            let active_shelve = this.shelves.find(o => o.code == currShelve).shelve_id
+                fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${active_shelve}`)
+                .then(async res => {
+                    const resData = await res.json()
+
+                    if (!res.ok) {
+                        const error = {status: res.status, resData}
+                        return Promise.reject(error)
+                    }
+
+                    resData.forEach(el => {
+                        let barcode = el.ticket_id + "-" + el.name + "-" + el.category
+                        this.allowedProducts.push(barcode)
+                    })
+                })
+                .then(() => {
+                    document.getElementById("addInput").disabled = false
+                    document.getElementById("addInput").focus()
+                })
+                .catch(error => {
+                    if (error.status == 404) {
+                        return this.failNotify("Bierząca lokalizacja jest pusta")
+                    }
+
+                    return console.log(error)
+                })
         }
     }
 }

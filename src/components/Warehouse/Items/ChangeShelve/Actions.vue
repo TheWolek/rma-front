@@ -1,4 +1,7 @@
 <script>
+import { mapState } from 'vuex'
+import store from "../../../../store"
+
 export default {
     data() {
         return {
@@ -12,9 +15,7 @@ export default {
         }
     },
     mounted() {
-        this.emitter.on("active_shelve", () => {
-            this.active_shelve = true //disable new btn and enable cancel btn
-        })
+        // this.emitter.on("active_shelve", () => {})
         this.emitter.on("changeShelve_success", () => {
             this.active_shelve = false //enable new btn and disable cancel btn
             // this.submitted = false 
@@ -32,18 +33,23 @@ export default {
             this.notify_active = true //active notify
             this.resposne_type = 1 //set response type to fail
             this.clearNotification("fail") //queue the notification clear
-        }),
+        })
         this.emitter.on("changeShelve_ableToSubmit", (state) => {
             this.ableToSubmit = state //enable/disable submit btn
         })
+
+        if (this.form_active.status) {
+            this.active_shelve = true
+        }
     },
     methods: {
         toggleChangeModal() {
-            if(!this.active_shelve) this.emitter.emit("changeShelve_modal_toggle")
-            // document.getElementById("changeShelveModalWrap").classList.toggle("active")
+            // if(!this.active_shelve) this.emitter.emit("changeShelve_modal_toggle")
+            if(!this.active_shelve) store.commit("toggleModal")
         },
         clearForm() {
-            this.emitter.emit("clear_shelves")
+            // this.emitter.emit("clear_shelves")
+            store.commit("toggleFormStatus",{status: false})
             this.active_shelve = false //enable new btn, disable cancel btn
             this.fail = false //disable cancel btn
             // this.submitted = false
@@ -74,6 +80,9 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            form_active: state => state.changeShelve.form_active
+        }),
         newBtnVisible() {
             return {
                 disabled: this.active_shelve //new btn visible only when shelves were set
@@ -97,6 +106,15 @@ export default {
                 active: this.notify_active, //show/hide
                 succ: this.resposne_type == 0, //success=green color
                 fail: this.resposne_type == 1 //fail=red color
+            }
+        }
+    },
+    watch: {
+        form_active(status) {
+            if (status.status) {
+                this.active_shelve = true
+            } else {
+                this.active_shelve = false
             }
         }
     }

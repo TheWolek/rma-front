@@ -1,5 +1,6 @@
 <script>
 import ChangeShelveTable from "./Table.vue"
+import { mapState } from 'vuex'
 
 export default {
     components: {ChangeShelveTable},
@@ -13,17 +14,35 @@ export default {
         }
     },
     mounted() {
-        this.emitter.on("active_shelve", evData => {
-            this.activeShelve = evData.active
-            this.newShelve = evData.new
+        // this.emitter.on("active_shelve", evData => {})
+        // this.emitter.on("clear_shelves", () => {})
+        if (this.form_active.status) {
+            this.activeShelve = this.form_active.active
+            this.newShelve = this.form_active.new
             this.activeShelve_id = this.shelves.find(o => o.code == this.activeShelve).shelve_id
             this.newShelve_id = this.shelves.find(o => o.code == this.newShelve).shelve_id
-        })
-        this.emitter.on("clear_shelves", () => {
-            this.activeShelve = ''
-            this.newShelve = ''
-            this.Items = []
-        })
+        }
+    },
+    computed: {
+        ...mapState({
+            form_active: state => state.changeShelve.form_active
+        }),
+    },
+    watch: {
+        form_active(status) {
+            if (status.status) {
+                this.activeShelve = status.active
+                this.newShelve = status.new
+                this.activeShelve_id = this.shelves.find(o => o.code == this.activeShelve).shelve_id
+                this.newShelve_id = this.shelves.find(o => o.code == this.newShelve).shelve_id
+            } else {
+                this.activeShelve = ''
+                this.newShelve = ''
+                this.activeShelve_id = ''
+                this.newShelve_id = ''
+                this.Items = []
+            }
+        }
     },
     methods: {
         handleSubmit() {
