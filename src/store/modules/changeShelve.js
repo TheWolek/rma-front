@@ -1,7 +1,8 @@
 // initial state
 const state = () => ({
     modal_active: false,
-    form_active: { status: false, active: null, new: null, items: [] }
+    form_active: { status: false, active: null, new: null },
+    items: []
 })
 
 // mutations
@@ -15,15 +16,15 @@ const mutations = {
         console.log("toggleFormStatus", status)
     },
     setItems(state, newValue) {
-        state.form_active.items = newValue
+        state.items = newValue
         console.log("setItems", newValue)
     },
     addItem(state, toAdd) {
-        state.form_active.items.push(toAdd)
-        console.log("addItem", toAdd, state.form_active)
+        state.items.push(toAdd)
+        console.log("addItem", state.items)
     },
     removeItem(state, toRemove) {
-        state.form_active.items.splice(toRemove, 1)
+        state.items.splice(toRemove, 1)
     }
 }
 

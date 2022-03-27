@@ -45,15 +45,9 @@ export default {
     },
     computed: {
         ...mapState({
-            form_active: state => state.changeShelve.form_active
+            form_active: state => state.changeShelve.form_active,
+            items: state => state.changeShelve.items
         }),
-    },
-    watch: {
-        form_active(status) {
-            if (!status.status) {
-                this.itemsToAdd = []
-            }
-        }
     },
     methods: {
         addingFail() {
@@ -85,7 +79,7 @@ export default {
             <th>kategoria</th>
             <th>model</th>
         </tr>
-        <ChangeShelveItemRow v-for="item in itemsToAdd" :key="item.ticket_id" :item="item"/>
+        <ChangeShelveItemRow v-for="item in items" :key="item.ticket_id" :item="item"/>
         <ChangeShelveNew/>
     </table>
 </template>

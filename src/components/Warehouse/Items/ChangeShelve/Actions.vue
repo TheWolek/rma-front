@@ -50,6 +50,7 @@ export default {
         clearForm() {
             // this.emitter.emit("clear_shelves")
             store.commit("toggleFormStatus",{status: false})
+            store.commit("setItems", [])
             this.active_shelve = false //enable new btn, disable cancel btn
             this.fail = false //disable cancel btn
             // this.submitted = false

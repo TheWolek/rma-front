@@ -1,11 +1,11 @@
 <script>
 import { mapState } from 'vuex'
+import store from '../../../../store'
 export default {
     data() {
         return {
             codeToAdd: '',
             reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/,
-            waitingForRes: false,
             allowedProducts: []
         }
     },
@@ -15,7 +15,6 @@ export default {
         })
         this.emitter.on("addingSuccess", () => {
             this.codeToAdd = ''
-            this.waitingForRes = false
         })
         // this.emitter.on("active_shelve", (evData) => {})
         // this.emitter.on("clear_shelves", () => {})
@@ -31,7 +30,8 @@ export default {
     },
     computed: {
         ...mapState({
-            form_active: state => state.changeShelve.form_active
+            form_active: state => state.changeShelve.form_active,
+            items: state => state.changeShelve.items
         }),
     },
     watch: {
@@ -45,12 +45,36 @@ export default {
     },
     methods: {
         onAdd() {
-            if (!this.waitingForRes && this.codeToAdd != '') {
-                this.waitingForRes = true
+            if (this.codeToAdd != '') {
                 if (!this.reg.test(this.codeToAdd)) return this.onFail()
-                if (!this.allowedProducts.includes(this.codeToAdd)) return this.onFail()
-                this.emitter.emit("itemAdded", this.codeToAdd)
+                if (!this.allowedProducts.includes(this.codeToAdd)) {
+                    console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail()
+                }
+                if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail()
+                // this.emitter.emit("itemAdded", this.codeToAdd)
+                store.commit("addItem", {
+                    barcode: this.codeToAdd,
+                    ticket_id: this.codeToAdd.split("-")[0],
+                    model: this.codeToAdd.split("-")[1],
+                    category: this.codeToAdd.split("-")[2],
+                })
+                this.codeToAdd = ''
+                
             }
+        },
+        codeAlreadyEntered(code) {
+            let fail = false
+
+            if (this.items.length > 0) {
+                this.items.forEach(el => {
+                    if (el.barcode == code) {
+                        fail = true
+                        return
+                    }
+                })
+                return fail
+            }
+            return fail
         },
         onChange() {
             if (!this.reg.test(this.codeToAdd)) return this.onFail();
@@ -58,7 +82,6 @@ export default {
         },
         onFail() {
             document.getElementById("addInput").classList.add("fail")
-            this.waitingForRes = false
         },
         clearFail() {
             document.getElementById("addInput").classList.remove("fail")
