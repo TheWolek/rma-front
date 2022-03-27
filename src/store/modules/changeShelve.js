@@ -23,8 +23,9 @@ const mutations = {
         state.items.push(toAdd)
         console.log("addItem", state.items)
     },
-    removeItem(state, toRemove) {
-        state.items.splice(toRemove, 1)
+    removeItem(state, barcodeToRemove) {
+        let indexToRemove = state.items.findIndex(o => o.barcode == barcodeToRemove)
+        state.items.splice(indexToRemove, 1)
     }
 }
 

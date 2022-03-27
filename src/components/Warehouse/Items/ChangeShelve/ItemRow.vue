@@ -1,4 +1,6 @@
 <script>
+import store from "../../../../store"
+
 export default {
     props: ["item"],
     data() {
@@ -17,7 +19,8 @@ export default {
     },
     methods: {
         deleteItem() {
-            this.emitter.emit("changeShelve_deleteItem", {barcode: this.barcode})
+            // this.emitter.emit("changeShelve_deleteItem", {barcode: this.barcode})
+            store.commit("removeItem", this.barcode)
         }
     }
 }
