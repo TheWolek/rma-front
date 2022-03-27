@@ -52,14 +52,13 @@ export default {
                 }
                 if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail("kod już wprowadzony")
                 // this.emitter.emit("itemAdded", this.codeToAdd)
-                store.commit("addItem", {
+                store.dispatch("addItem", {
                     barcode: this.codeToAdd,
                     ticket_id: this.codeToAdd.split("-")[0],
                     model: this.codeToAdd.split("-")[1],
                     category: this.codeToAdd.split("-")[2],
                 })
                 this.codeToAdd = ''
-                
             }
         },
         codeAlreadyEntered(code) {

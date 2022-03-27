@@ -10,7 +10,7 @@ export default {
             resposne_type: null, //type of notifiaction, 0: success, 1: fail, null: default
             fail: false, //flag: something went wrong on form submit, block submitting, allow canceling
             // submitted: false, //flag: form has been submited, waiting for results
-            ableToSubmit: false, //flag: allow the submit button, more than 1 item has been added
+            // ableToSubmit: false, //flag: allow the submit button, more than 1 item has been added
             notify_active: false //flag: notifiaction box is visible
         }
     },
@@ -48,13 +48,11 @@ export default {
             if(!this.active_shelve) store.commit("toggleModal")
         },
         clearForm() {
+            store.dispatch("clearData")
             // this.emitter.emit("clear_shelves")
-            store.commit("toggleFormStatus",{status: false})
-            store.commit("setItems", [])
             this.active_shelve = false //enable new btn, disable cancel btn
             this.fail = false //disable cancel btn
             // this.submitted = false
-            this.ableToSubmit = false //disable submit btn
         },
         submit() {
             if (!this.fail) {
@@ -82,7 +80,8 @@ export default {
     },
     computed: {
         ...mapState({
-            form_active: state => state.changeShelve.form_active
+            form_active: state => state.changeShelve.form_active,
+            ableToSubmit: state => state.changeShelve.ableToSubmit
         }),
         newBtnVisible() {
             return {
