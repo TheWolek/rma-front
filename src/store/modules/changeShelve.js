@@ -38,11 +38,11 @@ const mutations = {
 const actions = {
     addItem({ commit, state }, toAdd) {
         commit("addItem", toAdd)
-        if (state.items.lenght > 0) context.commit("toggleAbleToSubmit", true)
+        if (state.items.length > 0) commit("toggleAbleToSubmit", true)
     },
     removeItem({ commit, state }, barcodeToRemove) {
         commit("removeItem", barcodeToRemove)
-        if (state.items.lenght == 0) context.commit("toggleAbleToSubmit", false)
+        if (state.items.length == 0) commit("toggleAbleToSubmit", false)
     },
     clearData(context) {
         context.commit("toggleFormStatus", { status: false })

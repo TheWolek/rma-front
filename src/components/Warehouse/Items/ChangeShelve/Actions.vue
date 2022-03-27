@@ -19,7 +19,7 @@ export default {
         this.emitter.on("changeShelve_success", () => {
             this.active_shelve = false //enable new btn and disable cancel btn
             // this.submitted = false 
-            this.ableToSubmit = false //disable submit btn
+            // this.ableToSubmit = false //disable submit btn
             this.response_msg = "produkty zostały pomyślnie przeniesione" //set response
             this.notify_active = true //active notify
             this.resposne_type = 0 //set resposne type to success
@@ -28,14 +28,14 @@ export default {
         this.emitter.on("changeShelve_fail", (evData) => {
             this.fail = true //disable submit btn
             // this.submitted = false
-            this.ableToSubmit = false //disable submit btn
+            // this.ableToSubmit = false //disable submit btn
             this.response_msg = evData //set response
             this.notify_active = true //active notify
             this.resposne_type = 1 //set response type to fail
             this.clearNotification("fail") //queue the notification clear
         })
         this.emitter.on("changeShelve_ableToSubmit", (state) => {
-            this.ableToSubmit = state //enable/disable submit btn
+            // this.ableToSubmit = state //enable/disable submit btn
         })
 
         if (this.form_active.status) {
