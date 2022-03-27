@@ -1,5 +1,5 @@
 <script setup>
-import warehouseNav from '../../components/warehouseNav.vue';
+import warehouseNav from '../../components/Warehouse/warehouseNav.vue';
 import { RouterView } from 'vue-router'
 </script>
 <template>
@@ -13,6 +13,7 @@ import { RouterView } from 'vue-router'
 #warehouse {
     display: grid;
     grid-template-columns: 10% 1fr;
+    overflow: hidden;
 }
 #warehouse h1 {
     font-size: 1.15em;
