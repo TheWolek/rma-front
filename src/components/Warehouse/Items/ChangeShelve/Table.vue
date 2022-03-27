@@ -4,69 +4,11 @@ import ChangeShelveItemRow from "./ItemRow.vue"
 import { mapState } from 'vuex'
 export default {
     components: {ChangeShelveNew, ChangeShelveItemRow},
-    data() {
-        return {
-            itemsToAdd: []
-        }
-    },
-    mounted() {
-        this.emitter.on("itemAdded", evData => {
-            if (this.itemsToAdd.includes(evData)) return this.addingFail()
-            if (this.IfCodeExistsInList(evData)) return this.addingFail()
-
-            let dataToPush = {
-                barcode: evData,
-                ticket_id: evData.split("-")[0],
-                model: evData.split("-")[1],
-                category: evData.split("-")[2]
-            }
-            if (this.itemsToAdd.length == 0) {
-                this.emitter.emit("changeShelve_ableToSubmit", true)
-            }
-            this.itemsToAdd.push(dataToPush)
-            this.emitter.emit("addingSuccess")
-        })
-
-        // this.emitter.on("clear_shelves", () => {})
-        this.emitter.on("changeShelve_success", () => {
-            this.itemsToAdd = []
-        })
-        this.emitter.on("changeShelve_deleteItem", (code) => {
-            let idToDelete
-            this.itemsToAdd.forEach(el=> {
-                if (el.barcode == code) {
-                    idToDelete = this.itemsToAdd.indexOf(el)
-                    return
-                }
-            })
-            this.itemsToAdd.splice(idToDelete, 1)
-            if (this.itemsToAdd.length == 0) this.emitter.emit("changeShelve_ableToSubmit", false)
-        })
-    },
     computed: {
         ...mapState({
             form_active: state => state.changeShelve.form_active,
             items: state => state.changeShelve.items
         }),
-    },
-    methods: {
-        addingFail() {
-            return this.emitter.emit("addingFail")
-        },
-        IfCodeExistsInList(code) {
-            let fail = false
-
-            if (this.itemsToAdd.length > 0) {
-                this.itemsToAdd.forEach(el => {
-                    if (el.barcode == code) {
-                        fail = true
-                        return
-                    }
-                })
-                return fail
-            }
-            return fail
-        }
     }
 }
 </script>

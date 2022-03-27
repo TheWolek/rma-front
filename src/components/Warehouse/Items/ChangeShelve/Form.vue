@@ -7,20 +7,13 @@ export default {
     data() {
         return {
             activeShelve: '',
-            activeShelve_id: '',
-            items: [],
             newShelve: '',
-            newShelve_id: ''
         }
     },
     mounted() {
-        // this.emitter.on("active_shelve", evData => {})
-        // this.emitter.on("clear_shelves", () => {})
         if (this.form_active.status) {
             this.activeShelve = this.form_active.active
             this.newShelve = this.form_active.new
-            this.activeShelve_id = this.shelves.find(o => o.code == this.activeShelve).shelve_id
-            this.newShelve_id = this.shelves.find(o => o.code == this.newShelve).shelve_id
         }
     },
     computed: {
@@ -33,50 +26,10 @@ export default {
             if (status.status) {
                 this.activeShelve = status.active
                 this.newShelve = status.new
-                this.activeShelve_id = this.shelves.find(o => o.code == this.activeShelve).shelve_id
-                this.newShelve_id = this.shelves.find(o => o.code == this.newShelve).shelve_id
             } else {
                 this.activeShelve = ''
                 this.newShelve = ''
-                this.activeShelve_id = ''
-                this.newShelve_id = ''
-                this.Items = []
             }
-        }
-    },
-    methods: {
-        handleSubmit() {
-            const requestOptions = {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    barcodes: this.items,
-                    new_shelve: this.newShelve_id,
-                    shelve: this.activeShelve_id
-                })
-            };
-
-            fetch("http://localhost:3000/warehouse/items/changeshelve", requestOptions)
-            .then(async res => {
-                const resData = await res.json()
-                
-                if (!res.ok) {
-                    const error = (resData && resData.message) || res.status
-                    return Promise.reject(error)
-                }
-
-                this.activeShelve = ''
-                this.newShelve = ''
-                this.items = []
-                this.emitter.emit("changeShelve_success")
-            })
-            .catch(error => {
-                return this.displayError(error)
-            })
-        },
-        displayError(error) {
-            console.log(error)
-            this.emitter.emit("changeShelve_fail", error)
         }
     }
 }

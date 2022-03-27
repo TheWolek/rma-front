@@ -19,7 +19,6 @@ export default {
     },
     methods: {
         deleteItem() {
-            // this.emitter.emit("changeShelve_deleteItem", {barcode: this.barcode})
             store.dispatch("removeItem", this.barcode)
         }
     }

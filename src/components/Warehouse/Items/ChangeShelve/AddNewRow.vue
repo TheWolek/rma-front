@@ -16,14 +16,6 @@ export default {
         this.emitter.on("addingSuccess", () => {
             this.codeToAdd = ''
         })
-        // this.emitter.on("active_shelve", (evData) => {})
-        // this.emitter.on("clear_shelves", () => {})
-        this.emitter.on("changeShelve_success", () => {
-            document.getElementById("addInput").disabled = true
-            document.getElementById("addInput").classList.remove("fail")
-            this.codeToAdd = ''
-            this.allowedProducts = []
-        })
         if (this.form_active.status) {
             this.fetchAllowedProducts(this.form_active.active)
         }
@@ -51,7 +43,6 @@ export default {
                     console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail("brak produktu")
                 }
                 if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail("kod już wprowadzony")
-                // this.emitter.emit("itemAdded", this.codeToAdd)
                 store.dispatch("addItem", {
                     barcode: this.codeToAdd,
                     ticket_id: this.codeToAdd.split("-")[0],
@@ -91,7 +82,6 @@ export default {
         },
         failNotify(err) {
             document.getElementById("addInput").disabled = true
-            // this.emitter.emit("changeShelve_fail", err)
             store.dispatch("displayNotifi", {status: false, msg: err, mode: 1})
         },
         clear() {

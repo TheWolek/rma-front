@@ -3,59 +3,15 @@ import { mapState } from 'vuex'
 import store from "../../../../store"
 
 export default {
-    data() {
-        return {
-            active_shelve: false, //flag: shelves were added, ready to take input
-            //response_msg: '', //message to display in notification
-            //fail: false, //flag: something went wrong on form submit, block submitting, allow canceling
-            // submitted: false, //flag: form has been submited, waiting for results
-            // ableToSubmit: false, //flag: allow the submit button, more than 1 item has been added
-            notify_active: false //flag: notifiaction box is visible
-        }
-    },
-    mounted() {
-        // this.emitter.on("active_shelve", () => {})
-        this.emitter.on("changeShelve_success", () => {
-            this.active_shelve = false //enable new btn and disable cancel btn
-            // this.submitted = false 
-            // this.ableToSubmit = false //disable submit btn
-            //this.response_msg = "produkty zostały pomyślnie przeniesione" //set response
-            this.notify_active = true //active notify
-            this.clearNotification("succ") //queue the notification clear
-        })
-        // this.emitter.on("changeShelve_fail", (evData) => {
-        //     this.fail = true //disable submit btn
-        //     // this.submitted = false
-        //     // this.ableToSubmit = false //disable submit btn
-        //     this.response_msg = evData //set response
-        //     this.notify_active = true //active notify
-        //     this.clearNotification("fail") //queue the notification clear
-        // })
-        this.emitter.on("changeShelve_ableToSubmit", (state) => {
-            // this.ableToSubmit = state //enable/disable submit btn
-        })
-
-        if (this.form_active.status) {
-            this.active_shelve = true
-        }
-    },
     methods: {
         toggleChangeModal() {
-            // if(!this.active_shelve) this.emitter.emit("changeShelve_modal_toggle")
-            if(!this.active_shelve) store.commit("toggleModal")
+            if(!this.form_active.status) store.commit("toggleModal")
         },
         clearForm() {
             store.dispatch("clearData")
-            // this.emitter.emit("clear_shelves")
-            // this.active_shelve = false //enable new btn, disable cancel btn
-            // this.fail = false //disable cancel btn
-            // this.submitted = false
         },
         submit() {
             if (!this.fail) {
-                // this.submitted = true
-                // this.emitter.emit("changeShelve_process")
-
                 let itemsArr = this.items.map(el => {
                     return el.barcode
                 })
@@ -83,10 +39,6 @@ export default {
                         status: true,
                         message: "Produkty zostały pomyślnie przeniesione"
                     })
-                    // this.activeShelve = ''
-                    // this.newShelve = ''
-                    // this.items = []
-                    // this.emitter.emit("changeShelve_success")
                 })
                 .catch(error => {
                     return this.displayError(error)
@@ -95,23 +47,14 @@ export default {
         },
         displayError(error) {
             store.dispatch("displayNotifi", {status: true, msg: error, mode: 1})
-            // this.submitted = false
             store.commit("toggleAbleToSubmit", false) //disable submit btn
-            //this.response_msg = error //set response
-            //this.notify_active = true //active notify
-            this.clearNotification() //queue the notification clear
         },
         clearNotification() {
-            // setTimeout(() => {
-            //     this.notify_active = false //hide notify
-            // }, 4000)
-
             setTimeout(() => {
                 store.commit("clearMsg") //clear response
             }, 4500)
         },
         disMissNotification() {
-            //this.notify_active = false //hide notify
             setTimeout(() => {
                 store.commit("clearMsg") //clear response
             }, 500)
@@ -127,15 +70,15 @@ export default {
         }),
         newBtnVisible() {
             return {
-                disabled: this.active_shelve //new btn visible only when shelves were set
+                disabled: this.form_active.status //new btn visible only when shelves were set
             }
         },
         CancelBtnVisible() {
-            // this.active_shelve = true = enable
-            // this.active_shelve = false = disable
-            // this.active_shelve = true && this.fail = true = enable
+            // this.form_active.status = true = enable
+            // this.form_active.status = false = disable
+            // this.form_active.status = true && this.fail = true = enable
             return {
-                disabled: !this.active_shelve
+                disabled: !this.form_active.status
             }
         },
         SubmitBtnVisible() {
@@ -148,15 +91,6 @@ export default {
                 active: this.notification.active, //show/hide
                 succ: this.notification.mode == 0, //success=green color
                 fail: this.notification.mode == 1 //fail=red color
-            }
-        }
-    },
-    watch: {
-        form_active(status) {
-            if (status.status) {
-                this.active_shelve = true
-            } else {
-                this.active_shelve = false
             }
         }
     }
