@@ -91,7 +91,8 @@ export default {
         },
         failNotify(err) {
             document.getElementById("addInput").disabled = true
-            this.emitter.emit("changeShelve_fail", err)
+            // this.emitter.emit("changeShelve_fail", err)
+            store.dispatch("displayNotifi", {status: false, msg: err, mode: 1})
         },
         clear() {
             document.getElementById("addInput").disabled = true

@@ -6,9 +6,8 @@ export default {
     data() {
         return {
             active_shelve: false, //flag: shelves were added, ready to take input
-            response_msg: '', //message to display in notification
-            resposne_type: null, //type of notifiaction, 0: success, 1: fail, null: default
-            fail: false, //flag: something went wrong on form submit, block submitting, allow canceling
+            //response_msg: '', //message to display in notification
+            //fail: false, //flag: something went wrong on form submit, block submitting, allow canceling
             // submitted: false, //flag: form has been submited, waiting for results
             // ableToSubmit: false, //flag: allow the submit button, more than 1 item has been added
             notify_active: false //flag: notifiaction box is visible
@@ -20,20 +19,18 @@ export default {
             this.active_shelve = false //enable new btn and disable cancel btn
             // this.submitted = false 
             // this.ableToSubmit = false //disable submit btn
-            this.response_msg = "produkty zostały pomyślnie przeniesione" //set response
+            //this.response_msg = "produkty zostały pomyślnie przeniesione" //set response
             this.notify_active = true //active notify
-            this.resposne_type = 0 //set resposne type to success
             this.clearNotification("succ") //queue the notification clear
         })
-        this.emitter.on("changeShelve_fail", (evData) => {
-            this.fail = true //disable submit btn
-            // this.submitted = false
-            // this.ableToSubmit = false //disable submit btn
-            this.response_msg = evData //set response
-            this.notify_active = true //active notify
-            this.resposne_type = 1 //set response type to fail
-            this.clearNotification("fail") //queue the notification clear
-        })
+        // this.emitter.on("changeShelve_fail", (evData) => {
+        //     this.fail = true //disable submit btn
+        //     // this.submitted = false
+        //     // this.ableToSubmit = false //disable submit btn
+        //     this.response_msg = evData //set response
+        //     this.notify_active = true //active notify
+        //     this.clearNotification("fail") //queue the notification clear
+        // })
         this.emitter.on("changeShelve_ableToSubmit", (state) => {
             // this.ableToSubmit = state //enable/disable submit btn
         })
@@ -50,38 +47,83 @@ export default {
         clearForm() {
             store.dispatch("clearData")
             // this.emitter.emit("clear_shelves")
-            this.active_shelve = false //enable new btn, disable cancel btn
-            this.fail = false //disable cancel btn
+            // this.active_shelve = false //enable new btn, disable cancel btn
+            // this.fail = false //disable cancel btn
             // this.submitted = false
         },
         submit() {
             if (!this.fail) {
                 // this.submitted = true
-                this.emitter.emit("changeShelve_process")
+                // this.emitter.emit("changeShelve_process")
+
+                let itemsArr = this.items.map(el => {
+                    return el.barcode
+                })
+                const requestOptions = {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        barcodes: itemsArr,
+                        new_shelve: this.shelves.find(o => o.code == this.form_active.new).shelve_id,
+                        shelve: this.shelves.find(o => o.code == this.form_active.active).shelve_id
+                    })
+                }
+
+                fetch("http://localhost:3000/warehouse/items/changeshelve", requestOptions)
+                .then(async res => {
+                    const resData = await res.json()
+                    
+                    if (!res.ok) {
+                        const error = (resData && resData.message) || res.status
+                        return Promise.reject(error)
+                    }
+
+                    store.dispatch("displayNotifi", {
+                        mode: 0,
+                        status: true,
+                        message: "Produkty zostały pomyślnie przeniesione"
+                    })
+                    // this.activeShelve = ''
+                    // this.newShelve = ''
+                    // this.items = []
+                    // this.emitter.emit("changeShelve_success")
+                })
+                .catch(error => {
+                    return this.displayError(error)
+                })
             }
         },
+        displayError(error) {
+            store.dispatch("displayNotifi", {status: true, msg: error, mode: 1})
+            // this.submitted = false
+            store.commit("toggleAbleToSubmit", false) //disable submit btn
+            //this.response_msg = error //set response
+            //this.notify_active = true //active notify
+            this.clearNotification() //queue the notification clear
+        },
         clearNotification() {
-            setTimeout(() => {
-                this.notify_active = false //hide notify
-            }, 4000)
+            // setTimeout(() => {
+            //     this.notify_active = false //hide notify
+            // }, 4000)
 
             setTimeout(() => {
-                this.response_msg = '' //clear response
-                this.resposne_type = null //clear response type
+                store.commit("clearMsg") //clear response
             }, 4500)
         },
         disMissNotification() {
-            this.notify_active = false //hide notify
+            //this.notify_active = false //hide notify
             setTimeout(() => {
-                this.response_msg = '' //clear response
-                this.resposne_type = null //clear response type
+                store.commit("clearMsg") //clear response
             }, 500)
         }
     },
     computed: {
         ...mapState({
             form_active: state => state.changeShelve.form_active,
-            ableToSubmit: state => state.changeShelve.ableToSubmit
+            ableToSubmit: state => state.changeShelve.ableToSubmit,
+            items: state => state.changeShelve.items,
+            fail: state => state.changeShelve.fail,
+            notification: state => state.changeShelve.notification
         }),
         newBtnVisible() {
             return {
@@ -103,9 +145,9 @@ export default {
         },
         notificationVisible() {
             return {
-                active: this.notify_active, //show/hide
-                succ: this.resposne_type == 0, //success=green color
-                fail: this.resposne_type == 1 //fail=red color
+                active: this.notification.active, //show/hide
+                succ: this.notification.mode == 0, //success=green color
+                fail: this.notification.mode == 1 //fail=red color
             }
         }
     },
@@ -125,7 +167,7 @@ export default {
         <div class="actionBtn" id="btn1" @click="toggleChangeModal" :class="newBtnVisible"> + Nowy</div>
         <div class="actionBtn" id="btn2" @click="clearForm" :class="CancelBtnVisible">Anuluj</div>
         <div class="actionBtn" id="btn3" @click="submit" :class="SubmitBtnVisible">Przetwarzaj</div>
-        <div id="changeShelveResponse-msg" :class="notificationVisible">{{response_msg}}<span id="close_notifi" @click="disMissNotification"></span></div>
+        <div id="changeShelveResponse-msg" :class="notificationVisible">{{notification.message}}<span id="close_notifi" @click="disMissNotification"></span></div>
     </div> 
 </template>
 <style>

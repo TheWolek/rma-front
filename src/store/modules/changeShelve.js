@@ -5,7 +5,9 @@ const state = () => ({
     modal_active: false,
     form_active: { status: false, active: null, new: null },
     items: [],
-    ableToSubmit: false
+    ableToSubmit: false,
+    fail: false,
+    notification: { active: false, message: '', mode: null }
 })
 
 // mutations
@@ -32,6 +34,22 @@ const mutations = {
     },
     toggleAbleToSubmit(state, mode) {
         state.ableToSubmit = mode
+    },
+    toggleFail(state, data) {
+        state.fail = data.status
+        state.notification.active = true
+        state.notification.message = data.msg
+        state.notification.mode = 1
+    },
+    clearMsg(state) {
+        state.notification.message = ''
+        state.notification.active = false
+        state.notification.mode = null
+    },
+    setMsg(state, data) {
+        state.notification.active = true
+        state.notification.mode = data.mode
+        state.notification.message = data.message
     }
 }
 
@@ -44,10 +62,32 @@ const actions = {
         commit("removeItem", barcodeToRemove)
         if (state.items.length == 0) commit("toggleAbleToSubmit", false)
     },
-    clearData(context) {
-        context.commit("toggleFormStatus", { status: false })
-        context.commit("setItems", [])
-        context.commit("toggleAbleToSubmit", false)
+    clearData({ commit, state }) {
+        commit("toggleFormStatus", { status: false })
+        commit("setItems", [])
+        commit("toggleAbleToSubmit", false)
+        state.fail = false
+        commit("clearMsg")
+    },
+    submitSuccess({ commit, dispatch }, msg) {
+        dispatch("clearData")
+        commit("setMsg", { message: msg, mode: 0 })
+    },
+    displayNotifi({ commit, state, dispatch }, data) {
+        if (data.mode == 0) { //success
+            dispatch("submitSuccess", data.message)
+        } else { //fail
+            commit("toggleFail", data)
+        }
+
+        setTimeout(() => {
+            state.notification.active = false
+        }, 4000)
+
+        setTimeout(() => {
+            state.notification.mode = null
+            state.notification.message = ''
+        }, 4500)
     }
 }
 
