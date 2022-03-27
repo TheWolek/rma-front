@@ -46,11 +46,11 @@ export default {
     methods: {
         onAdd() {
             if (this.codeToAdd != '') {
-                if (!this.reg.test(this.codeToAdd)) return this.onFail()
+                if (!this.reg.test(this.codeToAdd)) return this.onFail("niepoprawny format")
                 if (!this.allowedProducts.includes(this.codeToAdd)) {
-                    console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail()
+                    console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail("brak produktu")
                 }
-                if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail()
+                if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail("kod już wprowadzony")
                 // this.emitter.emit("itemAdded", this.codeToAdd)
                 store.commit("addItem", {
                     barcode: this.codeToAdd,
@@ -77,14 +77,18 @@ export default {
             return fail
         },
         onChange() {
-            if (!this.reg.test(this.codeToAdd)) return this.onFail();
+            if (!this.reg.test(this.codeToAdd)) return this.onFail("niepoprawny format");
             else this.clearFail()
         },
-        onFail() {
+        onFail(error) {
             document.getElementById("addInput").classList.add("fail")
+            document.querySelector(".addInput").setAttribute("data-after", error)
+            document.documentElement.style.setProperty("--changeShelve-input-error-opacity", 1)
         },
         clearFail() {
             document.getElementById("addInput").classList.remove("fail")
+            document.querySelector(".addInput").setAttribute("data-after", "")
+            document.documentElement.style.setProperty("--changeShelve-input-error-opacity", 0)
         },
         failNotify(err) {
             document.getElementById("addInput").disabled = true
@@ -93,6 +97,8 @@ export default {
         clear() {
             document.getElementById("addInput").disabled = true
             document.getElementById("addInput").classList.remove("fail")
+            document.querySelector(".addInput").setAttribute("data-after", "")
+            document.documentElement.style.setProperty("--changeShelve-input-error-opacity", 0)
             this.codeToAdd = ''
             this.allowedProducts = []
         },
@@ -130,8 +136,12 @@ export default {
 <template>
     <tr>
         <td></td>
-        <td class="addInput">
-            <input id="addInput" type="text" v-model="codeToAdd" v-on:keyup.enter="onAdd" @change="onChange" disabled/>
+        <td class="addInput" data-after="">
+            <input id="addInput" type="text" 
+            v-model="codeToAdd" 
+            v-on:keyup.enter="onAdd" 
+            @change="onChange" 
+            disabled/>
         </td>
         <td></td>
         <td></td>
@@ -145,6 +155,7 @@ export default {
 
     td.addInput {
         padding: .2em 0;
+        position: relative;
     }
 
     input#addInput.fail:focus, input#addInput.fail {
@@ -152,5 +163,19 @@ export default {
         outline: none !important;
         border: 2px solid red;
         box-shadow: 0 0 10px #719ECE;
+    }
+
+    td.addInput::after {
+        content: attr(data-after);
+        display: block;
+        height: 25px;
+        background: rgb(235, 97, 88);
+        position: absolute;
+        top: 2.5em;
+        left: .3em;
+        border-radius: 5px;
+        border: 1px solid red;
+        padding: 0 .4em;
+        opacity: var(--changeShelve-input-error-opacity);
     }
 </style>
