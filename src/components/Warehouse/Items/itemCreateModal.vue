@@ -44,9 +44,10 @@ export default {
                     name: data.barcode.split("-")[1],
                     category: data.barcode.split("-")[2],
                     shelve_code: this.shelves[resData.shelve].code,
-                    shelve: resData.shelve
+                    shelve: resData.shelve,
+                    barcode: data.barcode
                 }
-                
+
                 store.dispatch("items/submitModal_Create", item)
                 this.error_barcode = ""
                 this.barcode = ""
