@@ -9,14 +9,6 @@ export default {
         }
     },
     mounted() {
-        // this.emitter.on("items_closeAllBurgerMenus", () => {
-        //     this.activeMenu = false
-        // })
-        // this.emitter.on("items_openBurgerMenu", (id) => {
-        //     if (this.data.item_id == id) {
-        //         this.activeMenu = true
-        //     }
-        // })
     },
     computed: {
         ...mapState({
@@ -33,11 +25,8 @@ export default {
     methods: {
         toggleMenu() {
             if (!this.activeMenu) {
-                // this.emitter.emit("items_burgerMenuRequest", {id: this.data.item_id})
                 store.dispatch("items/setContextMenu", this.data.item_id)
             } else {
-                // this.emitter.emit("items_burgerMenuClosed", {id: this.data.item_id})
-                // this.activeMenu = false;
                 store.dispatch("items/closeContextMenu")
             }
         },

@@ -5,32 +5,11 @@ import store from '../../../store'
 
 export default {
     components: {itemRow},
-    data() {
-        return {
-            loading: false,
-            openedMenu: false
-        }
-    },
-    mounted() {
-        this.emitter.on("items_burgerMenuRequest", evData => {
-            if (this.openedMenu) {
-                this.emitter.emit("items_closeAllBurgerMenus")
-            }
-            setTimeout(() => {
-                this.emitter.emit("items_openBurgerMenu", evData.id)
-                this.openedMenu = true
-            }, 50)
-        })
-        this.emitter.on("items_burgerMenuClosed", evData => {
-            this.openedMenu = false
-        })
-    },
     computed: {
         ...mapState({
             items: state => state.items.items
         })
-    },
-    methods: {}
+    }
 }
 </script>
 <template>
