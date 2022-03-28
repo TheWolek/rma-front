@@ -1,4 +1,7 @@
 <script>
+import { mapState } from 'vuex'
+import store from '../../../store'
+
 export default {
     data() {
         return {
@@ -9,7 +12,8 @@ export default {
     },
     methods: {
         toggleModal() {
-            document.getElementById("itemCreateModalWrap").classList.toggle("active")
+            //document.getElementById("itemCreateModalWrap").classList.toggle("active")
+            store.commit("toggleCreateModal")
             this.error_barcode = ''
         },
         handleSubmit() {
@@ -63,11 +67,16 @@ export default {
                 return this.hideError()
             }
         }
+    },
+    computed: {
+        ...mapState({
+            createModal_Active: state => state.items.createModal_Active
+        })
     }
 }
 </script>
 <template>
-    <div id="itemCreateModalWrap" class="bigModal">
+    <div id="itemCreateModalWrap" class="bigModal" :class="{active: this.createModal_Active}">
         <div class="formWrap">
             <div class="header">
                 <div id="close" v-on:click="toggleModal"></div>

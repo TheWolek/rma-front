@@ -1,4 +1,7 @@
 <script>
+import { mapState } from 'vuex'
+import store from '../../../store'
+
 export default {
     data() {
         return {
@@ -9,13 +12,14 @@ export default {
     },
     methods: {
         toggleModal_shelveFind() {
-                document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
-                this.error_shelveCode = ''
+            //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
+            store.commit("toggleShelveFindModal")
+            this.error_shelveCode = ''
         },
         displayError(errMsg) {
-                this.error_shelveCode = errMsg
-                document.getElementById("error_shelveCode").style.opacity = 1
-            },
+            this.error_shelveCode = errMsg
+            document.getElementById("error_shelveCode").style.opacity = 1
+        },
         hideError() {
             document.getElementById("error_shelveCode").style.opacity = 0
             this.error_shelveCode = ''
@@ -59,11 +63,16 @@ export default {
                 return this.displayError(error)
             })
         }
+    },
+    computed: {
+        ...mapState({
+            itemShelveFindModal_Active: state => state.items.itemShelveFindModal_Active
+        })
     }
 }
 </script>
 <template>
-    <div id="itemShelveFindModalWrap" class="bigModal">
+    <div id="itemShelveFindModalWrap" class="bigModal" :class="{active: this.itemShelveFindModal_Active}">
         <div class="formWrap">
             <div class="header">
                 <div id="close" v-on:click="toggleModal_shelveFind"></div>

@@ -1,14 +1,18 @@
 <script>
+import store from '../../../store'
 export default {
     methods: {
         toggleNewModal() {
-            document.getElementById("itemCreateModalWrap").classList.toggle("active")
+            //document.getElementById("itemCreateModalWrap").classList.toggle("active")
+            store.commit("toggleCreateModal")
         },
         toggleFindModal() {
-            document.getElementById("itemFindModalWrap").classList.toggle("active")
+            //document.getElementById("itemFindModalWrap").classList.toggle("active")
+            store.commit("toggleFindModal")
         },
         toggleShelveFindModal() {
-            document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
+            //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
+            store.commit("toggleShelveFindModal")
         },
         onRefresh() {
             this.emitter.emit("itemsRefresh")
@@ -28,7 +32,7 @@ export default {
         <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">Lokalizacja</div>
         <div class="actionBtn" id="btn4">Usuń</div>
         <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg"/></div>
-    </div>    
+    </div>
 </template>
 <style>
     .actions {
