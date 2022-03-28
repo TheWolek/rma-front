@@ -43,7 +43,7 @@ export default {
         <td>{{this.data.ticket_id}}</td>
         <td>{{this.data.category}}</td>
         <td>{{this.data.name}}</td>
-        <td :id="this.data.shelve">{{this.data.shelve_code}}</td>
+        <td :id="this.data.shelve">{{this.data.shelve_code || this.shelves[this.data.shelve].code}}</td>
         <td class="actionCell">
             <div class="burger" @click="toggleMenu">
                 <span></span>

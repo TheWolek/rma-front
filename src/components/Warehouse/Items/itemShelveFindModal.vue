@@ -50,7 +50,7 @@ export default {
                 this.error_shelveCode = ''
 
                 setTimeout(() => {
-                    store.dispatch("items/submitModal_FindShelve", {shelve: this.shelve_code, data: resData})
+                    store.dispatch("items/submitModal_FindShelve", {shelve_code: this.shelve_code, data: resData})
                     this.error_shelveCode = ''
                     this.emitter.emit("refreshing")
                 }, 500)

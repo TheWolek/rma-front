@@ -25,7 +25,11 @@ export default {
                 this.toggleModal_find()
                 this.error_barcode_find = ''
                 setTimeout(() => {
-                    store.dispatch("items/submitModal_Find", {...resData[0], barcode: this.barcode_find})
+                    store.dispatch("items/submitModal_Find", {
+                        ...resData[0], 
+                        shelve_code: this.shelves[resData[0].shelve].code,
+                        barcode: this.barcode_find
+                    })
                     this.barcode_find = ''
                     this.emitter.emit("refreshing", false)
                 }, 500)
