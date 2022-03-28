@@ -12,7 +12,6 @@ export default {
     },
     methods: {
         toggleModal() {
-            //document.getElementById("itemCreateModalWrap").classList.toggle("active")
             store.commit("items/toggleCreateModal")
             this.error_barcode = ''
         },
@@ -23,8 +22,6 @@ export default {
             const data = {
                 "barcode": this.barcode
             }
-
-            // console.log(JSON.stringify(data))
 
             const requestOptions = {
                 method: "POST",
@@ -41,8 +38,6 @@ export default {
                     return Promise.reject(error)
                 }
 
-                //this.emitter.emit("addItem", {data, resData})
-
                 let item = {
                     id: resData.id,
                     ticket_id: resData.ticket_id,
@@ -51,6 +46,7 @@ export default {
                     shelve_code: this.shelves[resData.shelve].code,
                     shelve: resData.shelve
                 }
+                
                 store.dispatch("items/submitModal_Create", item)
                 this.error_barcode = ""
                 this.barcode = ""

@@ -7,27 +7,11 @@ export default {
     components: {itemRow},
     data() {
         return {
-            itemss: [],
             loading: false,
             openedMenu: false
         }
     },
     mounted() {
-        // this.emitter.on("addItem", evData => this.addItem(evData))
-        this.emitter.on("itemsRefresh", () => this.refreshTable())
-        this.emitter.on("findItem", evData => {
-            this.items = []
-            if (evData.data) {
-                evData.data.shelve_code = this.shelves[evData.data.shelve].code;
-                this.items.push(evData.data)
-            }
-        })
-        this.emitter.on("findMulipleItems", evData => {
-            this.items = evData.data
-            this.items.forEach(el => {
-                el.shelve_code = this.shelves[el.shelve].code
-            });
-        }),
         this.emitter.on("items_burgerMenuRequest", evData => {
             if (this.openedMenu) {
                 this.emitter.emit("items_closeAllBurgerMenus")
@@ -46,46 +30,7 @@ export default {
             items: state => state.items.items
         })
     },
-    methods: {
-        // addItem(data) {
-        //     console.log("itemsTable", data)
-        //     let item = {
-        //         id: data.resData.id,
-        //         ticket_id: data.resData.ticket_id,
-        //         name: data.data.barcode.split("-")[1],
-        //         category: data.data.barcode.split("-")[2],
-        //         shelve_code: this.shelves[data.resData.shelve].code,
-        //         shelve: data.resData.shelve
-        //     }
-        //     this.items.push(item)
-        // },
-        refreshTable() {
-            this.loading = true;
-            this.emitter.emit("refreshing")
-            fetch("http://localhost:3000/warehouse/items")
-            .then(async res => {
-                const resData = await res.json()
-                
-                if (!res.ok) {
-                    const error = (resData && resData.message) || res.status
-                    return Promise.reject(error)
-                }
-
-                setTimeout(()=>{
-                    resData.forEach(el => {
-                        el.shelve_code = this.shelves[el.shelve].code
-                    });
-
-                    this.items = resData
-                    this.loading = false
-                    this.emitter.emit("refreshing")
-                }, 500) 
-            })
-            .catch(error => {
-                return console.log(error)
-            })
-        }
-    }
+    methods: {}
 }
 </script>
 <template>

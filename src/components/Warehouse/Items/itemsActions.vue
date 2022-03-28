@@ -8,19 +8,15 @@ export default {
     },
     methods: {
         toggleNewModal() {
-            //document.getElementById("itemCreateModalWrap").classList.toggle("active")
             store.commit("items/toggleCreateModal")
         },
         toggleFindModal() {
-            //document.getElementById("itemFindModalWrap").classList.toggle("active")
             store.commit("items/toggleFindModal")
         },
         toggleShelveFindModal() {
-            //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
             store.commit("items/toggleShelveFindModal")
         },
         onRefresh() {
-            // this.emitter.emit("itemsRefresh")
             this.loading = true
             fetch("http://localhost:3000/warehouse/items")
             .then(async res => {
@@ -38,7 +34,6 @@ export default {
 
                     store.commit("items/setItems", resData)
                     this.loading = false
-                    // this.emitter.emit("refreshing")
                 }, 500) 
             })
             .catch(error => {
