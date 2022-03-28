@@ -7,7 +7,8 @@ const state = {
         active: false,
         barcode: null,
         shelve: null
-    }
+    },
+    activeContextMenu: null
 }
 
 const mutations = {
@@ -34,6 +35,12 @@ const mutations = {
     },
     setFilter(state, newState) {
         state.appliedFilter = newState
+    },
+    clearContextMenu(state) {
+        state.activeContextMenu = null
+    },
+    setContextMenu(state, id) {
+        state.activeContextMenu = id
     }
 }
 
@@ -70,6 +77,12 @@ const actions = {
             shelve: data.shelve_code
         })
         commit("setItems", data.data)
+    },
+    closeContextMenu({ commit }) {
+        commit("clearContextMenu")
+    },
+    setContextMenu({ commit }, id) {
+        commit("setContextMenu", id)
     }
 }
 

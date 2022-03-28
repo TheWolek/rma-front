@@ -1,4 +1,6 @@
 <script>
+import { mapState } from 'vuex'
+import store from '../../../store'
 export default {
     props: ["data"],
     data() {
@@ -7,25 +9,40 @@ export default {
         }
     },
     mounted() {
-        this.emitter.on("items_closeAllBurgerMenus", () => {
-            this.activeMenu = false
-        })
-        this.emitter.on("items_openBurgerMenu", (id) => {
-            if (this.data.item_id == id) {
-                this.activeMenu = true
+        // this.emitter.on("items_closeAllBurgerMenus", () => {
+        //     this.activeMenu = false
+        // })
+        // this.emitter.on("items_openBurgerMenu", (id) => {
+        //     if (this.data.item_id == id) {
+        //         this.activeMenu = true
+        //     }
+        // })
+    },
+    computed: {
+        ...mapState({
+            activeContextMenu: state => state.items.activeContextMenu
+        }),
+        check() {
+            if (this.activeContextMenu == this.data.item_id) {
+                return this.activeMenu = true
+            } else {
+                return this.activeMenu = false
             }
-        })
+        }
     },
     methods: {
         toggleMenu() {
             if (!this.activeMenu) {
-                this.emitter.emit("items_burgerMenuRequest", {id: this.data.item_id})
+                // this.emitter.emit("items_burgerMenuRequest", {id: this.data.item_id})
+                store.dispatch("items/setContextMenu", this.data.item_id)
             } else {
-                this.emitter.emit("items_burgerMenuClosed", {id: this.data.item_id})
-                this.activeMenu = false;
+                // this.emitter.emit("items_burgerMenuClosed", {id: this.data.item_id})
+                // this.activeMenu = false;
+                store.dispatch("items/closeContextMenu")
             }
         },
         changeLocalization() {
+            store.dispatch("items/closeContextMenu")
             this.$router.push({ 
                 name: 'itemsChangeShelve', 
                 params: { 
@@ -50,7 +67,7 @@ export default {
                 <span></span>
                 <span></span>
             </div>
-            <div class="menu" :class="{active: this.activeMenu}">
+            <div class="menu" :class="{active: this.check}">
                 <ul>
                     <li @click="changeLocalization">Zmień lokalizacje</li>
                     <li>Usuń</li>
