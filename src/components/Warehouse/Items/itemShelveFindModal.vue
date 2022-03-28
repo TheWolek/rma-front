@@ -13,7 +13,7 @@ export default {
     methods: {
         toggleModal_shelveFind() {
             //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
-            store.commit("toggleShelveFindModal")
+            store.commit("items/toggleShelveFindModal")
             this.error_shelveCode = ''
         },
         displayError(errMsg) {

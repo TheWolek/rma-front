@@ -16,7 +16,7 @@ export default {
             if (!this.barcode_reg.test(this.barcode_find)) return this.displayError("zły format kodu")
             fetch(`http://localhost:3000/warehouse/items?barcode=${this.barcode_find}`)
             .then(async res => {
-                this.emitter.emit("refreshing")
+                this.emitter.emit("refreshing", true)
                 const resData = await res.json()
                 if (!res.ok) {
                     const error = (resData && resData.message) || res.status
@@ -25,9 +25,9 @@ export default {
                 this.toggleModal_find()
                 this.error_barcode_find = ''
                 setTimeout(() => {
-                    this.emitter.emit("findItem", {barcode: this.barcode_find, data: resData[0]})
+                    store.dispatch("items/submitModal_Find", {...resData[0], barcode: this.barcode_find})
                     this.barcode_find = ''
-                    this.emitter.emit("refreshing")
+                    this.emitter.emit("refreshing", false)
                 }, 500)
             })
             .catch(error => {
@@ -36,7 +36,7 @@ export default {
         },
         toggleModal_find() {
             //document.getElementById("itemFindModalWrap").classList.toggle("active")
-            store.commit("toggleFindModal")
+            store.commit("items/toggleFindModal")
             this.error_barcode_find = ''
         },
         displayError(errMsg) {

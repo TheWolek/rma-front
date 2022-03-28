@@ -9,15 +9,15 @@ export default {
     methods: {
         toggleNewModal() {
             //document.getElementById("itemCreateModalWrap").classList.toggle("active")
-            store.commit("toggleCreateModal")
+            store.commit("items/toggleCreateModal")
         },
         toggleFindModal() {
             //document.getElementById("itemFindModalWrap").classList.toggle("active")
-            store.commit("toggleFindModal")
+            store.commit("items/toggleFindModal")
         },
         toggleShelveFindModal() {
             //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
-            store.commit("toggleShelveFindModal")
+            store.commit("items/toggleShelveFindModal")
         },
         onRefresh() {
             // this.emitter.emit("itemsRefresh")
@@ -36,7 +36,7 @@ export default {
                         el.shelve_code = this.shelves[el.shelve].code
                     });
 
-                    store.commit("setItems", resData)
+                    store.commit("items/setItems", resData)
                     this.loading = false
                     // this.emitter.emit("refreshing")
                 }, 500) 
@@ -47,9 +47,13 @@ export default {
         }
     },
     mounted() {
-        // this.emitter.on("refreshing", () => {
-        //     document.querySelector("#btn5 img").classList.toggle("active");
-        // })
+        this.emitter.on("refreshing", (state) => {
+            if (state) {
+                this.loading = true
+            } else {
+                this.loading = false
+            }
+        })
     }
 }
 </script>

@@ -5,10 +5,10 @@ import store from "../../../../store"
 export default {
     methods: {
         toggleChangeModal() {
-            if(!this.form_active.status) store.commit("toggleModal")
+            if(!this.form_active.status) store.commit("changeShelve/toggleModal")
         },
         clearForm() {
-            store.dispatch("clearData")
+            store.dispatch("changeShelve/clearData")
         },
         submit() {
             if (!this.fail) {
@@ -34,7 +34,7 @@ export default {
                         return Promise.reject(error)
                     }
 
-                    store.dispatch("displayNotifi", {
+                    store.dispatch("changeShelve/displayNotifi", {
                         mode: 0,
                         status: true,
                         message: "Produkty zostały pomyślnie przeniesione"
@@ -46,17 +46,17 @@ export default {
             }
         },
         displayError(error) {
-            store.dispatch("displayNotifi", {status: true, msg: error, mode: 1})
-            store.commit("toggleAbleToSubmit", false) //disable submit btn
+            store.dispatch("changeShelve/displayNotifi", {status: true, msg: error, mode: 1})
+            store.commit("changeShelve/toggleAbleToSubmit", false) //disable submit btn
         },
         clearNotification() {
             setTimeout(() => {
-                store.commit("clearMsg") //clear response
+                store.commit("changeShelve/clearMsg") //clear response
             }, 4500)
         },
         disMissNotification() {
             setTimeout(() => {
-                store.commit("clearMsg") //clear response
+                store.commit("changeShelve/clearMsg") //clear response
             }, 500)
         }
     },

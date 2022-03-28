@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         deleteItem() {
-            store.dispatch("removeItem", this.barcode)
+            store.dispatch("changeShelve/removeItem", this.barcode)
         }
     }
 }

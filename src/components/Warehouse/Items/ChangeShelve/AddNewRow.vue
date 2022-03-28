@@ -43,7 +43,7 @@ export default {
                     console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail("brak produktu")
                 }
                 if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail("kod już wprowadzony")
-                store.dispatch("addItem", {
+                store.dispatch("changeShelve/addItem", {
                     barcode: this.codeToAdd,
                     ticket_id: this.codeToAdd.split("-")[0],
                     model: this.codeToAdd.split("-")[1],
@@ -82,7 +82,7 @@ export default {
         },
         failNotify(err) {
             document.getElementById("addInput").disabled = true
-            store.dispatch("displayNotifi", {status: false, msg: err, mode: 1})
+            store.dispatch("changeShelve/displayNotifi", {status: false, msg: err, mode: 1})
         },
         clear() {
             document.getElementById("addInput").disabled = true

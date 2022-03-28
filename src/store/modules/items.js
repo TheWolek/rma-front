@@ -31,11 +31,17 @@ const actions = {
         console.log(data)
         commit("clearItems")
         commit("addItem", data)
+    },
+    submitModal_Find({ commit }, data) {
+        console.log(data)
+        commit("clearItems")
+        commit("addItem", data)
     }
 }
 
 export default {
     state,
     mutations,
-    actions
+    actions,
+    namespaced: true
 }

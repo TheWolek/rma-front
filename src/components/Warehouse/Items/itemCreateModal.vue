@@ -13,7 +13,7 @@ export default {
     methods: {
         toggleModal() {
             //document.getElementById("itemCreateModalWrap").classList.toggle("active")
-            store.commit("toggleCreateModal")
+            store.commit("items/toggleCreateModal")
             this.error_barcode = ''
         },
         handleSubmit() {
@@ -51,7 +51,7 @@ export default {
                     shelve_code: this.shelves[resData.shelve].code,
                     shelve: resData.shelve
                 }
-                store.dispatch("submitModal_Create", item)
+                store.dispatch("items/submitModal_Create", item)
                 this.error_barcode = ""
                 this.barcode = ""
                 this.toggleModal()
