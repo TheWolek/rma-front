@@ -1,5 +1,3 @@
-import store from ".."
-
 // initial state
 const state = () => ({
     modal_active: false,
