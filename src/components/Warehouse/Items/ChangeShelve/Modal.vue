@@ -15,12 +15,16 @@ export default {
     },
     computed: {
         ...mapState({
-            isModalActive: state => state.changeShelve.modal_active
+            isModalActive: state => state.changeShelve.modal_active,
+            modalData: state => state.changeShelve.modalData
         })
     },
     watch: {
         isModalActive(status) {
             this.modal_active = status
+        },
+        modalData(status) {
+            this.active_code = status
         }
     },
     methods: {

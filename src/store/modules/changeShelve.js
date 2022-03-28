@@ -1,6 +1,7 @@
 // initial state
 const state = () => ({
     modal_active: false,
+    modalData: '',
     form_active: { status: false, active: null, new: null },
     items: [],
     ableToSubmit: false,
@@ -10,8 +11,11 @@ const state = () => ({
 
 // mutations
 const mutations = {
-    toggleModal(state) {
+    toggleModal(state, data) {
         state.modal_active = !state.modal_active
+        if (data != '') {
+            state.modalData = data
+        }
         console.log("modalToggle", state.modal_active)
     },
     toggleFormStatus(state, status) {
@@ -86,6 +90,16 @@ const actions = {
             state.notification.mode = null
             state.notification.message = ''
         }, 4500)
+    },
+    setDataFromOutside({ commit, dispatch }, data) {
+        console.log(data)
+        commit("toggleModal", data.outside_shelve_code)
+        dispatch("addItem", {
+            barcode: data.outside_barcode,
+            ticket_id: data.outside_barcode.split("-")[0],
+            model: data.outside_barcode.split("-")[1],
+            category: data.outside_barcode.split("-")[2],
+        })
     }
 }
 
