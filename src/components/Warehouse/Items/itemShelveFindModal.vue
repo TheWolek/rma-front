@@ -37,7 +37,6 @@ export default {
             if (!this.code_reg.test(this.shelve_code)) return this.displayError("zły format kodu")
 
             let shelve = this.shelves.find(o => o.code == this.shelve_code)
-            console.log(shelve)
             fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${shelve.shelve_id}`)
             .then(async res => {
                 this.emitter.emit("refreshing")
@@ -47,14 +46,11 @@ export default {
                     const error = (resData && resData.message) || res.status
                     return Promise.reject(error)
                 }
-
-                console.log(resData)
-
                 this.toggleModal_shelveFind()
                 this.error_shelveCode = ''
 
                 setTimeout(() => {
-                    this.emitter.emit("findMulipleItems", {barcode: this.shelve_code, data: resData})
+                    store.dispatch("items/submitModal_FindShelve", {shelve: this.shelve_code, data: resData})
                     this.error_shelveCode = ''
                     this.emitter.emit("refreshing")
                 }, 500)

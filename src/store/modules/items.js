@@ -36,6 +36,11 @@ const actions = {
         console.log(data)
         commit("clearItems")
         commit("addItem", data)
+    },
+    submitModal_FindShelve({ commit }, data) {
+        console.log(data)
+        commit("clearItems")
+        commit("setItems", data.data)
     }
 }
 
