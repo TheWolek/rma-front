@@ -66,8 +66,8 @@ const actions = {
         commit("clearFilter")
         commit("setFilter", {
             active: true,
-            barcode: data.barcode,
-            shelve: null
+            barcode: null,
+            shelve: data.shelve_code
         })
         commit("setItems", data.data)
     }
