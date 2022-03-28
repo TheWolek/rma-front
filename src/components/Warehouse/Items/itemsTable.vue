@@ -1,17 +1,19 @@
 <script>
 import itemRow from './itemRow.vue'
+import { mapState } from 'vuex'
+import store from '../../../store'
 
 export default {
     components: {itemRow},
     data() {
         return {
-            items: [],
+            itemss: [],
             loading: false,
             openedMenu: false
         }
     },
     mounted() {
-        this.emitter.on("addItem", evData => this.addItem(evData))
+        // this.emitter.on("addItem", evData => this.addItem(evData))
         this.emitter.on("itemsRefresh", () => this.refreshTable())
         this.emitter.on("findItem", evData => {
             this.items = []
@@ -39,19 +41,24 @@ export default {
             this.openedMenu = false
         })
     },
+    computed: {
+        ...mapState({
+            items: state => state.items.items
+        })
+    },
     methods: {
-        addItem(data) {
-            console.log("itemsTable", data)
-            let item = {
-                id: data.resData.id,
-                ticket_id: data.resData.ticket_id,
-                name: data.data.barcode.split("-")[1],
-                category: data.data.barcode.split("-")[2],
-                shelve_code: this.shelves[data.resData.shelve].code,
-                shelve: data.resData.shelve
-            }
-            this.items.push(item)
-        },
+        // addItem(data) {
+        //     console.log("itemsTable", data)
+        //     let item = {
+        //         id: data.resData.id,
+        //         ticket_id: data.resData.ticket_id,
+        //         name: data.data.barcode.split("-")[1],
+        //         category: data.data.barcode.split("-")[2],
+        //         shelve_code: this.shelves[data.resData.shelve].code,
+        //         shelve: data.resData.shelve
+        //     }
+        //     this.items.push(item)
+        // },
         refreshTable() {
             this.loading = true;
             this.emitter.emit("refreshing")

@@ -1,6 +1,11 @@
 <script>
 import store from '../../../store'
 export default {
+    data() {
+        return {
+            loading: false
+        }
+    },
     methods: {
         toggleNewModal() {
             //document.getElementById("itemCreateModalWrap").classList.toggle("active")
@@ -15,13 +20,36 @@ export default {
             store.commit("toggleShelveFindModal")
         },
         onRefresh() {
-            this.emitter.emit("itemsRefresh")
+            // this.emitter.emit("itemsRefresh")
+            this.loading = true
+            fetch("http://localhost:3000/warehouse/items")
+            .then(async res => {
+                const resData = await res.json()
+                
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                setTimeout(()=>{
+                    resData.forEach(el => {
+                        el.shelve_code = this.shelves[el.shelve].code
+                    });
+
+                    store.commit("setItems", resData)
+                    this.loading = false
+                    // this.emitter.emit("refreshing")
+                }, 500) 
+            })
+            .catch(error => {
+                return console.log(error)
+            })
         }
     },
     mounted() {
-        this.emitter.on("refreshing", () => {
-            document.querySelector("#btn5 img").classList.toggle("active");
-        })
+        // this.emitter.on("refreshing", () => {
+        //     document.querySelector("#btn5 img").classList.toggle("active");
+        // })
     }
 }
 </script>
@@ -31,7 +59,7 @@ export default {
         <div class="actionBtn" id="btn2" @click="toggleFindModal">Kod kreskowy</div>
         <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">Lokalizacja</div>
         <div class="actionBtn" id="btn4">Usuń</div>
-        <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg"/></div>
+        <div class="actionBtn" id="btn5" @click="onRefresh" :class="{active: this.loading}"><img src="@/assets/refresh.svg"/></div>
     </div>
 </template>
 <style>

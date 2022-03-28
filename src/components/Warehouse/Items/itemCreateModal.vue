@@ -41,7 +41,17 @@ export default {
                     return Promise.reject(error)
                 }
 
-                this.emitter.emit("addItem", {data, resData})
+                //this.emitter.emit("addItem", {data, resData})
+
+                let item = {
+                    id: resData.id,
+                    ticket_id: resData.ticket_id,
+                    name: data.barcode.split("-")[1],
+                    category: data.barcode.split("-")[2],
+                    shelve_code: this.shelves[resData.shelve].code,
+                    shelve: resData.shelve
+                }
+                store.dispatch("submitModal_Create", item)
                 this.error_barcode = ""
                 this.barcode = ""
                 this.toggleModal()
