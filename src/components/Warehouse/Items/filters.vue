@@ -1,0 +1,78 @@
+<script>
+import { mapState } from 'vuex'
+import store from '../../../store'
+export default {
+    computed: {
+        ...mapState({
+            appliedFilter: state => state.items.appliedFilter
+        })
+    },
+    methods: {
+        deleteAllFilters() {
+
+        },
+        deleteFilter(filter) {
+            store.commit("items/clearFilter")
+            store.commit("items/clearItems")
+        }
+    }
+}
+</script>
+<template>
+    <div>
+        <div class="filterWrap" :class="{active: this.appliedFilter.active}">
+            <div class="filterChip" @click="()=>{deleteFilter()}">
+                {{appliedFilter.barcode || appliedFilter.shelve}}
+                <div class="close"></div>
+            </div>
+        </div>
+    </div>
+</template>
+<style>
+    .filterWrap {
+        display: flex;
+        opacity: 0;
+    }
+
+    .filterWrap.active {
+        opacity: 1;
+    }
+
+    .filterChip {
+        padding: .05em .6em 0 .6em;
+        border: 1px solid rgb(85, 85, 85);
+        color: var(--vt-c-black-mute);
+        border-radius: 5px;
+        font-size: .9em;
+        transition: .1s all ease-out;
+        display: flex;
+        gap: .1em;
+    }
+
+    .filterChip:hover {
+        cursor: pointer;
+        background: rgba(235, 235, 235, 0.8);
+    }
+
+    .filterChip .close {
+        width: 20px;
+        height: 20px;
+    }
+
+    .filterChip .close:before, .close:after {
+        position: absolute;
+        left: 9px;
+        top: 4px;
+        content: ' ';
+        height: 13px;
+        width: 2px;
+        background-color: #444444;
+    }
+    .filterChip .close:before {
+        transform: rotate(45deg);
+    }
+    .filterChip .close:after {
+        transform: rotate(-45deg);
+    }
+
+</style>

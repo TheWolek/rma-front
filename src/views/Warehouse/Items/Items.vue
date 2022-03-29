@@ -5,9 +5,11 @@ import itemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemFindModal from '../../../components/Warehouse/Items/itemFindModal.vue'
 import itemShelveFindModal from "../../../components/Warehouse/Items/itemShelveFindModal.vue";
+import filters from "../../../components/Warehouse/Items/filters.vue"
+import Filters from '../../../components/Warehouse/Items/filters.vue';
 
 export default {
-    components: { ItemsActions, ItemCreateModal, itemsTable, ItemsTable, ItemFindModal, itemShelveFindModal },
+    components: { ItemsActions, ItemCreateModal, itemsTable, ItemsTable, ItemFindModal, itemShelveFindModal, Filters },
 }
 </script>
 
@@ -19,6 +21,7 @@ export default {
     <ItemsActions/>
     <div class="warehouseItems_wrap">
       <h1>Wszystkie zarejestrowane produkty</h1>
+      <filters/>
       <ItemsTable/>
     </div>
   </div>
