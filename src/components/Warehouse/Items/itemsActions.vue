@@ -1,10 +1,18 @@
 <script>
+import { mapState } from 'vuex'
 import store from '../../../store'
+import fetchItemsData from './fetchItemsData'
+
 export default {
     data() {
         return {
             loading: false
         }
+    },
+    computed: {
+        ...mapState({
+            appliedFilter: state => state.items.appliedFilter
+        })
     },
     methods: {
         toggleNewModal() {
@@ -17,28 +25,19 @@ export default {
             store.commit("items/toggleShelveFindModal")
         },
         onRefresh() {
-            this.loading = true
-            fetch("http://localhost:3000/warehouse/items")
-            .then(async res => {
-                const resData = await res.json()
-                
-                if (!res.ok) {
-                    const error = (resData && resData.message) || res.status
-                    return Promise.reject(error)
+            if (this.appliedFilter.active) {
+                if (this.appliedFilter.barcode != null) {
+                    fetchItemsData(`http://localhost:3000/warehouse/items?barcode=${this.appliedFilter.barcode}`)
+                    return
                 }
 
-                setTimeout(()=>{
-                    resData.forEach(el => {
-                        el.shelve_code = this.shelves[el.shelve].code
-                    });
-
-                    store.commit("items/setItems", resData)
-                    this.loading = false
-                }, 500) 
-            })
-            .catch(error => {
-                return console.log(error)
-            })
+                if (this.appliedFilter.shelve != null) {
+                    let shelveId = this.shelves.find(o => o.code == this.appliedFilter.shelve).shelve_id
+                    console.log(shelveId)
+                    fetchItemsData(`http://localhost:3000/warehouse/items/shelve?shelve=${shelveId}`)
+                    return
+                }
+            }
         }
     },
     mounted() {
