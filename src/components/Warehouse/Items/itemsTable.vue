@@ -40,7 +40,7 @@ export default {
 
     table {
         border-collapse: collapse;
-        margin: 25px 0;
+        margin: 12px 0;
         font-size: .9em;
         min-width: 400px;
         table-layout: fixed;
