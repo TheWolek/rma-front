@@ -43,6 +43,7 @@ export default {
                 const resData = await res.json()
 
                 if (!res.ok) {
+                    this.emitter.emit("refreshing", false)
                     const error = (resData && resData.message) || res.status
                     return Promise.reject(error)
                 }

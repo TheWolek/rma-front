@@ -31,7 +31,19 @@ export default {
     }
 
     table#changeShelve tr th:nth-child(3), table#changeShelve tr td:nth-child(3) {
-        width: 8%;
+        width: 9%;
+    }
+
+    table#changeShelve tr th:nth-child(4), table#changeShelve tr td:nth-child(4) {
+        width: 25%;
+    }
+
+    table#changeShelve tr th:nth-child(5), table#changeShelve tr td:nth-child(5) {
+        width: 30%;
+    }
+
+    table#changeShelve {
+        width: 80%;
     }
 
     /* table#changeShelve tr th:nth-child(2), table#changeShelve tr td:nth-child(2),

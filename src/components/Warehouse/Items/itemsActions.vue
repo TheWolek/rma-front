@@ -29,6 +29,11 @@ export default {
                 const resData = await res.json()
 
                 if (!res.ok) {
+                    if (res.status == 404) {
+                        store.commit("items/setItems", [])
+                        this.emitter.emit("refreshing", false)
+                        return
+                    }
                     const error = (resData && resData.message) || res.status
                     return Promise.reject(error)
                 }
