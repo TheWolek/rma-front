@@ -1,15 +1,13 @@
 <script>
 import ItemsActions from "../../../components/Warehouse/Items/itemsActions.vue";
 import ItemCreateModal from "../../../components/Warehouse/Items/itemCreateModal.vue";
-import itemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemFindModal from '../../../components/Warehouse/Items/itemFindModal.vue'
-import itemShelveFindModal from "../../../components/Warehouse/Items/itemShelveFindModal.vue";
+import ItemShelveFindModal from "../../../components/Warehouse/Items/itemShelveFindModal.vue";
 import filters from "../../../components/Warehouse/Items/filters.vue"
-import Filters from '../../../components/Warehouse/Items/filters.vue';
 
 export default {
-    components: { ItemsActions, ItemCreateModal, itemsTable, ItemsTable, ItemFindModal, itemShelveFindModal, Filters },
+    components: { ItemsActions, ItemCreateModal, ItemsTable, ItemFindModal, ItemShelveFindModal, filters },
 }
 </script>
 
@@ -17,7 +15,7 @@ export default {
   <div id="warehouseItems">
     <ItemCreateModal/>
     <ItemFindModal/>
-    <itemShelveFindModal/>
+    <ItemShelveFindModal/>
     <ItemsActions/>
     <div class="warehouseItems_wrap">
       <h1>Wszystkie zarejestrowane produkty</h1>

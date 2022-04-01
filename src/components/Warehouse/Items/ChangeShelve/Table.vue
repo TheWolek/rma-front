@@ -21,7 +21,7 @@ export default {
             <th>kategoria</th>
             <th>model</th>
         </tr>
-        <ChangeShelveItemRow v-for="item in items" :key="item.ticket_id" :item="item"/>
+        <ChangeShelveItemRow v-for="item in items" :key="item.ticket_id" :data="item"/>
         <ChangeShelveNew/>
     </table>
 </template>

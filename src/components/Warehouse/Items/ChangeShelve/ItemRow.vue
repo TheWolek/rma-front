@@ -2,7 +2,7 @@
 import store from "../../../../store"
 
 export default {
-    props: ["item"],
+    props: ["data"],
     data() {
         return {
             barcode: '',
@@ -12,10 +12,10 @@ export default {
         }
     },
     mounted() {
-        this.barcode = this.item.barcode
-        this.ticket_id = this.item.ticket_id
-        this.model = this.item.model
-        this.category = this.item.category
+        this.barcode = this.data.barcode
+        this.ticket_id = this.data.ticket_id
+        this.model = this.data.model
+        this.category = this.data.category
     },
     methods: {
         deleteItem() {
