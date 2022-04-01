@@ -1,13 +1,30 @@
+<script>
+import actions from '../../../components/Warehouse/Spareparts/orders/actions.vue'
+import createModal from '../../../components/Warehouse/Spareparts/orders/createModal.vue'
+import Table from '../../../components/Warehouse/Spareparts/orders/ordersTable.vue'
+
+export default {
+  components: {actions, createModal, Table}
+}
+</script>
 <template>
   <div id="warehouseSparepartsOrders">
-    <h1>This is warehouse spare parts orders page</h1>
+    <createModal/>
+    <actions/>
+    <div class="warehouseSparepartsOrders_wrap">
+      <h1>Dostawy części zamiennych</h1>
+      <Table/>
+    </div>
   </div>
 </template>
 
 <style>
 #warehouseSparepartsOrders {
-    min-height: 100vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+}
+
+.warehouseSparepartsOrders_wrap {
+  padding: .5em;
 }
 </style>

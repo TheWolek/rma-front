@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
 import changeShelve from './modules/changeShelve'
 import items from './modules/items'
+import sparepartsOrders from "./modules/sparepartsOrders";
 
 export default createStore({
     modules: {
         changeShelve,
-        items
+        items,
+        sparepartsOrders
     }
 })  
