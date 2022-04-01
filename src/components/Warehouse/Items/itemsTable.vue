@@ -65,12 +65,17 @@ export default {
         color: var(--vt-c-black);
     }
 
-    table .loadingWrap.active {
+    table .loadingWrap {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        display: none;
+    }
+
+    table .loadingWrap.active {
+        display: block;
         background: rgba(85, 85, 85, 0.322);
         z-index: 2;
     }
