@@ -39,7 +39,7 @@ export default {
             let shelve = this.shelves.find(o => o.code == this.shelve_code)
             fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${shelve.shelve_id}`)
             .then(async res => {
-                this.emitter.emit("refreshing")
+                this.emitter.emit("refreshing", true)
                 const resData = await res.json()
 
                 if (!res.ok) {
@@ -52,8 +52,8 @@ export default {
                 setTimeout(() => {
                     store.dispatch("items/submitModal_FindShelve", {shelve_code: this.shelve_code, data: resData})
                     this.error_shelveCode = ''
-                    this.emitter.emit("refreshing")
-                }, 500)
+                    this.emitter.emit("refreshing", false)
+                }, 800)
             })
             .catch(error => {
                 return this.displayError(error)

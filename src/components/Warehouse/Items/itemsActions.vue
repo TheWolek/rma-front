@@ -1,7 +1,6 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../../../store'
-import fetchItemsData from './fetchItemsData'
 
 export default {
     data() {
@@ -24,24 +23,43 @@ export default {
         toggleShelveFindModal() {
             store.commit("items/toggleShelveFindModal")
         },
+        fetchItemsData(url) {
+            fetch(url)
+            .then(async res => {
+                const resData = await res.json()
+
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                setTimeout(() => {
+                    store.commit("items/setItems", resData)
+                    this.emitter.emit("refreshing", false)
+                }, 800)
+            })
+            .catch(error => {
+                return console.log(error)
+            })
+        },
         onRefresh() {
             if (this.appliedFilter.active) {
+                this.emitter.emit("refreshing", true)
                 if (this.appliedFilter.barcode != null) {
-                    fetchItemsData(`http://localhost:3000/warehouse/items?barcode=${this.appliedFilter.barcode}`)
+                    this.fetchItemsData(`http://localhost:3000/warehouse/items?barcode=${this.appliedFilter.barcode}`)
                     return
                 }
 
                 if (this.appliedFilter.shelve != null) {
                     let shelveId = this.shelves.find(o => o.code == this.appliedFilter.shelve).shelve_id
-                    console.log(shelveId)
-                    fetchItemsData(`http://localhost:3000/warehouse/items/shelve?shelve=${shelveId}`)
+                    this.fetchItemsData(`http://localhost:3000/warehouse/items/shelve?shelve=${shelveId}`)
                     return
                 }
             }
         }
     },
     mounted() {
-        this.emitter.on("refreshing", (state) => {
+        this.emitter.on("refreshing", state => {
             if (state) {
                 this.loading = true
             } else {
@@ -57,7 +75,7 @@ export default {
         <div class="actionBtn" id="btn2" @click="toggleFindModal">Kod kreskowy</div>
         <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">Lokalizacja</div>
         <div class="actionBtn" id="btn4">Usuń</div>
-        <div class="actionBtn" id="btn5" @click="onRefresh" :class="{active: this.loading}"><img src="@/assets/refresh.svg"/></div>
+        <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg" :class="{active: this.loading}"/></div>
     </div>
 </template>
 <style>

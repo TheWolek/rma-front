@@ -1,13 +1,28 @@
 <script>
 import itemRow from './itemRow.vue'
+import loadingDots from '../../icons/loadingDots.vue'
 import { mapState } from 'vuex'
-import store from '../../../store'
+import LoadingDots from '../../icons/loadingDots.vue'
 
 export default {
-    components: {itemRow},
+    data() {
+        return {
+            loading: false
+        }
+    },
+    components: {itemRow, LoadingDots},
     computed: {
         ...mapState({
             items: state => state.items.items
+        })
+    },
+    mounted() {
+        this.emitter.on("refreshing", state => {
+            if (state) {
+                this.loading = true
+            } else {
+                this.loading = false
+            }
         })
     }
 }
@@ -15,6 +30,9 @@ export default {
 <template>
     <div class="itemsTable">
         <table>
+            <div class="loadingWrap" :class="{active: this.loading}">
+                <loading-dots :active="this.loading"/>
+            </div>
             <tr>
                 <th></th>
                 <th>ID zgłoszenia</th>
@@ -39,6 +57,7 @@ export default {
     }
 
     table {
+        position: relative;
         border-collapse: collapse;
         margin: 12px 0;
         font-size: .9em;
@@ -46,6 +65,16 @@ export default {
         table-layout: fixed;
         width: 80%;
         color: var(--vt-c-black);
+    }
+
+    table .loadingWrap.active {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(85, 85, 85, 0.322);
+        z-index: 2;
     }
 
     table th {
