@@ -1,6 +1,5 @@
 <script>
 import itemRow from './itemRow.vue'
-import loadingDots from '../../icons/loadingDots.vue'
 import { mapState } from 'vuex'
 import LoadingDots from '../../icons/loadingDots.vue'
 
@@ -31,7 +30,7 @@ export default {
     <div class="itemsTable">
         <table>
             <div class="loadingWrap" :class="{active: this.loading}">
-                <loading-dots :active="this.loading"/>
+                <LoadingDots :active="this.loading"/>
             </div>
             <tr>
                 <th></th>
