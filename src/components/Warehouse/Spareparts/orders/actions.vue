@@ -1,4 +1,5 @@
 <script>
+import store from '../../../../store'
 export default {
     data() {
         return {
@@ -7,7 +8,7 @@ export default {
     },
     methods: {
         toggleNewModal() {
-
+            store.commit("sparepartsOrders/toggleCreateModal")
         },
         toggleFindModal() {
 
@@ -15,6 +16,15 @@ export default {
         onRefresh() {
             
         }
+    },
+    mounted() {
+        this.emitter.on("refreshing", state => {
+            if (state) {
+                this.loading = true
+            } else {
+                this.loading = false
+            }
+        })
     }
 }
 </script>
