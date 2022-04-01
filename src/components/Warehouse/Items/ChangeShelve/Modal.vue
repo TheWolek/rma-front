@@ -29,7 +29,6 @@ export default {
     },
     methods: {
         toggleModal() {
-            // this.modal_active = !this.modal_active
             store.commit("changeShelve/toggleModal")
             this.error_active_code = ''
             this.error_new_code = ''
@@ -80,7 +79,6 @@ export default {
             
             if(this.active_code == this.new_code) return this.displayError("nowa lokalizacja nie może być identyczna jak obecna", "new_code")
             
-            // this.emitter.emit("active_shelve", {active: this.active_code, new: this.new_code})
             store.commit("changeShelve/toggleFormStatus", {status: true, active: this.active_code, new: this.new_code})
             this.toggleModal()
             this.active_code = ''

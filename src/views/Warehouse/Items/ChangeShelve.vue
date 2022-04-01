@@ -11,10 +11,6 @@ export default {
     mounted() {
         const route = useRoute()
         if (route.params.barcode != undefined && route.params.activeShelve != undefined) {
-            // this.emitter.emit("changeShelve_outside_new", {
-            //     outside_barcode: route.params.barcode,
-            //     outside_shelve: route.params.activeShelve
-            // })
             store.dispatch("changeShelve/setDataFromOutside", {
                 outside_barcode: route.params.barcode,
                 outside_shelve_id: route.params.activeShelve,
