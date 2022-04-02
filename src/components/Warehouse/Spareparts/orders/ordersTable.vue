@@ -28,11 +28,10 @@ export default {
 </script>
 <template>
     <div class="sparepartsOrdersTable">
-        
-        <table> 
-            <div class="loadingWrap" :class="{active: this.loading}">
-                <LoadingDots :active="this.loading"/>
-            </div>
+        <div class="tableLoadingWrap" :class="{active: this.loading}">
+            <LoadingDots :active="this.loading"/>
+        </div>
+        <table>
             <tr>
                 <th></th>
                 <th>kategoria</th>
@@ -64,16 +63,16 @@ export default {
         width: 5%;
     }
 
-    table .loadingWrap {
+    .tableLoadingWrap {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 70%;
         height: 100%;
         display: none
     }
 
-    table .loadingWrap.active {
+    .tableLoadingWrap.active {
         display: block;
         background: rgba(85, 85, 85, 0.322);
         z-index: 2;
