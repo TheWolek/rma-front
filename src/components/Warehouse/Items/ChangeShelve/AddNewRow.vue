@@ -39,9 +39,7 @@ export default {
         onAdd() {
             if (this.codeToAdd != '') {
                 if (!this.reg.test(this.codeToAdd)) return this.onFail("niepoprawny format")
-                if (!this.allowedProducts.includes(this.codeToAdd)) {
-                    console.log("item", this.codeToAdd, "is not in shelve"); return this.onFail("brak produktu")
-                }
+                if (!this.allowedProducts.includes(this.codeToAdd)) return this.onFail("brak produktu")
                 if (this.codeAlreadyEntered(this.codeToAdd)) return this.onFail("kod już wprowadzony")
                 store.dispatch("changeShelve/addItem", {
                     barcode: this.codeToAdd,
@@ -116,7 +114,6 @@ export default {
                     if (error.status == 404) {
                         return this.failNotify("Bierząca lokalizacja jest pusta")
                     }
-
                     return console.log(error)
                 })
         }

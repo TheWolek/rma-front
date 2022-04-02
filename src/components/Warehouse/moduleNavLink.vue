@@ -13,7 +13,6 @@ export default {
     },
     methods: {
         toggleExpand(el) {
-            console.log(el.target)
             el.target.classList.toggle("active")
             let content = el.target.nextElementSibling
             if (content.style.maxHeight) {

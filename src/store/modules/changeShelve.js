@@ -16,19 +16,15 @@ const mutations = {
         if (data != '') {
             state.modalData = data
         }
-        console.log("modalToggle", state.modal_active)
     },
     toggleFormStatus(state, status) {
         state.form_active = status
-        console.log("toggleFormStatus", status)
     },
     setItems(state, newValue) {
         state.items = newValue
-        console.log("setItems", newValue)
     },
     addItem(state, toAdd) {
         state.items.push(toAdd)
-        console.log("addItem", state.items)
     },
     removeItem(state, barcodeToRemove) {
         let indexToRemove = state.items.findIndex(o => o.barcode == barcodeToRemove)
@@ -92,7 +88,6 @@ const actions = {
         }, 4500)
     },
     setDataFromOutside({ commit, dispatch }, data) {
-        console.log(data)
         commit("toggleModal", data.outside_shelve_code)
         dispatch("addItem", {
             barcode: data.outside_barcode,

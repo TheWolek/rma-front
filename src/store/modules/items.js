@@ -46,7 +46,6 @@ const mutations = {
 
 const actions = {
     submitModal_Create({ commit }, data) {
-        console.log(data)
         commit("clearItems")
         commit("clearFilter")
         commit("setFilter", {
@@ -57,7 +56,6 @@ const actions = {
         commit("addItem", data)
     },
     submitModal_Find({ commit }, data) {
-        console.log(data)
         commit("clearItems")
         commit("clearFilter")
         commit("setFilter", {
@@ -68,7 +66,6 @@ const actions = {
         commit("addItem", data)
     },
     submitModal_FindShelve({ commit }, data) {
-        console.log(data)
         commit("clearItems")
         commit("clearFilter")
         commit("setFilter", {

@@ -75,7 +75,6 @@ const actions = {
         commit("addItem", data)
     },
     submitModal_Find({ commit }, data) {
-        console.log(data)
         commit("clearOrders")
         commit("clearFilter")
         commit("setFilter", data.filters)
