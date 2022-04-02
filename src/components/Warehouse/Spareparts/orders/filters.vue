@@ -24,6 +24,8 @@ export default {
         </div>
     </div>
 </template>
-<style>
-
+<style scoped>
+    .filterWrap {
+        height: 23px;
+    }
 </style>
