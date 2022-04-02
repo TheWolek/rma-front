@@ -84,31 +84,6 @@ export default {
     </div>
 </template>
 <style>
-    .actions {
-        padding: .3em 0 .8em 0;
-        display: flex;
-        gap: 1em;
-    }
-
-    .actionBtn {
-        background: rgb(205, 206, 207);
-        color: var(--vt-c-black-mute);
-        font-weight: bold;
-        transition: background-color .2s ease-out;
-        padding: .2em .5em;
-        position: relative;
-        display: flex;
-    }
-
-    .actionBtn:hover {
-        cursor: pointer;
-        background: rgb(195, 196, 197);
-    }
-
-    .actionBtn img {
-        width: 20px;
-    }
-
     #btn5 img {
         transition: transform .2s ease-out;
     }

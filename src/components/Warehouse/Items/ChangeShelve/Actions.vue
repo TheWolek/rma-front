@@ -105,36 +105,6 @@ export default {
     </div> 
 </template>
 <style>
-    .actions {
-        padding: .5em;
-        display: flex;
-        gap: 1em;
-        border-bottom: 2px solid rgb(25, 103, 175);
-    }
-
-    .actionBtn {
-        background: rgb(205, 206, 207);
-        color: var(--vt-c-black-mute);
-        font-weight: bold;
-        transition: background-color .2s ease-out;
-        padding: .2em .5em;
-        position: relative;
-        display: flex;
-    }
-
-    .actionBtn:hover {
-        cursor: pointer;
-        background: rgb(195, 196, 197);
-    }
-
-    .actionBtn.disabled {
-        color: #939393;
-    }
-
-    .actionBtn.disabled:hover {
-        cursor: not-allowed;
-    }
-
     #changeShelveResponse-msg {
         font-size: 1em;
         padding: 0 .5em 0 1em;
