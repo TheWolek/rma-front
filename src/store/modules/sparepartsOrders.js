@@ -8,11 +8,9 @@ const state = {
         2: { id: 2, "name": "zakończony" }
     },
     orders: [],
-    appliedFilter: {
+    appliedFilters: {
         active: false,
-        partCatId: null,
-        status: null,
-        expDate: null
+        names: {}
     },
     activeContextMenu: false
 }
@@ -31,15 +29,13 @@ const mutations = {
         state.orders = []
     },
     clearFilter(state) {
-        state.appliedFilter = {
+        state.appliedFilters = {
             active: false,
-            partCatId: null,
-            status: null,
-            expDate: null
+            names: {}
         }
     },
     setFilter(state, data) {
-        state.appliedFilter = data
+        state.appliedFilters = data
     },
     setOrders(state, orders) {
         state.orders = orders

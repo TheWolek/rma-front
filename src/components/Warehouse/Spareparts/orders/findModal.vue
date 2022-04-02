@@ -66,7 +66,17 @@ import store from '../../../../store'
                 .then(async res => {
                     this.emitter.emit("refreshing", true)
                     const resData = await res.json()
-                    const filters = {"model": this.model, "status": this.status, "expDate": this.date}
+                    let filters = {
+                        active: true, 
+                        names: {}
+                    }
+
+                    let model = this.categories.find(o => o.part_cat_id === this.model)
+
+                    if (this.model !== '') filters.names.partCatId = model.producer + " " + model.name
+                    if (this.status !== '') filters.names.status = this.statuses[this.status].name
+                    if (this.date !== '') filters.names.expDate = this.date
+
                     if (!res.ok) {
                         this.emitter.emit("refreshing", false)
                         if (res.status == 404) {
