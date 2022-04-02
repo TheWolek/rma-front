@@ -37,6 +37,11 @@ const mutations = {
     setFilter(state, data) {
         state.appliedFilters = data
     },
+    removeFilter(state, filterToDel) {
+        if (filterToDel == "partCatId") return delete state.appliedFilters.names.partCatId
+        if (filterToDel == "status") return delete state.appliedFilters.names.status
+        if (filterToDel == "expDate") return delete state.appliedFilters.names.expDate
+    },
     setOrders(state, orders) {
         state.orders = orders
     }
@@ -76,6 +81,46 @@ const actions = {
         commit("setFilter", data.filters)
         commit("setOrders", data.data)
     },
+    deleteFilter({ commit, dispatch }, filter) {
+        commit("removeFilter", filter)
+        dispatch("fetchOrdersByFilters")
+    },
+    fetchOrdersByFilters({ commit, state }) {
+        const filters = Object.entries(state.appliedFilters.names)
+
+        if (filters.length === 0) {
+            return commit("clearOrders")
+        }
+
+        let url = `http://localhost:3000/warehouse/spareparts/orders/?`
+        let active = 0
+
+        filters.forEach(el => {
+            const [key, value] = el
+            if (active > 0) url += "&"
+            url += `${key}=${value[1]}`
+            active++
+        })
+
+        fetch(url)
+            .then(async res => {
+                const resData = await res.json()
+                if (!res.ok) {
+                    if (res.status == 404) {
+                        commit("setOrders", [])
+                        return
+                    }
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+                setTimeout(() => {
+                    commit("setOrders", resData)
+                }, 500)
+            })
+            .catch(error => {
+                return console.log(error)
+            })
+    }
 }
 
 export default {

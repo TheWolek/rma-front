@@ -1,11 +1,7 @@
 <script>
 import { mapState } from 'vuex'
+import store from '../../../../store'
 export default {
-    data() {
-        return {
-            filters: {}
-        }
-    },
     computed: {
         ...mapState({
             appliedFilters: state => state.sparepartsOrders.appliedFilters
@@ -13,7 +9,7 @@ export default {
     },
     methods: {
         deleteFilter(filter) {
-
+            store.dispatch("sparepartsOrders/deleteFilter", filter)
         }
     }
 }
@@ -21,8 +17,8 @@ export default {
 <template>
     <div>
         <div class="filterWrap" :class="{active: this.appliedFilters.active}">
-            <div v-for="(val, key) in appliedFilters.names" :key="key" class="filterChip" @click="()=>{deleteFilter()}">
-                {{val}}
+            <div v-for="(val, key) in appliedFilters.names" :key="key" class="filterChip" @click="()=>{deleteFilter(key)}">
+                {{val[0]}}
                 <div class="close"></div>
             </div>
         </div>

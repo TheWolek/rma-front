@@ -58,7 +58,7 @@ import store from '../../../../store'
                     url += `status=${this.status}`
                 }
                 if (this.date !== '') {
-                    if (this.model !== '' || this.status != '') url += `&`
+                    if (this.model !== '' || this.status !== '') url += `&`
                     url += `expDate=${this.date}`
                 }
                 
@@ -73,9 +73,9 @@ import store from '../../../../store'
 
                     let model = this.categories.find(o => o.part_cat_id === this.model)
 
-                    if (this.model !== '') filters.names.partCatId = model.producer + " " + model.name
-                    if (this.status !== '') filters.names.status = this.statuses[this.status].name
-                    if (this.date !== '') filters.names.expDate = this.date
+                    if (this.model !== '') filters.names.partCatId = [model.producer + " " + model.name, this.model]
+                    if (this.status !== '') filters.names.status = [this.statuses[this.status].name, this.status]
+                    if (this.date !== '') filters.names.expDate = [this.date, this.date] //[this.date, new Date(this.date).toISOString()]
 
                     if (!res.ok) {
                         this.emitter.emit("refreshing", false)
