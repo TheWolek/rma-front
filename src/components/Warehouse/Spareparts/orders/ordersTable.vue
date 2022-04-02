@@ -62,19 +62,4 @@ export default {
     .sparepartsOrdersTable table tr th:last-of-type, .sparepartsOrdersTable table tr td:last-of-type {
         width: 5%;
     }
-
-    .tableLoadingWrap {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 70%;
-        height: 100%;
-        display: none
-    }
-
-    .tableLoadingWrap.active {
-        display: block;
-        background: rgba(85, 85, 85, 0.322);
-        z-index: 2;
-    }
 </style>

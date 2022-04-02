@@ -45,13 +45,4 @@ export default {
     table#changeShelve {
         width: 80%;
     }
-
-    /* table#changeShelve tr th:nth-child(2), table#changeShelve tr td:nth-child(2),
-    table#changeShelve tr th:nth-child(4), table#changeShelve tr td:nth-child(4) {
-        width: 30%;
-    }
-    
-    table#changeShelve tr th:nth-child(5), table#changeShelve tr td:nth-child(5) {
-        width: 30%;
-    } */
 </style>
