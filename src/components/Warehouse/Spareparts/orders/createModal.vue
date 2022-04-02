@@ -65,7 +65,7 @@ export default {
                 <div class="form-group">
                    <label for="date">data dostawy</label>
                     <div>
-                        <input type="date" id="date" v-model.lazy="date" @change="onChangeDate"/>
+                        <input type="date" id="date" v-model.lazy="date" @change="onChangeDate" :min="new Date().toISOString().split('T')[0]"/>
                         <p id="error_date" class="error_modal_form">{{this.error_date}}</p>
                     </div> 
                 </div>
