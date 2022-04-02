@@ -126,7 +126,7 @@ table tr:last-of-type {
   border-bottom: 2px solid rgb(31, 125, 212);
 }
 
-.tableLoaingWrap {
+.tableLoadingWrap {
   position: absolute;
   top: 0;
   left: 0;
