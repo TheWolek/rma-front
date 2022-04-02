@@ -13,7 +13,8 @@ export default {
     },
     computed:{
         ...mapState({
-            createModalActive: state => state.sparepartsOrders.createModal_active
+            createModalActive: state => state.sparepartsOrders.createModal_active,
+            categories: state => state.sparepartsOrders.categories
         })
     },
     methods: {
@@ -50,6 +51,7 @@ export default {
                     <div>
                         <select id="model" v-model="model">
                             <option disabled value="">Model</option>
+                            <option v-for="el in categories" :key="el.part_cat_id">{{el.producer + " " + el.name}}</option>
                         </select>
                     </div> 
                 </div>
