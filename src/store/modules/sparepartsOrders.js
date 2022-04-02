@@ -12,7 +12,8 @@ const state = {
         active: false,
         names: {}
     },
-    activeContextMenu: false
+    activeContextMenu: false,
+    refreshingTable: false
 }
 
 const mutations = {
@@ -44,6 +45,9 @@ const mutations = {
     },
     setOrders(state, orders) {
         state.orders = orders
+    },
+    toggleRefreshTable(state, mode) {
+        state.refreshingTable = mode
     }
 }
 
@@ -86,10 +90,13 @@ const actions = {
         dispatch("fetchOrdersByFilters")
     },
     fetchOrdersByFilters({ commit, state }) {
+        commit("toggleRefreshTable", true)
         const filters = Object.entries(state.appliedFilters.names)
 
         if (filters.length === 0) {
-            return commit("clearOrders")
+            commit("clearOrders")
+            commit("toggleRefreshTable", false)
+            return
         }
 
         let url = `http://localhost:3000/warehouse/spareparts/orders/?`
@@ -108,6 +115,7 @@ const actions = {
                 if (!res.ok) {
                     if (res.status == 404) {
                         commit("setOrders", [])
+                        commit("toggleRefreshTable", false)
                         return
                     }
                     const error = (resData && resData.message) || res.status
@@ -115,6 +123,7 @@ const actions = {
                 }
                 setTimeout(() => {
                     commit("setOrders", resData)
+                    commit("toggleRefreshTable", false)
                 }, 500)
             })
             .catch(error => {

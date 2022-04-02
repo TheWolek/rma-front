@@ -4,24 +4,11 @@ import LoadingDots from "../../../icons/loadingDots.vue"
 import row from './row.vue'
 
 export default {
-    data() {
-        return {
-            loading: false
-        }
-    },
     components: {LoadingDots, row},
     computed: {
         ...mapState({
-            orders: state => state.sparepartsOrders.orders
-        })
-    },
-    mounted() {
-        this.emitter.on("refreshing", state => {
-            if (state) {
-                this.loading = true
-            } else {
-                this.loading = false
-            }
+            orders: state => state.sparepartsOrders.orders,
+            loading: state => state.sparepartsOrders.refreshingTable
         })
     }
 }

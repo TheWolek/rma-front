@@ -64,7 +64,7 @@ import store from '../../../../store'
                 
                 fetch(url)
                 .then(async res => {
-                    this.emitter.emit("refreshing", true)
+                    store.commit("sparepartsOrders/toggleRefreshTable", true)
                     const resData = await res.json()
                     let filters = {
                         active: true, 
@@ -78,7 +78,7 @@ import store from '../../../../store'
                     if (this.date !== '') filters.names.expDate = [this.date, this.date] //[this.date, new Date(this.date).toISOString()]
 
                     if (!res.ok) {
-                        this.emitter.emit("refreshing", false)
+                        store.commit("sparepartsOrders/toggleRefreshTable", false)
                         if (res.status == 404) {
                             store.dispatch("sparepartsOrders/submitModal_Find", {
                                 data: [],
@@ -96,7 +96,7 @@ import store from '../../../../store'
                             data: resData, 
                             filters: filters
                         })
-                        this.emitter.emit("refreshing", false)
+                        store.commit("sparepartsOrders/toggleRefreshTable", false)
                     }, 500)
                 })
                 .catch(error => {

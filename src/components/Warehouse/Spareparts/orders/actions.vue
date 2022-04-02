@@ -1,11 +1,7 @@
 <script>
+import { mapState } from 'vuex'
 import store from '../../../../store'
 export default {
-    data() {
-        return {
-            loading: false
-        }
-    },
     methods: {
         toggleNewModal() {
             store.commit("sparepartsOrders/toggleCreateModal")
@@ -17,13 +13,9 @@ export default {
             
         }
     },
-    mounted() {
-        this.emitter.on("refreshing", state => {
-            if (state) {
-                this.loading = true
-            } else {
-                this.loading = false
-            }
+    computed: {
+        ...mapState({
+            loading: state => state.sparepartsOrders.refreshingTable
         })
     }
 }
