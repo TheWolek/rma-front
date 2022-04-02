@@ -25,6 +25,7 @@ export default {
                 this.loading = false
             }
         })
+        console.log(this.sparepartsCategories)
     }
 }
 </script>
