@@ -1,11 +1,12 @@
 <script>
 import actions from '../../../components/Warehouse/Spareparts/orders/actions.vue'
 import createModal from '../../../components/Warehouse/Spareparts/orders/createModal.vue'
+import findModal from '../../../components/Warehouse/Spareparts/orders/findModal.vue'
 import Table from '../../../components/Warehouse/Spareparts/orders/ordersTable.vue'
 import store from '../../../store'
 
 export default {
-  components: {actions, createModal, Table},
+  components: {actions, createModal, findModal, Table},
   mounted() {
     store.dispatch("sparepartsOrders/fetchAllCategories")
   }
@@ -14,6 +15,7 @@ export default {
 <template>
   <div id="warehouseSparepartsOrders">
     <createModal/>
+    <findModal/>
     <actions/>
     <div class="warehouseSparepartsOrders_wrap">
       <h1>Dostawy części zamiennych</h1>
@@ -30,5 +32,9 @@ export default {
 
 .warehouseSparepartsOrders_wrap {
   padding: .5em;
+}
+
+.error_modal_form.active {
+  opacity: 1;
 }
 </style>

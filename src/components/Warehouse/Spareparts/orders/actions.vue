@@ -11,7 +11,7 @@ export default {
             store.commit("sparepartsOrders/toggleCreateModal")
         },
         toggleFindModal() {
-
+            store.commit("sparepartsOrders/toggleFindModal")
         },
         onRefresh() {
             
