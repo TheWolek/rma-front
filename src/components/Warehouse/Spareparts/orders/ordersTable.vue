@@ -1,6 +1,7 @@
 <script>
 import { mapState } from 'vuex'
 import LoadingDots from "../../../icons/loadingDots.vue"
+import row from './row.vue'
 
 export default {
     data() {
@@ -8,7 +9,7 @@ export default {
             loading: false
         }
     },
-    components: {LoadingDots},
+    components: {LoadingDots, row},
     computed: {
         ...mapState({
             orders: state => state.sparepartsOrders.orders
@@ -38,10 +39,11 @@ export default {
                 <th>producent</th>
                 <th>model</th>
                 <th>ilość</th>
-                <th>data dostawy</th>
+                <th>planowana data dostawy</th>
                 <th>status</th>
                 <th>akcje</th>
             </tr>
+            <row v-for="order in orders" :key="order.part_order_id" :data="order"/>
         </table>
     </div>
 </template>

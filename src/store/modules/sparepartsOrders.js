@@ -14,6 +14,7 @@ const state = {
         status: null,
         expDate: null
     },
+    activeContextMenu: false
 }
 
 const mutations = {
