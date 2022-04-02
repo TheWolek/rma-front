@@ -66,12 +66,20 @@ import store from '../../../../store'
                 .then(async res => {
                     this.emitter.emit("refreshing", true)
                     const resData = await res.json()
+                    const filters = {"model": this.model, "status": this.status, "expDate": this.date}
                     if (!res.ok) {
                         this.emitter.emit("refreshing", false)
+                        if (res.status == 404) {
+                            store.dispatch("sparepartsOrders/submitModal_Find", {
+                                data: [],
+                                filters, filters
+                            })
+                            this.toggleModal()
+                            return
+                        }
                         const error = (resData && resData.message) || res.status
                         return Promise.reject(error)
                     }
-                    const filters = {"model": this.model, "status": this.status, "expDate": this.date}
                     this.toggleModal()
                     setTimeout(() => {
                         store.dispatch("sparepartsOrders/submitModal_Find", {
