@@ -27,19 +27,4 @@ fetch("http://localhost:3000/warehouse/shelve")
         console.log(error)
     })
 
-fetch("http://localhost:3000/warehouse/spareparts/categories")
-    .then(async res => {
-        const resData = await res.json()
-
-        if (!res.ok) {
-            const error = (resData && resData.message) || res.status
-            return Promise.reject(error)
-        }
-
-        app.config.globalProperties.sparepartsCategories = resData
-    })
-    .catch(error => {
-        console.log(error)
-    })
-
 app.mount('#app')
