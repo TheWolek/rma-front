@@ -31,9 +31,6 @@ export default {
         },
         onChangeAmount() {
 
-        },
-        onChangeDate() {
-
         }
     }
 }
@@ -51,7 +48,7 @@ export default {
                     <div>
                         <select id="model" v-model="model">
                             <option disabled value="">Model</option>
-                            <option v-for="el in categories" :key="el.part_cat_id">{{el.producer + " " + el.name}}</option>
+                            <option v-for="el in categories" :key="el.part_cat_id" :value="el.part_cat_id">{{el.producer + " " + el.name}}</option>
                         </select>
                     </div> 
                 </div>
@@ -65,7 +62,7 @@ export default {
                 <div class="form-group">
                    <label for="date">data dostawy</label>
                     <div>
-                        <input type="date" id="date" v-model.lazy="date" @change="onChangeDate" :min="new Date().toISOString().split('T')[0]"/>
+                        <input type="date" id="date" v-model="date" :min="new Date().toISOString().split('T')[0]"/>
                         <p id="error_date" class="error_modal_form">{{this.error_date}}</p>
                     </div> 
                 </div>
