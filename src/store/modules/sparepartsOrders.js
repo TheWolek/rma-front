@@ -77,7 +77,7 @@ const actions = {
         //     status: null,
         //     expDate: null
         // })
-        commit("addItem", data)
+        commit("setOrders", [data])
     },
     submitModal_Find({ commit }, data) {
         commit("clearOrders")
