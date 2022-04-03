@@ -1,0 +1,73 @@
+form {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: .5em;
+}
+
+form input {
+    width: 70%;
+    padding: .35em 0;
+}
+
+form label {
+    color: var(--vt-c-black-mute)
+}
+
+form input[type="submit"] {
+    margin-top: .3em;
+    width: 40%;
+}
+
+form select,
+form input[type="date"],
+form input[type="number"] {
+    width: 90%;
+    padding: 0.35em;
+}
+
+form input[type="number"]::-webkit-outer-spin-button,
+form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+form .topBar {
+    display: flex;
+    gap: 2em;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .3em;
+    width: 12%;
+}
+
+form .form-group label {
+    margin-left: .3em;
+    color: var(--vt-c-black-mute)
+}
+
+form input {
+    padding: .35em 0;
+}
+
+form input[type="text"] {
+    width: 90%;
+    padding-left: .5em;
+}
+
+form input:disabled,
+form select:disabled,
+form select:disabled option {
+    background: rgb(209 209 209);
+    border: 1px solid #000;
+    color: var(--vt-c-black-mute);
+}
+
+form input:disabled:hover,
+form select:disabled:hover {
+    cursor: not-allowed;
+}
