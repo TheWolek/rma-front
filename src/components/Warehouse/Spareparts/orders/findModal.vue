@@ -147,7 +147,7 @@ import store from '../../../../store'
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     #sparepartsOrderFindModalWrap .form-group {
         width: 100%;
     }

@@ -136,19 +136,8 @@ export default {
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     #sparepartsOrderCreateModalWrap .form-group {
         width: 100%;
-    }
-
-    form select, form input[type="date"], form input[type="number"] {
-        width: 90%;
-        padding: 0.35em;
-    }
-
-    form input[type="number"]::-webkit-outer-spin-button, 
-    form input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
     }
 </style>

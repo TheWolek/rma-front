@@ -70,6 +70,3 @@ export default {
         </td>
     </tr>
 </template>
-<style>
-
-</style>

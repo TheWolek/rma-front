@@ -33,7 +33,7 @@ export default {
         </table>
     </div>
 </template>
-<style>
+<style scoped>
     .sparepartsOrdersTable table {
         width: 70%;
     }
