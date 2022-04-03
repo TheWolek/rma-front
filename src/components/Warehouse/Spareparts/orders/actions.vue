@@ -10,7 +10,7 @@ export default {
             store.commit("sparepartsOrders/toggleFindModal")
         },
         onRefresh() {
-            
+            store.dispatch("sparepartsOrders/fetchOrdersByFilters")
         }
     },
     computed: {
