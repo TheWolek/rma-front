@@ -1,5 +1,6 @@
 <script>
 import { mapState } from 'vuex'
+import store from '../../../../store'
 export default {
     props: ["data"],
     data() {
@@ -25,6 +26,23 @@ export default {
     },
     mounted() {
         this.modelData = this.categories.find( o => o.part_cat_id === this.data.part_cat_id)
+    },
+    methods: {
+        toggleMenu() {
+            if (!this.activeMenu) {
+                store.dispatch("sparepartsOrders/setContextMenu", this.data.part_order_id)
+            } else {
+                store.dispatch("sparepartsOrders/closeContextMenu")
+            }
+        },
+        changeStatus() {
+            store.dispatch("sparepartsOrders/closeContextMenu")
+            store.dispatch("sparepartsOrders/toggleEditModal", {...this.data, mode: "status"})
+        },
+        edit() {
+            store.dispatch("sparepartsOrders/closeContextMenu")
+            store.dispatch("sparepartsOrders/toggleEditModal",{...this.data, mode: "all"})
+        }
     }
 }
 </script>
@@ -34,7 +52,7 @@ export default {
         <td>{{this.modelData.category}}</td>
         <td>{{this.modelData.producer}}</td>
         <td>{{this.modelData.name}}</td>
-        <td>{{this.data.amount}}</td>
+        <td>{{this.data.amount}} szt</td>
         <td>{{this.expDate}}</td>
         <td>{{this.statuses[this.data.status].name}}</td>
         <td class="actionCell">
@@ -45,8 +63,8 @@ export default {
             </div>
             <div class="menu" :class="{active: this.check}">
                 <ul>
-                    <li @click="changeLocalization">Zmień lokalizacje</li>
-                    <li>Usuń</li>
+                    <li @click="changeStatus">Zmień status</li>
+                    <li @click="edit">Edytuj</li>
                 </ul>
             </div>
         </td>

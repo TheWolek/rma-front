@@ -83,13 +83,13 @@ form input[type="text"] {
     padding-left: .5em;
 }
 
-form input:disabled {
+form input:disabled, form select:disabled, form select:disabled option {
     background: rgb(209 209 209);
     border: 1px solid #000;
-    color: var(--vt-c-black-mute)
+    color: var(--vt-c-black-mute);
 }
 
-form input:disabled:hover {
+form input:disabled:hover, form select:disabled:hover {
     cursor: not-allowed;
 }
 </style>

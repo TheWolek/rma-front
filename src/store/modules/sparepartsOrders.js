@@ -1,6 +1,7 @@
 const state = {
     createModal_active: false,
     findModal_active: false,
+    editModal_active: false,
     categories: [],
     statuses: {
         0: { id: 0, "name": "nowy" },
@@ -13,7 +14,8 @@ const state = {
         names: {}
     },
     activeContextMenu: false,
-    refreshingTable: false
+    refreshingTable: false,
+    editModal_outsideData: {}
 }
 
 const mutations = {
@@ -22,6 +24,9 @@ const mutations = {
     },
     toggleFindModal(state) {
         state.findModal_active = !state.findModal_active
+    },
+    toggleEditModal(state) {
+        state.editModal_active = !state.editModal_active
     },
     setCategories(state, data) {
         state.categories = data
@@ -48,6 +53,19 @@ const mutations = {
     },
     toggleRefreshTable(state, mode) {
         state.refreshingTable = mode
+    },
+    clearContextMenu(state) {
+        state.activeContextMenu = null
+    },
+    setContextMenu(state, id) {
+        state.activeContextMenu = id
+    },
+    setEditModalOutsideData(state, data) {
+        console.log(data)
+        state.editModal_outsideData = data
+    },
+    clearEditModalOutsideData(state) {
+        state.editModal_outsideData = {}
     }
 }
 
@@ -129,6 +147,22 @@ const actions = {
             .catch(error => {
                 return console.log(error)
             })
+    },
+    closeContextMenu({ commit }) {
+        commit("clearContextMenu")
+    },
+    setContextMenu({ commit }, id) {
+        commit("setContextMenu", id)
+    },
+    toggleEditModal({ commit, state }, data) {
+        if (state.editModal_active) {
+            commit("toggleEditModal")
+            commit("clearEditModalOutsideData")
+            return
+        } else {
+            commit("setEditModalOutsideData", data)
+            commit("toggleEditModal")
+        }
     }
 }
 
