@@ -33,7 +33,7 @@ export default {
         <td>{{model}}</td>
     </tr>    
 </template>
-<style>
+<style scoped>
     td .deleteIcon {
         display: block;
         width: 100%;

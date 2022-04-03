@@ -25,7 +25,7 @@ export default {
         <ChangeShelveNew/>
     </table>
 </template>
-<style>
+<style scoped>
     table#changeShelve tr th:nth-child(1), table#changeShelve tr td:nth-child(1) {
         width: 2%;
     }

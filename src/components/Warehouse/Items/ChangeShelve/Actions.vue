@@ -104,7 +104,7 @@ export default {
         <div id="changeShelveResponse-msg" :class="notificationVisible">{{notification.message}}<span id="close_notifi" @click="disMissNotification"></span></div>
     </div> 
 </template>
-<style>
+<style scoped>
     #changeShelveResponse-msg {
         font-size: 1em;
         padding: 0 .5em 0 1em;

@@ -51,7 +51,7 @@ export default {
         </div>
     </form>
 </template>
-<style>
+<style scoped>
 form#changeShelveForm {
     padding: 0;
     width: 90%;

@@ -135,7 +135,7 @@ export default {
         <td></td>
     </tr>    
 </template>
-<style>
+<style scoped>
     input#addInput {
         width: 100% !important;
     }
