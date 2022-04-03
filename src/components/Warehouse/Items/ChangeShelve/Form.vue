@@ -56,40 +56,4 @@ form#changeShelveForm {
     padding: 0;
     width: 90%;
 }
-
-form .topBar {
-    display: flex;
-    gap: 2em;
-}
-
-form .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: .3em;
-    width: 12%;
-}
-
-form .form-group label {
-    margin-left: .3em;
-    color: var(--vt-c-black-mute)
-}
-
-form input {
-    padding: .35em 0;
-}
-
-form input[type="text"] {
-    width: 90%;
-    padding-left: .5em;
-}
-
-form input:disabled, form select:disabled, form select:disabled option {
-    background: rgb(209 209 209);
-    border: 1px solid #000;
-    color: var(--vt-c-black-mute);
-}
-
-form input:disabled:hover, form select:disabled:hover {
-    cursor: not-allowed;
-}
 </style>

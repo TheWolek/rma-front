@@ -221,4 +221,120 @@ table tr:last-of-type {
 .filterChip .close:after {
   transform: rotate(-45deg);
 }
+form {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: .5em;
+}
+
+form input {
+    width: 70%;
+    padding: .35em 0;
+}
+    
+form label {
+    color: var(--vt-c-black-mute)
+}
+
+form input[type="submit"] {
+    margin-top: .3em;
+    width: 40%;
+}
+
+form .topBar {
+    display: flex;
+    gap: 2em;
+}
+
+form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .3em;
+    width: 12%;
+}
+
+form .form-group label {
+    margin-left: .3em;
+    color: var(--vt-c-black-mute)
+}
+
+form input {
+    padding: .35em 0;
+}
+
+form input[type="text"] {
+    width: 90%;
+    padding-left: .5em;
+}
+
+form input:disabled, form select:disabled, form select:disabled option {
+    background: rgb(209 209 209);
+    border: 1px solid #000;
+    color: var(--vt-c-black-mute);
+}
+
+form input:disabled:hover, form select:disabled:hover {
+    cursor: not-allowed;
+}
+
+.error_modal_form {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    color: red;
+    font-size: .9em;
+}
+
+.bigModal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: rgba(184, 184, 184, 0.8);
+    display: none;
+    justify-content: flex-end;
+}
+    
+.bigModal.active {
+    display: flex;
+}
+
+.bigModal .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: .5em 0 0 .5em;
+    gap: 1em;
+}
+
+.bigModal .header h4 {
+    font-size: 18px;
+    color: var(--vt-c-black-mute)
+}
+
+.bigModal .formWrap {
+    background: #fff;
+    width: 40%;
+}
+
+.bigModal .formWrap #close {
+    margin: 0;
+    color: #000;
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+}
+
+.bigModal .formWrap #close:hover {
+    cursor: pointer;
+}
+
+.bigModal .formWrap #close::after {
+    display: inline-block;
+    content: "\00d7";
+    font-size: 35px;
+    transform: translateY(-28%) translateX(10%);
+}
 </style>
