@@ -80,25 +80,6 @@ export default {
         <div class="actionBtn" id="btn2" @click="toggleFindModal">Kod kreskowy</div>
         <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">Lokalizacja</div>
         <div class="actionBtn" id="btn4">Usuń</div>
-        <div class="actionBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg" :class="{active: this.loading}"/></div>
+        <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg" :class="{active: this.loading}"/></div>
     </div>
 </template>
-<style>
-    #btn5 img {
-        transition: transform .2s ease-out;
-    }
-
-    #btn5:hover img {
-        transform: rotate(90deg);
-    }
-
-    #btn5 img.active {
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>

@@ -126,6 +126,60 @@ table tr:last-of-type {
   border-bottom: 2px solid rgb(31, 125, 212);
 }
 
+table .actionCell {
+    position: relative;
+}
+
+table .actionCell .burger {
+    width: 25px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+table .actionCell .burger span {
+    background: #000;
+    display: block;
+    width:100%;
+    height: 4px;
+    border-radius: 5px;
+}
+
+table .actionCell .menu {
+    position: absolute;
+    top: 20%;
+    right: -140px;
+    width: 150px;
+    border:1px solid rgb(9, 40, 68);
+    border-radius: 4px;
+    display: none;
+    z-index: 10;
+}
+
+table .actionCell .menu.active {
+    display: block;
+}
+
+table .actionCell .menu ul li {
+    padding: .3em .5em;
+    background: rgb(25, 103, 175);
+    color: #fff;
+    transition: .2s ease-out;
+}
+
+table .actionCell .menu ul li+li {
+    border-top: 1px solid var(--vt-c-black-mute);
+}
+
+table .actionCell .menu ul li:hover {
+    cursor: pointer;
+    background: rgb(19, 82, 141);
+}
+
 .tableLoadingWrap {
   position: absolute;
   top: 0;
@@ -173,6 +227,24 @@ table tr:last-of-type {
 
 .actionBtn img {
   width: 20px;
+}
+
+.actionBtn.refreshBtn img {
+  transition: transform .2s ease-out;
+}
+
+.actionBtn.refreshBtn:hover img {
+  transform: rotate(90deg);
+}
+
+.actionBtn.refreshBtn img.active {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .filterWrap {

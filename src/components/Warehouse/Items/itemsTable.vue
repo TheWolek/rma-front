@@ -45,7 +45,7 @@ export default {
         
     </div>
 </template>
-<style>
+<style scoped>
     .itemsTable table tr th:nth-child(1), .itemsTable table tr td:nth-child(1) {
         width: 3%;
     }
