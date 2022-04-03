@@ -37,8 +37,4 @@ export default {
 .warehouseSparepartsOrders_wrap {
   padding: .5em;
 }
-
-.error_modal_form.active {
-  opacity: 1;
-}
 </style>

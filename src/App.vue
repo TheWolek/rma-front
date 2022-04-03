@@ -370,6 +370,10 @@ form input:disabled:hover, form select:disabled:hover {
   font-size: .9em;
 }
 
+.error_modal_form.active {
+  opacity: 1;
+}
+
 .bigModal {
   position: absolute;
   width: 100%;
