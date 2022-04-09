@@ -13,7 +13,9 @@ export default {
       store.dispatch("sparepartsOrders/fetchOrdersByFilters");
     },
     onCancel() {
-      store.commit("sparepartsOrders/toggleEditOrderMode");
+      if (this.editOrderMode) {
+        store.commit("sparepartsOrders/toggleEditOrderMode");
+      }
     },
   },
   computed: {
