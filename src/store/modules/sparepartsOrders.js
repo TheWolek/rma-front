@@ -191,11 +191,18 @@ const actions = {
     setContextMenu({ commit }, id) {
         commit("setContextMenu", id)
     },
-    toggleEditOrder({ commit, state }, data) {
+    toggleEditModal({ commit , state}, data) {
         if (state.editModal_active) {
-            //commit("toggleEditRowMode")
+            commit("toggleEditModal")
+            commit("clearEditModalOutsideData")
             return
         } else {
+            commit("setEditModalOutsideData", data)
+            commit("toggleEditModal")
+        }
+    },
+    toggleEditOrder({ commit, state }, data) {
+        if (!state.editOrderMode) {
             fetch(`http://localhost:3000/warehouse/spareparts/orders/?order_id=${data.part_order_id}`)
             .then(async res => {
                 const resData = await res.json()
