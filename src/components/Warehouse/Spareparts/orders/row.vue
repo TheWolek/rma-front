@@ -49,9 +49,8 @@ export default {
     },
     edit() {
       store.dispatch("sparepartsOrders/closeContextMenu");
-      store.dispatch("sparepartsOrders/toggleEditModal", {
+      store.dispatch("sparepartsOrders/toggleEditOrder", {
         ...this.data,
-        mode: "all",
       });
     },
   },

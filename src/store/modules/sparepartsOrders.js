@@ -10,13 +10,15 @@ const state = {
         2: { id: 2, "name": "zakończony" }
     },
     orders: [],
+    ordersItems: [],
     appliedFilters: {
         active: false,
         names: {}
     },
     activeContextMenu: false,
     refreshingTable: false,
-    editModal_outsideData: {}
+    editModal_outsideData: {},
+    editOrderMode: false
 }
 
 const mutations = {
@@ -69,6 +71,22 @@ const mutations = {
     },
     clearEditModalOutsideData(state) {
         state.editModal_outsideData = {}
+    },
+    toggleEditOrderMode(state) {
+        state.editOrderMode = !state.editOrderMode
+    },
+    clearOrdersItems(state) {
+        state.ordersItems = []
+    },
+    setOrdersItems(state, data) {
+        state.ordersItems = data
+    },
+    addOrdersItems(state, toAdd) {
+        state.ordersItems.push(toAdd)
+    },
+    removeOrdersItems(state, toDel) {
+        const index = state.ordersItems.indexOf(toDel)
+        if (index > -1) state.ordersItems.splice(index, 1)
     }
 }
 
@@ -173,14 +191,35 @@ const actions = {
     setContextMenu({ commit }, id) {
         commit("setContextMenu", id)
     },
-    toggleEditModal({ commit, state }, data) {
+    toggleEditOrder({ commit, state }, data) {
         if (state.editModal_active) {
-            commit("toggleEditModal")
-            commit("clearEditModalOutsideData")
+            //commit("toggleEditRowMode")
             return
         } else {
-            commit("setEditModalOutsideData", data)
-            commit("toggleEditModal")
+            fetch(`http://localhost:3000/warehouse/spareparts/orders/?order_id=${data.part_order_id}`)
+            .then(async res => {
+                const resData = await res.json()
+                if (!res.ok) {
+                    if (res.status == 404) {
+                        commit("clearOrdersItems")
+                        // commit("toggleRefreshTable", false)
+                        return
+                    }
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+                setTimeout(() => {
+                    commit("setOrdersItems", {
+                        orderData: {...data},
+                        items: resData
+                    })
+                    // commit("toggleRefreshTable", false)
+                    commit("toggleEditOrderMode")
+                }, 500)
+            })
+            .catch(error => {
+                return console.log(error)
+            })           
         }
     }
 }

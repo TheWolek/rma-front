@@ -1,29 +1,65 @@
 <script>
-import { mapState } from 'vuex'
-import store from '../../../../store'
+import { mapState } from "vuex";
+import store from "../../../../store";
 export default {
-    methods: {
-        toggleNewModal() {
-            store.commit("sparepartsOrders/toggleCreateModal")
-        },
-        toggleFindModal() {
-            store.commit("sparepartsOrders/toggleFindModal")
-        },
-        onRefresh() {
-            store.dispatch("sparepartsOrders/fetchOrdersByFilters")
-        }
+  methods: {
+    toggleNewModal() {
+      store.commit("sparepartsOrders/toggleCreateModal");
     },
-    computed: {
-        ...mapState({
-            loading: state => state.sparepartsOrders.refreshingTable
-        })
-    }
-}
+    toggleFindModal() {
+      store.commit("sparepartsOrders/toggleFindModal");
+    },
+    onRefresh() {
+      store.dispatch("sparepartsOrders/fetchOrdersByFilters");
+    },
+    onCancel() {
+      store.commit("sparepartsOrders/toggleEditOrderMode");
+    },
+  },
+  computed: {
+    ...mapState({
+      loading: (state) => state.sparepartsOrders.refreshingTable,
+      editOrderMode: (state) => state.sparepartsOrders.editOrderMode,
+    }),
+  },
+};
 </script>
 <template>
-    <div class="actions">
-        <div class="actionBtn" id="btn1" @click="toggleNewModal"> + Nowy</div>
-        <div class="actionBtn" id="btn2" @click="toggleFindModal">Szukaj</div>
-        <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh"><img src="@/assets/refresh.svg" :class="{active: this.loading}"/></div>
+  <div class="actions">
+    <div
+      class="actionBtn"
+      id="btn1"
+      @click="toggleNewModal"
+      :class="{ disabled: this.editOrderMode }"
+    >
+      + Nowy
     </div>
+    <div
+      class="actionBtn"
+      id="btn2"
+      @click=""
+      :class="{ disabled: !this.editOrderMode }"
+    >
+      Zapisz
+    </div>
+    <div
+      class="actionBtn"
+      id="btn2"
+      @click="onCancel"
+      :class="{ disabled: !this.editOrderMode }"
+    >
+      Anuluj
+    </div>
+    <div
+      class="actionBtn"
+      id="btn2"
+      @click="toggleFindModal"
+      :class="{ disabled: this.editOrderMode }"
+    >
+      Szukaj
+    </div>
+    <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
+      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
+    </div>
+  </div>
 </template>
