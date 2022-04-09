@@ -65,7 +65,6 @@ const mutations = {
         state.activeContextMenu = id
     },
     setEditModalOutsideData(state, data) {
-        console.log(data)
         state.editModal_outsideData = data
     },
     clearEditModalOutsideData(state) {

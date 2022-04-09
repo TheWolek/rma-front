@@ -27,7 +27,6 @@ export default {
   watch: {
     formData(val) {
       if (val !== {}) {
-        console.log("change", val);
         this.supplier = this.formData.supplier_id;
         this.date = this.formData.expected_date;
         this.orderStatus = this.formData.status;
