@@ -5,12 +5,10 @@ import formatDate from "../../../../utils/formatDate";
 export default {
   data() {
     return {
-      model: "",
-      amount: "",
+      supplier: "",
       date: "",
       orderStatus: "",
-      error_model: "",
-      error_amount: "",
+      error_supplier: "",
       error_date: "",
       error_orderStatus: "",
     };
@@ -18,7 +16,7 @@ export default {
   computed: {
     ...mapState({
       editModal_active: (state) => state.sparepartsOrders.editModal_active,
-      categories: (state) => state.sparepartsOrders.categories,
+      suppliers: (state) => state.sparepartsOrders.suppliers,
       statuses: (state) => state.sparepartsOrders.statuses,
       formData: (state) => state.sparepartsOrders.editModal_outsideData,
     }),
@@ -30,8 +28,7 @@ export default {
     formData(val) {
       if (val !== {}) {
         console.log("change", val);
-        this.model = this.formData.part_cat_id;
-        this.amount = this.formData.amount;
+        this.supplier = this.formData.supplier_id;
         this.date = this.formData.expected_date;
         this.orderStatus = this.formData.status;
       }
@@ -108,48 +105,24 @@ export default {
       </div>
       <form v-on:submit.prevent="handleSubmitEdit">
         <div class="form-group">
-          <label for="model">Model</label>
+          <label for="supplier">dostawca</label>
           <div>
             <select
-              id="model"
-              v-model="model"
-              @change="onChangeModel"
+              id="supplier"
+              v-model="supplier"
               :disabled="formData.mode == 'status'"
             >
-              <option disabled value>Model</option>
-              <option
-                v-for="el in categories"
-                :key="el.part_cat_id"
-                :value="el.part_cat_id"
-              >
-                {{ el.producer + " " + el.name }}
+              <option disabled value>dostawca</option>
+              <option v-for="el in suppliers" :key="el.id" :value="el.id">
+                {{ el.name }}
               </option>
             </select>
             <p
-              id="error_model"
+              id="error_supplier"
               class="error_modal_form"
-              :class="{ active: this.error_model !== '' }"
+              :class="{ active: this.error_supplier !== '' }"
             >
-              {{ this.error_model }}
-            </p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="amount">ilość</label>
-          <div>
-            <input
-              type="number"
-              id="amount"
-              v-model.lazy="amount"
-              @change="onChangeAmount"
-              :disabled="formData.mode == 'status'"
-            />
-            <p
-              id="error_amount"
-              class="error_modal_form"
-              :class="{ active: this.error_amount !== '' }"
-            >
-              {{ this.error_amount }}
+              {{ this.error_supplier }}
             </p>
           </div>
         </div>

@@ -6,8 +6,8 @@
 
 <style>
 #warehouseSpareparts {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 </style>

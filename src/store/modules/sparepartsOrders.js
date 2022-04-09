@@ -3,6 +3,7 @@ const state = {
     findModal_active: false,
     editModal_active: false,
     categories: [],
+    suppliers: [],
     statuses: {
         0: { id: 0, "name": "nowy" },
         1: { id: 1, "name": "w realizacji" },
@@ -30,6 +31,9 @@ const mutations = {
     },
     setCategories(state, data) {
         state.categories = data
+    },
+    setSuppliers(state, data) {
+        state.suppliers = data
     },
     clearOrders(state) {
         state.orders = []
@@ -81,6 +85,22 @@ const actions = {
                 }
 
                 commit("setCategories", resData)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
+    fetchAllSuppliers({ commit }) {
+        fetch("http://localhost:3000/warehouse/spareparts/suppliers")
+            .then(async res => {
+                const resData = await res.json()
+
+                if (!res.ok) {
+                    const error = (resData && resData.message) || res.status
+                    return Promise.reject(error)
+                }
+
+                commit("setSuppliers", resData)
             })
             .catch(error => {
                 console.log(error)
