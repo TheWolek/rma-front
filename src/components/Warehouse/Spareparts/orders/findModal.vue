@@ -50,7 +50,7 @@ import store from '../../../../store'
                     return this.showError("error_form", "uzupełnij przynajmniej jedną opcję")
                 }
                 
-                let url = `http://localhost:3000/warehouse/spareparts/orders/?`
+                let url = `http://localhost:3000/warehouse/spareparts/orders/find?`
 
                 if (this.model !== '') url += `partCatId=${this.model}`
                 if (this.status !== '') {

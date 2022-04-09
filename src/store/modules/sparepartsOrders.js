@@ -117,7 +117,7 @@ const actions = {
             return
         }
 
-        let url = `http://localhost:3000/warehouse/spareparts/orders/?`
+        let url = `http://localhost:3000/warehouse/spareparts/orders/find?`
         let active = 0
 
         filters.forEach(el => {

@@ -49,10 +49,7 @@ export default {
 <template>
     <tr :id="this.data.part_order_id">
         <td><input type="checkbox" :id="this.data.part_order_id"></td>
-        <td>{{this.modelData.category}}</td>
-        <td>{{this.modelData.producer}}</td>
-        <td>{{this.modelData.name}}</td>
-        <td>{{this.data.amount}} szt</td>
+        <td>{{this.data.part_order_id}}</td>
         <td>{{this.expDate}}</td>
         <td>{{this.statuses[this.data.status].name}}</td>
         <td class="actionCell">
@@ -70,3 +67,8 @@ export default {
         </td>
     </tr>
 </template>
+<style scoped>
+.actionCell {
+    padding-left: 0;
+}
+</style>
