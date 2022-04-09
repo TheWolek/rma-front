@@ -3,9 +3,11 @@ export default {};
 </script>
 <template>
   <div class="buttonsWrap">
-    <div class="actionBtn small">+ Dodaj</div>
-    <div class="actionBtn small">Usuń</div>
-    <div class="actionBtn small">Zmień status</div>
+    <div class="actionBtn small"><img src="@/assets/add.svg" /> Dodaj</div>
+    <div class="actionBtn small"><img src="@/assets/delete.svg" /> Usuń</div>
+    <div class="actionBtn small">
+      <img src="@/assets/change.svg" /> Zmień status
+    </div>
   </div>
 </template>
 <style scoped>
@@ -20,5 +22,9 @@ export default {};
 .actionBtn.small {
   font-size: 0.82rem;
   font-weight: 700;
+}
+
+.actionBtn.small img {
+  width: 14px;
 }
 </style>

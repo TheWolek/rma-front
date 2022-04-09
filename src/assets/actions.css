@@ -13,6 +13,8 @@
     padding: .2em .5em;
     position: relative;
     display: flex;
+    align-items: center;
+    gap: .4em;
 }
 
 .actionBtn:hover {
@@ -28,8 +30,24 @@
     cursor: not-allowed;
 }
 
+.actionBtn.disabled img {
+    filter: contrast(0.3);
+}
+
 .actionBtn img {
     width: 20px;
+}
+
+.actionBtn .addImg {
+    width: 15px;
+}
+
+.actionBtn .saveImg {
+    width: 17px;
+}
+
+.actionBtn .searchImg {
+    width: 17px;
 }
 
 .actionBtn.refreshBtn img {

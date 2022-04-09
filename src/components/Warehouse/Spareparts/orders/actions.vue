@@ -34,7 +34,7 @@ export default {
       @click="toggleNewModal"
       :class="{ disabled: this.editOrderMode }"
     >
-      + Nowy
+      <img src="@/assets/add.svg" class="addImg" /> Nowy
     </div>
     <div
       class="actionBtn"
@@ -42,7 +42,7 @@ export default {
       @click=""
       :class="{ disabled: !this.editOrderMode }"
     >
-      Zapisz
+      <img src="@/assets/save.svg" class="saveImg" />Zapisz
     </div>
     <div
       class="actionBtn"
@@ -50,7 +50,7 @@ export default {
       @click="onCancel"
       :class="{ disabled: !this.editOrderMode }"
     >
-      Anuluj
+      <img src="@/assets/cancel.svg" /> Anuluj
     </div>
     <div
       class="actionBtn"
@@ -58,7 +58,7 @@ export default {
       @click="toggleFindModal"
       :class="{ disabled: this.editOrderMode }"
     >
-      Szukaj
+      <img src="@/assets/search.svg" class="searchImg" /> Szukaj
     </div>
     <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
       <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
