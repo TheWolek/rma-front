@@ -1,11 +1,6 @@
 import store from "../../../store"
 
 export default {
-    data() {
-        return {
-            barcode_reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/
-        }
-    },
     methods: {
         handleSubmit_find(mode, code) {
             let barcode

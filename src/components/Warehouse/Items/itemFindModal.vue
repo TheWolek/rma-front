@@ -10,6 +10,7 @@ export default {
     return {
       error_barcode_find: "",
       barcode_find: "",
+      barcode_reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/,
     };
   },
   methods: {
