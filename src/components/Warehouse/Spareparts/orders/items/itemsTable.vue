@@ -1,15 +1,23 @@
 <script>
 import { mapState } from "vuex";
 import row from "./itemsRow.vue";
+import newRow from "./newRow.vue";
 
 export default {
   components: {
     row,
+    newRow,
   },
   computed: {
     ...mapState({
       orderData: (state) => state.sparepartsOrders.ordersItems,
+      activeNewRow: (state) => state.sparepartsOrders.activeNewRow,
     }),
+    visibleNewRowComp() {
+      return this.orderData.items.length !== 0 && !this.activeNewRow
+        ? false
+        : true;
+    },
   },
 };
 </script>
@@ -26,6 +34,7 @@ export default {
       :key="item.order_item_id"
       :data="item"
     />
+    <newRow v-if="this.visibleNewRowComp" />
   </table>
 </template>
 <style scoped>

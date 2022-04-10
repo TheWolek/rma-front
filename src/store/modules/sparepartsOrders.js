@@ -10,7 +10,10 @@ const state = {
         2: { id: 2, "name": "zakończony" }
     },
     orders: [],
-    ordersItems: [],
+    ordersItems: {
+        orderData: {},
+        items: []
+    },
     appliedFilters: {
         active: false,
         names: {}
@@ -18,7 +21,8 @@ const state = {
     activeContextMenu: false,
     refreshingTable: false,
     editModal_outsideData: {},
-    editOrderMode: false
+    editOrderMode: false,
+    activeNewRow: false
 }
 
 const mutations = {
@@ -76,17 +80,23 @@ const mutations = {
         state.editOrderMode = !state.editOrderMode
     },
     clearOrdersItems(state) {
-        state.ordersItems = []
+        state.ordersItems = {
+            orderData: {},
+            items: []
+        }
     },
     setOrdersItems(state, data) {
         state.ordersItems = data
     },
     addOrdersItems(state, toAdd) {
-        state.ordersItems.push(toAdd)
+        state.ordersItems.items.push(toAdd)
     },
     removeOrdersItems(state, toDel) {
         const index = state.ordersItems.indexOf(toDel)
         if (index > -1) state.ordersItems.splice(index, 1)
+    },
+    toggleActiveNewRow(state) {
+        state.activeNewRow = !state.activeNewRow
     }
 }
 
@@ -228,6 +238,34 @@ const actions = {
                 return console.log(error)
             })           
         }
+    },
+    addOrderItem({ commit }, data) {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        };
+
+        fetch("http://localhost:3000/warehouse/spareparts/orders/add", requestOptions)
+        .then(async res => {
+            const resData = await res.json()
+            
+            if (!res.ok) {
+                const error = (resData && resData.message) || res.status
+                return Promise.reject(error)
+            }
+
+            let item = {
+                order_item_id: resData.order_item_id,
+                amount: data.amount,
+                part_cat_id: data.part_cat_id
+            }
+
+            commit("addOrdersItems", item)
+        })
+        .catch(error => {
+            return console.log(error)
+        })  
     }
 }
 

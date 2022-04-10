@@ -1,11 +1,44 @@
 <script>
-export default {};
+import { mapState } from "vuex";
+import store from "../../../../../store";
+
+export default {
+  computed: {
+    ...mapState({
+      orderData: (state) => state.sparepartsOrders.ordersItems,
+      activeNewRow: (state) => state.sparepartsOrders.activeNewRow,
+    }),
+    getImage() {
+      return this.activeNewRow
+        ? "/src/assets/cancel.svg"
+        : "/src/assets/add.svg";
+    },
+    getCopy() {
+      return this.activeNewRow ? "Anuluj" : "Dodaj";
+    },
+  },
+  methods: {
+    onAdd() {
+      store.commit("sparepartsOrders/toggleActiveNewRow");
+    },
+  },
+};
 </script>
 <template>
   <div class="buttonsWrap">
-    <div class="actionBtn small"><img src="@/assets/add.svg" /> Dodaj</div>
-    <div class="actionBtn small"><img src="@/assets/delete.svg" /> Usuń</div>
-    <div class="actionBtn small">
+    <div class="actionBtn small" @click="onAdd">
+      <img :src="getImage" /> {{ getCopy }}
+    </div>
+    <div
+      class="actionBtn small"
+      :class="{ disabled: this.orderData.orderData.status !== 0 }"
+    >
+      <img src="@/assets/delete.svg" /> Usuń
+    </div>
+    <div
+      class="actionBtn small"
+      :class="{ disabled: this.orderData.items.length === 0 }"
+    >
       <img src="@/assets/change.svg" /> Zmień status
     </div>
   </div>
@@ -26,5 +59,9 @@ export default {};
 
 .actionBtn.small img {
   width: 14px;
+}
+
+.actionBtn.small:nth-child(1) {
+  width: 74px;
 }
 </style>
