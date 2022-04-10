@@ -29,7 +29,7 @@ export default {
         "
       >
         {{ appliedFilter.barcode || appliedFilter.shelve }}
-        <div class="close"></div>
+        <img src="@/assets/cancel.svg" />
       </div>
     </div>
   </div>
