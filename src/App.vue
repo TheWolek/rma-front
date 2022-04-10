@@ -1,6 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { RouterLink, RouterView } from "vue-router";
+import HelloWorld from "@/components/HelloWorld.vue";
 </script>
 
 <template>
@@ -19,64 +19,69 @@ import HelloWorld from '@/components/HelloWorld.vue'
 </template>
 
 <style>
-@import '@/assets/base.css';
-@import '@/assets/table.css';
-@import '@/assets/actions.css';
-@import '@/assets/filters.css';
-@import '@/assets/form.css';
-@import '@/assets/bigModal.css';
+@import "@/assets/base.css";
+@import "@/assets/table.css";
+@import "@/assets/actions.css";
+@import "@/assets/filters.css";
+@import "@/assets/form.css";
+@import "@/assets/bigModal.css";
 
 #app {
-    margin: 0;
-    font-weight: normal;
-    padding: 0;
+  margin: 0;
+  font-weight: normal;
+  padding: 0;
 }
 
 header {
-    line-height: 1.5;
-    max-height: 8vh;
-    display: flex;
-    place-items: flex-start;
-    background: rgb(20, 66, 109);
+  line-height: 1.5;
+  max-height: 8vh;
+  display: flex;
+  place-items: flex-start;
+  background: rgb(20, 66, 109);
 }
 
 header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-    padding-left: 5vw;
-    width: 100%;
+  display: flex;
+  place-items: flex-start;
+  flex-wrap: wrap;
+  padding-left: 5vw;
+  width: 100%;
 }
 
 nav {
-    margin-left: -1rem;
-    font-size: 1rem;
-    padding: 1rem 0;
-    display: flex;
+  margin-left: -1rem;
+  font-size: 1rem;
+  display: flex;
+  height: 5vh;
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: #fff;
 }
-
+/* 
 nav a.router-link-exact-active:hover {
   background-color: transparent;
+} */
+
+nav a:hover {
+  background: rgb(23, 76, 126);
 }
 
 nav a {
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
 }
 
 nav a:first-of-type {
   border: 0;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: var(--color-text);
   transition: 0.4s;
 }
 </style>
