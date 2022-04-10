@@ -17,6 +17,7 @@
     transition: .1s all ease-out;
     display: flex;
     gap: .1em;
+    align-items: center;
 }
 
 .filterChip:hover {
@@ -24,12 +25,11 @@
     background: rgba(235, 235, 235, 0.8);
 }
 
-.filterChip .close {
-    width: 20px;
-    height: 20px;
+.filterChip img {
+    width: 15px;
 }
 
-.filterChip .close:before,
+/* .filterChip .close:before,
 .close:after {
     position: absolute;
     left: 9px;
@@ -46,4 +46,4 @@
 
 .filterChip .close:after {
     transform: rotate(-45deg);
-}
+} */
