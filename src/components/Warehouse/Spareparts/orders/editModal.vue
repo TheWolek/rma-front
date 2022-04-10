@@ -75,10 +75,9 @@ export default {
 
           let item = {
             part_order_id: this.formData.part_order_id,
-            amount: this.amount,
             expected_date: this.date,
-            part_cat_id: this.model,
             status: this.orderStatus,
+            supplier_id: this.supplier,
           };
 
           store.dispatch("sparepartsOrders/submitModal_Create", item);
