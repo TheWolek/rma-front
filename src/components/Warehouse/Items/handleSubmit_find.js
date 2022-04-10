@@ -1,8 +1,15 @@
+import { mapState } from "vuex"
 import store from "../../../store"
 
 export default {
+    computed: {
+        ...mapState({
+            shelves: state => state.items.shelves
+        })
+    },
     methods: {
         handleSubmit_find(mode, code) {
+            console.log(this.shelves)
             let barcode
             if (mode === "url") {
                 barcode = code

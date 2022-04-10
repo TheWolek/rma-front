@@ -8,7 +8,8 @@ const state = {
         barcode: null,
         shelve: null
     },
-    activeContextMenu: null
+    activeContextMenu: null,
+    shelves: []
 }
 
 const mutations = {
@@ -41,6 +42,9 @@ const mutations = {
     },
     setContextMenu(state, id) {
         state.activeContextMenu = id
+    },
+    setShelves(state, data) {
+        state.shelves = data
     }
 }
 
@@ -80,6 +84,22 @@ const actions = {
     },
     setContextMenu({ commit }, id) {
         commit("setContextMenu", id)
+    },
+    fetchAllShelves({commit}) {
+        fetch("http://localhost:3000/warehouse/shelve")
+        .then(async res => {
+            const resData = await res.json()
+
+            if (!res.ok) {
+                const error = (resData && resData.message) || res.status
+                return Promise.reject(error)
+            }
+
+            commit("setShelves", resData)
+        })
+        .catch(error => {
+            console.log(error)
+    })
     }
 }
 

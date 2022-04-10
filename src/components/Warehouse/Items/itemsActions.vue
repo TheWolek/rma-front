@@ -11,6 +11,7 @@ export default {
   computed: {
     ...mapState({
       appliedFilter: (state) => state.items.appliedFilter,
+      shelves: (state) => state.items.shelves,
     }),
   },
   methods: {

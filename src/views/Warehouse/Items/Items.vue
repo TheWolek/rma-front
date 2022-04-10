@@ -8,8 +8,12 @@ import filters from "../../../components/Warehouse/Items/filters.vue";
 import handleSubmit_find from "../../../components/Warehouse/Items/handleSubmit_find";
 
 import { useRoute } from "vue-router";
+import store from "../../../store";
 
 export default {
+  setup() {
+    store.dispatch("items/fetchAllShelves");
+  },
   extends: handleSubmit_find,
   components: {
     ItemsActions,

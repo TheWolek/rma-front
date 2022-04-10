@@ -76,6 +76,7 @@ export default {
       items: (state) => state.changeShelve.items,
       fail: (state) => state.changeShelve.fail,
       notification: (state) => state.changeShelve.notification,
+      shelves: (state) => state.items.shelves,
     }),
     newBtnVisible() {
       return {
