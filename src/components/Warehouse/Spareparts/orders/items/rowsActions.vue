@@ -21,12 +21,22 @@ export default {
     onAdd() {
       store.commit("sparepartsOrders/toggleActiveNewRow");
     },
+    onChangeStatus() {
+      store.dispatch("sparepartsOrders/toggleEditModal", {
+        ...this.orderData.orderData,
+        mode: "status",
+      });
+    },
   },
 };
 </script>
 <template>
   <div class="buttonsWrap">
-    <div class="actionBtn small" @click="onAdd">
+    <div
+      class="actionBtn small"
+      @click="onAdd"
+      :class="{ disabled: this.orderData.orderData.status !== 0 }"
+    >
       <img :src="getImage" /> {{ getCopy }}
     </div>
     <div
@@ -38,6 +48,7 @@ export default {
     <div
       class="actionBtn small"
       :class="{ disabled: this.orderData.items.length === 0 }"
+      @click="onChangeStatus"
     >
       <img src="@/assets/change.svg" /> Zmień status
     </div>

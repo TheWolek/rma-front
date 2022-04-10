@@ -80,7 +80,7 @@ export default {
             supplier_id: this.supplier,
           };
 
-          store.dispatch("sparepartsOrders/submitModal_Create", item);
+          store.dispatch("sparepartsOrders/submitModal_Edit", item);
           this.toggleModal();
         })
         .catch((error) => {

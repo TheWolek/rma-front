@@ -15,12 +15,14 @@ export default {
       statuses: (state) => state.sparepartsOrders.statuses,
       suppliers: (state) => state.sparepartsOrders.suppliers,
     }),
-  },
-  mounted() {
-    this.status = this.statuses[this.order.orderData.status];
-    this.supplier = this.suppliers.find(
-      (o) => o.id === this.order.orderData.supplier_id
-    );
+    getStatus() {
+      return this.statuses[this.order.orderData.status];
+    },
+    getSupplier() {
+      return this.suppliers.find(
+        (o) => o.id === this.order.orderData.supplier_id
+      );
+    },
   },
   methods: {
     getDate() {
@@ -37,11 +39,11 @@ export default {
     </div>
     <div class="group">
       <label>Status</label>
-      <input type="text" :value="this.status.name" disabled />
+      <input type="text" :value="this.getStatus.name" disabled />
     </div>
     <div class="group">
       <label>Dostawca</label>
-      <input type="text" :value="this.supplier.name" disabled />
+      <input type="text" :value="this.getSupplier.name" disabled />
     </div>
   </div>
 </template>

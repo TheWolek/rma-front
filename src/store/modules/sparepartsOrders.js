@@ -88,6 +88,9 @@ const mutations = {
     setOrdersItems(state, data) {
         state.ordersItems = data
     },
+    setOrdersItemsOrderData(state, data) {
+        state.ordersItems.orderData = data
+    },
     addOrdersItems(state, toAdd) {
         state.ordersItems.items.push(toAdd)
     },
@@ -143,6 +146,12 @@ const actions = {
         //     expDate: null
         // })
         commit("setOrders", [data])
+    },
+    submitModal_Edit({commit}, data) {
+        commit("clearOrders")
+        commit("clearFilter")
+        commit("setOrders", [data])
+        commit("setOrdersItemsOrderData", data)
     },
     submitModal_Find({ commit }, data) {
         commit("clearOrders")
