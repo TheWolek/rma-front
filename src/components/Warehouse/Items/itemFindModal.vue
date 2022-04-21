@@ -2,10 +2,10 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 
-import handleSubmit_find from "./handleSubmit_find";
+import handleSubmit from "./handleSubmit";
 
 export default {
-  extends: handleSubmit_find,
+  extends: handleSubmit,
   data() {
     return {
       error_barcode_find: "",

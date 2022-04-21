@@ -5,7 +5,7 @@ import ItemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
 import ItemFindModal from "../../../components/Warehouse/Items/itemFindModal.vue";
 import ItemShelveFindModal from "../../../components/Warehouse/Items/itemShelveFindModal.vue";
 import filters from "../../../components/Warehouse/Items/filters.vue";
-import handleSubmit_find from "../../../components/Warehouse/Items/handleSubmit_find";
+import handleSubmit from "../../../components/Warehouse/Items/handleSubmit";
 
 import { useRoute } from "vue-router";
 import store from "../../../store";
@@ -14,7 +14,7 @@ export default {
   setup() {
     store.dispatch("items/fetchAllShelves");
   },
-  extends: handleSubmit_find,
+  extends: handleSubmit,
   components: {
     ItemsActions,
     ItemCreateModal,
@@ -27,6 +27,9 @@ export default {
     const route = useRoute();
     if (route.query.code) {
       return this.handleSubmit_find("url", route.query.code);
+    }
+    if (route.query.shelve) {
+      return this.handleSubmit_shelveFind("url", route.query.shelve);
     }
   },
   methods: {},
