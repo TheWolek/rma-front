@@ -27,6 +27,9 @@ export default {
         mode: "status",
       });
     },
+    onDelete() {
+      // store.commit()
+    },
   },
 };
 </script>
@@ -42,6 +45,7 @@ export default {
     <div
       class="actionBtn small"
       :class="{ disabled: this.orderData.orderData.status !== 0 }"
+      @click="onDelete"
     >
       <img src="@/assets/delete.svg" /> Usuń
     </div>
