@@ -1,3 +1,5 @@
+import store from "..";
+
 const state = {
   createModal_active: false,
   findModal_active: false,
@@ -98,9 +100,10 @@ const mutations = {
   addOrdersItems(state, toAdd) {
     state.ordersItems.items.push(toAdd);
   },
-  removeOrdersItems(state, toDel) {
-    const index = state.ordersItems.indexOf(toDel);
-    if (index > -1) state.ordersItems.splice(index, 1);
+  removeOrderItems(state, toDel) {
+    const obj = state.ordersItems.items.find((o) => o.order_item_id == toDel);
+    const index = state.ordersItems.items.indexOf(obj);
+    if (index > -1) state.ordersItems.items.splice(index, 1);
   },
   toggleActiveNewRow(state) {
     state.activeNewRow = !state.activeNewRow;
@@ -288,6 +291,33 @@ const actions = {
         };
 
         commit("addOrdersItems", item);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  },
+  removeOrderItems({ commit, state }, data) {
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+
+    fetch(
+      "http://localhost:3000/warehouse/spareparts/orders/remove",
+      requestOptions
+    )
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        data.toDel.forEach((el) => {
+          commit("removeOrderItems", el);
+        });
       })
       .catch((error) => {
         return console.log(error);

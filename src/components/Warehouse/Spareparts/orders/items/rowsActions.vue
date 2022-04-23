@@ -7,6 +7,7 @@ export default {
     ...mapState({
       orderData: (state) => state.sparepartsOrders.ordersItems,
       activeNewRow: (state) => state.sparepartsOrders.activeNewRow,
+      checkedItems: (state) => state.sparepartsOrders.orderItemsChecked,
     }),
     getImage() {
       return this.activeNewRow
@@ -28,6 +29,11 @@ export default {
       });
     },
     onDelete() {
+      if (this.checkedItems.length !== 0) {
+        store.dispatch("sparepartsOrders/removeOrderItems", {
+          toDel: this.checkedItems,
+        });
+      }
       // store.commit()
     },
   },
