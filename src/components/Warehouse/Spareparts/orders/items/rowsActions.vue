@@ -34,7 +34,6 @@ export default {
           toDel: this.checkedItems,
         });
       }
-      // store.commit()
     },
   },
 };

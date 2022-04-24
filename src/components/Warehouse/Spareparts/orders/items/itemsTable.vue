@@ -18,6 +18,11 @@ export default {
         ? false
         : true;
     },
+    Items() {
+      return this.orderData.items.filter((el) => {
+        return el.toRemove === undefined || !el.toRemove;
+      });
+    },
   },
 };
 </script>
@@ -29,11 +34,7 @@ export default {
       <th>model</th>
       <th>ilość</th>
     </tr>
-    <row
-      v-for="item in orderData.items"
-      :key="item.order_item_id"
-      :data="item"
-    />
+    <row v-for="item in this.Items" :key="item.order_item_id" :data="item" />
     <newRow v-if="this.visibleNewRowComp" />
   </table>
 </template>

@@ -102,8 +102,8 @@ const mutations = {
   },
   removeOrderItems(state, toDel) {
     const obj = state.ordersItems.items.find((o) => o.order_item_id == toDel);
-    const index = state.ordersItems.items.indexOf(obj);
-    if (index > -1) state.ordersItems.items.splice(index, 1);
+    obj.toRemove = true;
+    state.orderItemsChecked = [];
   },
   toggleActiveNewRow(state) {
     state.activeNewRow = !state.activeNewRow;
@@ -274,32 +274,10 @@ const actions = {
 
     commit("addOrdersItems", item);
   },
-  removeOrderItems({ commit, state }, data) {
-    const requestOptions = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-
-    fetch(
-      "http://localhost:3000/warehouse/spareparts/orders/remove",
-      requestOptions
-    )
-      .then(async (res) => {
-        const resData = await res.json();
-
-        if (!res.ok) {
-          const error = (resData && resData.message) || res.status;
-          return Promise.reject(error);
-        }
-
-        data.toDel.forEach((el) => {
-          commit("removeOrderItems", el);
-        });
-      })
-      .catch((error) => {
-        return console.log(error);
-      });
+  removeOrderItems({ commit }, data) {
+    data.toDel.forEach((el) => {
+      commit("removeOrderItems", el);
+    });
   },
 };
 
