@@ -2,6 +2,11 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 export default {
+  data() {
+    return {
+      saveCoolDown: 0,
+    };
+  },
   methods: {
     toggleNewModal() {
       store.commit("sparepartsOrders/toggleCreateModal");
@@ -18,11 +23,48 @@ export default {
         store.commit("sparepartsOrders/toggleActiveNewRow");
       }
     },
+    onSave() {
+      this.setSaveCoolDown();
+      const requestOptions = {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.order),
+      };
+
+      fetch(
+        "http://localhost:3000/warehouse/spareparts/orders/edit",
+        requestOptions
+      )
+        .then(async (res) => {
+          const resData = await res.json();
+
+          if (!res.ok) {
+            const error = (resData && resData.message) || res.status;
+            return Promise.reject(error);
+          }
+
+          console.log("saved");
+        })
+        .catch((error) => {
+          return console.log(error);
+        });
+    },
+    setSaveCoolDown() {
+      this.saveCoolDown = 3;
+      const timer = setInterval(() => {
+        if (this.saveCoolDown === 0) {
+          clearInterval(timer);
+          return;
+        }
+        this.saveCoolDown--;
+      }, 1000);
+    },
   },
   computed: {
     ...mapState({
       loading: (state) => state.sparepartsOrders.refreshingTable,
       editOrderMode: (state) => state.sparepartsOrders.editOrderMode,
+      order: (state) => state.sparepartsOrders.ordersItems,
     }),
   },
 };
@@ -40,8 +82,8 @@ export default {
     <div
       class="actionBtn"
       id="btn2"
-      @click=""
-      :class="{ disabled: !this.editOrderMode }"
+      @click="onSave"
+      :class="{ disabled: !this.editOrderMode || this.saveCoolDown !== 0 }"
     >
       <img src="@/assets/save.svg" class="saveImg" />Zapisz
     </div>

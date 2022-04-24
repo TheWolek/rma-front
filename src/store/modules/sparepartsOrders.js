@@ -266,35 +266,13 @@ const actions = {
     }
   },
   addOrderItem({ commit }, data) {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+    let item = {
+      order_item_id: null,
+      amount: data.amount,
+      part_cat_id: data.part_cat_id,
     };
 
-    fetch(
-      "http://localhost:3000/warehouse/spareparts/orders/add",
-      requestOptions
-    )
-      .then(async (res) => {
-        const resData = await res.json();
-
-        if (!res.ok) {
-          const error = (resData && resData.message) || res.status;
-          return Promise.reject(error);
-        }
-
-        let item = {
-          order_item_id: resData.order_item_id,
-          amount: data.amount,
-          part_cat_id: data.part_cat_id,
-        };
-
-        commit("addOrdersItems", item);
-      })
-      .catch((error) => {
-        return console.log(error);
-      });
+    commit("addOrdersItems", item);
   },
   removeOrderItems({ commit, state }, data) {
     const requestOptions = {
