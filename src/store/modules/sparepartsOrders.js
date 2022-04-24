@@ -105,8 +105,12 @@ const mutations = {
     obj.toRemove = true;
     state.orderItemsChecked = [];
   },
-  toggleActiveNewRow(state) {
-    state.activeNewRow = !state.activeNewRow;
+  toggleActiveNewRow(state, data) {
+    if (data === undefined) {
+      state.activeNewRow = !state.activeNewRow;
+    } else {
+      state.activeNewRow = data;
+    }
   },
   toggleOrdersItemsChecked(state, data) {
     const index = state.orderItemsChecked.indexOf(data);

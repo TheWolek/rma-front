@@ -20,7 +20,7 @@ export default {
     onCancel() {
       if (this.editOrderMode) {
         store.commit("sparepartsOrders/toggleEditOrderMode");
-        store.commit("sparepartsOrders/toggleActiveNewRow");
+        store.commit("sparepartsOrders/toggleActiveNewRow", false);
       }
     },
     onSave() {
