@@ -69,6 +69,10 @@ const mutations = {
   setOrders(state, orders) {
     state.orders = orders;
   },
+  updateOrderStatus(state, { order_id, newStatus }) {
+    const index = state.orders.findIndex((o) => o.part_order_id == order_id);
+    state.orders[index].status = newStatus;
+  },
   toggleRefreshTable(state, mode) {
     state.refreshingTable = mode;
   },
@@ -282,6 +286,29 @@ const actions = {
   removeOrderItems({ commit }, data) {
     data.toDel.forEach((el) => {
       commit("removeOrderItems", el);
+    });
+  },
+  reciveOrder({ commit }, data) {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+    fetch(
+      "http://localhost:3000/warehouse/spareparts/orders",
+      requestOptions
+    ).then(async (res) => {
+      const resData = await res.json();
+
+      if (!res.ok) {
+        const error = (resData && resData.message) || res.status;
+        return Promise.reject(error);
+      }
+
+      commit("updateOrderStatus", {
+        order_id: data.order_id,
+        newStatus: data.status,
+      });
     });
   },
 };

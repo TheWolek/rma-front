@@ -24,35 +24,37 @@ export default {
       }
     },
     onSave() {
-      this.setSaveCoolDown();
-      const requestOptions = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.order),
-      };
+      if (this.editOrderMode) {
+        this.setSaveCoolDown();
+        const requestOptions = {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(this.order),
+        };
 
-      fetch(
-        "http://localhost:3000/warehouse/spareparts/orders/edit",
-        requestOptions
-      )
-        .then(async (res) => {
-          const resData = await res.json();
+        fetch(
+          "http://localhost:3000/warehouse/spareparts/orders/edit",
+          requestOptions
+        )
+          .then(async (res) => {
+            const resData = await res.json();
 
-          if (!res.ok) {
-            const error = (resData && resData.message) || res.status;
-            return Promise.reject(error);
-          }
+            if (!res.ok) {
+              const error = (resData && resData.message) || res.status;
+              return Promise.reject(error);
+            }
 
-          store.dispatch("sparepartsOrders/toggleEditOrder", {
-            ...this.order.orderData,
-            open: false,
+            store.dispatch("sparepartsOrders/toggleEditOrder", {
+              ...this.order.orderData,
+              open: false,
+            });
+
+            console.log("saved");
+          })
+          .catch((error) => {
+            return console.log(error);
           });
-
-          console.log("saved");
-        })
-        .catch((error) => {
-          return console.log(error);
-        });
+      }
     },
     setSaveCoolDown() {
       this.saveCoolDown = 3;
@@ -63,6 +65,14 @@ export default {
         }
         this.saveCoolDown--;
       }, 1000);
+    },
+    onRecive() {
+      if (this.editOrderMode) {
+        store.dispatch("sparepartsOrders/reciveOrder", {
+          order_id: this.order.orderData.part_order_id,
+          status: 2,
+        });
+      }
     },
   },
   computed: {
@@ -78,7 +88,6 @@ export default {
   <div class="actions">
     <div
       class="actionBtn"
-      id="btn1"
       @click="toggleNewModal"
       :class="{ disabled: this.editOrderMode }"
     >
@@ -86,7 +95,6 @@ export default {
     </div>
     <div
       class="actionBtn"
-      id="btn2"
       @click="onSave"
       :class="{ disabled: !this.editOrderMode || this.saveCoolDown !== 0 }"
     >
@@ -94,7 +102,6 @@ export default {
     </div>
     <div
       class="actionBtn"
-      id="btn2"
       @click="onCancel"
       :class="{ disabled: !this.editOrderMode }"
     >
@@ -102,7 +109,16 @@ export default {
     </div>
     <div
       class="actionBtn"
-      id="btn2"
+      @click="onRecive"
+      :class="{
+        disabled: !this.editOrderMode,
+      }"
+    >
+      <img src="@/assets/open-box.png" />
+      Odbierz
+    </div>
+    <div
+      class="actionBtn"
       @click="toggleFindModal"
       :class="{ disabled: this.editOrderMode }"
     >
