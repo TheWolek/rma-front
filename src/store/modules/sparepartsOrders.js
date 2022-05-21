@@ -244,7 +244,7 @@ const actions = {
   toggleEditOrder({ commit, state }, data) {
     console.log("EditOrder", data);
     fetch(
-      `http://localhost:3000/warehouse/spareparts/orders/?order_id=${data.part_order_id}`
+      `http://localhost:3000/warehouse/spareparts/orders/items?order_id=${data.part_order_id}`
     )
       .then(async (res) => {
         const resData = await res.json();
