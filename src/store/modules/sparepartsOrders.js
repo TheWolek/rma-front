@@ -1,9 +1,8 @@
-import store from "..";
-
 const state = {
   createModal_active: false,
   findModal_active: false,
   editModal_active: false,
+  editSNModal_active: false,
   categories: [],
   suppliers: [],
   statuses: {
@@ -37,6 +36,9 @@ const mutations = {
   },
   toggleEditModal(state) {
     state.editModal_active = !state.editModal_active;
+  },
+  toggleEditSNModal(state) {
+    state.editSNModal_active = !state.editSNModal_active;
   },
   setCategories(state, data) {
     state.categories = data;
@@ -240,34 +242,33 @@ const actions = {
     }
   },
   toggleEditOrder({ commit, state }, data) {
-    if (!state.editOrderMode) {
-      fetch(
-        `http://localhost:3000/warehouse/spareparts/orders/?order_id=${data.part_order_id}`
-      )
-        .then(async (res) => {
-          const resData = await res.json();
-          if (!res.ok) {
-            if (res.status == 404) {
-              commit("clearOrdersItems");
-              // commit("toggleRefreshTable", false)
-              return;
-            }
-            const error = (resData && resData.message) || res.status;
-            return Promise.reject(error);
-          }
-          setTimeout(() => {
-            commit("setOrdersItems", {
-              orderData: { ...data },
-              items: resData,
-            });
+    console.log("EditOrder", data);
+    fetch(
+      `http://localhost:3000/warehouse/spareparts/orders/?order_id=${data.part_order_id}`
+    )
+      .then(async (res) => {
+        const resData = await res.json();
+        if (!res.ok) {
+          if (res.status == 404) {
+            commit("clearOrdersItems");
             // commit("toggleRefreshTable", false)
-            commit("toggleEditOrderMode");
-          }, 500);
-        })
-        .catch((error) => {
-          return console.log(error);
-        });
-    }
+            return;
+          }
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+        setTimeout(() => {
+          commit("setOrdersItems", {
+            orderData: { ...data },
+            items: resData,
+          });
+          // commit("toggleRefreshTable", false)
+          if (data.open) commit("toggleEditOrderMode");
+        }, 500);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
   },
   addOrderItem({ commit }, data) {
     let item = {

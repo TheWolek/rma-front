@@ -3,12 +3,12 @@ import actions from "../../../components/Warehouse/Spareparts/orders/actions.vue
 import createModal from "../../../components/Warehouse/Spareparts/orders/createModal.vue";
 import findModal from "../../../components/Warehouse/Spareparts/orders/findModal.vue";
 import editModal from "../../../components/Warehouse/Spareparts/orders/editModal.vue";
+import editSNModal from "../../../components/Warehouse/Spareparts/orders/editSNModal.vue";
 import Table from "../../../components/Warehouse/Spareparts/orders/ordersTable.vue";
 import filters from "../../../components/Warehouse/Spareparts/orders/filters.vue";
 import items from "../../../components/Warehouse/Spareparts/orders/items/index.vue";
 import store from "../../../store";
 import { mapState } from "vuex";
-import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -16,6 +16,7 @@ export default {
     createModal,
     findModal,
     editModal,
+    editSNModal,
     Table,
     filters,
     items,
@@ -23,6 +24,8 @@ export default {
   computed: {
     ...mapState({
       editOrderMode: (state) => state.sparepartsOrders.editOrderMode,
+      editModal_active: (state) => state.sparepartsOrders.editModal_active,
+      editSNModal_active: (state) => state.sparepartsOrders.editSNModal_active,
     }),
   },
   mounted() {
@@ -35,7 +38,8 @@ export default {
   <div id="warehouseSparepartsOrders">
     <createModal />
     <findModal />
-    <editModal />
+    <editModal v-if="editModal_active" />
+    <editSNModal v-if="editSNModal_active" />
     <actions />
     <div class="warehouseSparepartsOrders_wrap">
       <h1>Dostawy części zamiennych</h1>

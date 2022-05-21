@@ -43,6 +43,11 @@ export default {
             return Promise.reject(error);
           }
 
+          store.dispatch("sparepartsOrders/toggleEditOrder", {
+            ...this.order.orderData,
+            open: false,
+          });
+
           console.log("saved");
         })
         .catch((error) => {

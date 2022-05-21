@@ -51,6 +51,7 @@ export default {
       store.dispatch("sparepartsOrders/closeContextMenu");
       store.dispatch("sparepartsOrders/toggleEditOrder", {
         ...this.data,
+        open: true,
       });
     },
   },
