@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import formatDate from "../../../../utils/formatDate";
 export default {
   data() {
     return {
@@ -15,6 +16,7 @@ export default {
       createModalActive: (state) => state.sparepartsOrders.createModal_active,
       suppliers: (state) => state.sparepartsOrders.suppliers,
     }),
+    today: () => formatDate(new Date()),
   },
   methods: {
     clearData() {
@@ -126,6 +128,7 @@ export default {
               id="date"
               v-model="date"
               @change="onChangeDate"
+              :min="today"
             />
             <p
               id="error_date"
