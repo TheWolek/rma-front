@@ -126,6 +126,14 @@ const mutations = {
       state.orderItemsChecked.push(data);
     }
   },
+  addSnToPart(state, data) {
+    state.ordersItems.items[data.index].codes.push(data.code);
+  },
+  clearPartsSn(state) {
+    state.ordersItems.items.forEach((el) => {
+      el.codes = [];
+    });
+  },
 };
 
 const actions = {

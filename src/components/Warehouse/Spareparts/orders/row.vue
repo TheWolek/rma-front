@@ -55,10 +55,11 @@ export default {
       });
     },
     recive() {
-      store.dispatch("sparepartsOrders/reciveOrder", {
-        order_id: this.data.part_order_id,
-        status: 2,
-      });
+      store.commit("sparepartsOrders/toggleEditSNModal");
+      // store.dispatch("sparepartsOrders/reciveOrder", {
+      //   order_id: this.data.part_order_id,
+      //   status: 2,
+      // });
     },
   },
 };

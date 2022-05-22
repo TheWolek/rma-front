@@ -68,10 +68,12 @@ export default {
     },
     onRecive() {
       if (this.editOrderMode) {
-        store.dispatch("sparepartsOrders/reciveOrder", {
-          order_id: this.order.orderData.part_order_id,
-          status: 2,
-        });
+        store.commit("sparepartsOrders/toggleEditSNModal");
+
+        // store.dispatch("sparepartsOrders/reciveOrder", {
+        //   order_id: this.order.orderData.part_order_id,
+        //   status: 2,
+        // });
       }
     },
   },

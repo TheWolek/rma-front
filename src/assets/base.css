@@ -61,6 +61,10 @@
   font-weight: normal;
 }
 
+b {
+  font-weight: 600;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-text);

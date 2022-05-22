@@ -35,11 +35,6 @@ export default {
         });
       }
     },
-    barcodesModal() {
-      if (this.checkedItems.length === 1) {
-        store.commit("sparepartsOrders/toggleEditSNModal");
-      }
-    },
   },
 };
 </script>
@@ -65,13 +60,6 @@ export default {
       @click="onChangeStatus"
     >
       <img src="@/assets/change.svg" /> Zmień status
-    </div>
-    <div
-      class="actionBtn small"
-      :class="{ disabled: this.checkedItems.length !== 1 }"
-      @click="barcodesModal"
-    >
-      <img src="@/assets/barcode.svg" /> Kody kreskowe
     </div>
   </div>
 </template>
