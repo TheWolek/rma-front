@@ -77,6 +77,12 @@ const mutations = {
     const index = state.orders.findIndex((o) => o.part_order_id == order_id);
     state.orders[index].status = newStatus;
   },
+  syncOrderData(state) {
+    const index = state.orders.findIndex(
+      (o) => o.part_order_id === state.ordersItems.orderData.part_order_id
+    );
+    state.ordersItems.orderData = state.orders[index];
+  },
   toggleRefreshTable(state, mode) {
     state.refreshingTable = mode;
   },
@@ -201,10 +207,12 @@ const actions = {
     commit("setOrders", [data]);
   },
   submitModal_Edit({ commit }, data) {
-    commit("clearOrders");
-    commit("clearFilter");
-    commit("setOrders", [data]);
-    commit("setOrdersItemsOrderData", data);
+    //commit("clearOrders");
+    //commit("clearFilter");
+    // commit("setOrders", [data]);
+    commit("updateOrderStatus", data);
+    commit("syncOrderData");
+    //commit("setOrdersItemsOrderData", data);
   },
   submitModal_Find({ commit }, data) {
     commit("clearOrders");
@@ -335,7 +343,7 @@ const actions = {
 
       commit("updateOrderStatus", {
         order_id: data.order_id,
-        newStatus: data.status,
+        newStatus: data.newStatus,
       });
     });
   },
