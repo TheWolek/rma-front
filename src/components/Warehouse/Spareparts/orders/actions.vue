@@ -9,22 +9,24 @@ export default {
   },
   methods: {
     toggleNewModal() {
-      store.commit("sparepartsOrders/toggleCreateModal");
+      if (!this.disabledNew) store.commit("sparepartsOrders/toggleCreateModal");
     },
     toggleFindModal() {
-      store.commit("sparepartsOrders/toggleFindModal");
+      if (!this.disabledSearch)
+        store.commit("sparepartsOrders/toggleFindModal");
     },
     onRefresh() {
       store.dispatch("sparepartsOrders/fetchOrdersByFilters");
     },
     onCancel() {
-      if (this.editOrderMode) {
+      if (this.editOrderMode && !this.disabledCancel) {
         store.commit("sparepartsOrders/toggleEditOrderMode");
         store.commit("sparepartsOrders/toggleActiveNewRow", false);
+        store.commit("sparepartsOrders/clearOrdersItems");
       }
     },
     onSave() {
-      if (this.editOrderMode) {
+      if (this.editOrderMode && !this.disabledSave) {
         this.setSaveCoolDown();
         const requestOptions = {
           method: "PUT",
@@ -66,8 +68,8 @@ export default {
         this.saveCoolDown--;
       }, 1000);
     },
-    onRecive() {
-      if (this.editOrderMode) {
+    onRecive(a) {
+      if (this.editOrderMode && !this.disabledRecive) {
         store.commit("sparepartsOrders/toggleEditSNModal");
 
         // store.dispatch("sparepartsOrders/reciveOrder", {
@@ -83,6 +85,23 @@ export default {
       editOrderMode: (state) => state.sparepartsOrders.editOrderMode,
       order: (state) => state.sparepartsOrders.ordersItems,
     }),
+    disabledNew() {
+      return this.editOrderMode;
+    },
+    disabledSave() {
+      return !this.editOrderMode || this.saveCoolDown !== 0;
+    },
+    disabledCancel() {
+      return !this.editOrderMode;
+    },
+    disabledRecive() {
+      return (
+        !this.editOrderMode || ![1, 3].includes(this.order.orderData.status)
+      );
+    },
+    disabledSearch() {
+      return this.editOrderMode;
+    },
   },
 };
 </script>
@@ -91,21 +110,17 @@ export default {
     <div
       class="actionBtn"
       @click="toggleNewModal"
-      :class="{ disabled: this.editOrderMode }"
+      :class="{ disabled: disabledNew }"
     >
       <img src="@/assets/add.svg" class="addImg" /> Nowy
     </div>
-    <div
-      class="actionBtn"
-      @click="onSave"
-      :class="{ disabled: !this.editOrderMode || this.saveCoolDown !== 0 }"
-    >
+    <div class="actionBtn" @click="onSave" :class="{ disabled: disabledSave }">
       <img src="@/assets/save.svg" class="saveImg" />Zapisz
     </div>
     <div
       class="actionBtn"
       @click="onCancel"
-      :class="{ disabled: !this.editOrderMode }"
+      :class="{ disabled: disabledCancel }"
     >
       <img src="@/assets/cancel.svg" /> Anuluj
     </div>
@@ -113,7 +128,7 @@ export default {
       class="actionBtn"
       @click="onRecive"
       :class="{
-        disabled: !this.editOrderMode,
+        disabled: disabledRecive,
       }"
     >
       <img src="@/assets/open-box.png" />
@@ -122,7 +137,7 @@ export default {
     <div
       class="actionBtn"
       @click="toggleFindModal"
-      :class="{ disabled: this.editOrderMode }"
+      :class="{ disabled: disabledSearch }"
     >
       <img src="@/assets/search.svg" class="searchImg" /> Szukaj
     </div>

@@ -31,6 +31,7 @@ export default {
   mounted() {
     store.dispatch("sparepartsOrders/fetchAllCategories");
     store.dispatch("sparepartsOrders/fetchAllSuppliers");
+    store.dispatch("sparepartsOrders/fetchAllStatuses");
   },
 };
 </script>

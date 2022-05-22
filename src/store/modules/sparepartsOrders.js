@@ -5,11 +5,12 @@ const state = {
   editSNModal_active: false,
   categories: [],
   suppliers: [],
-  statuses: {
-    0: { id: 0, name: "nowy" },
-    1: { id: 1, name: "w realizacji" },
-    2: { id: 2, name: "zakończony" },
-  },
+  // statuses: {
+  //   0: { id: 0, name: "nowy" },
+  //   1: { id: 1, name: "w realizacji" },
+  //   2: { id: 2, name: "zakończony" },
+  // },
+  statuses: [],
   orders: [],
   ordersItems: {
     orderData: {},
@@ -45,6 +46,9 @@ const mutations = {
   },
   setSuppliers(state, data) {
     state.suppliers = data;
+  },
+  setStatuses(state, data) {
+    state.statuses = data;
   },
   clearOrders(state) {
     state.orders = [];
@@ -164,6 +168,22 @@ const actions = {
         }
 
         commit("setSuppliers", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  fetchAllStatuses({ commit }) {
+    fetch("http://localhost:3000/warehouse/spareparts/statuses")
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setStatuses", resData);
       })
       .catch((error) => {
         console.log(error);
