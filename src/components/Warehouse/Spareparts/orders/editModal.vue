@@ -147,7 +147,7 @@ export default {
           <label for="status">status</label>
           <div>
             <select id="status" v-model="orderStatus">
-              <option disabled value>Model</option>
+              <option disabled value>status</option>
               <option v-for="el in statuses" :key="el.id" :value="el.id">
                 {{ el.name }}
               </option>
