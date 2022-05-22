@@ -54,13 +54,6 @@ export default {
         open: true,
       });
     },
-    recive() {
-      store.commit("sparepartsOrders/toggleEditSNModal");
-      // store.dispatch("sparepartsOrders/reciveOrder", {
-      //   order_id: this.data.part_order_id,
-      //   status: 2,
-      // });
-    },
   },
 };
 </script>
@@ -81,7 +74,6 @@ export default {
         <ul>
           <li @click="changeStatus">Zmień status</li>
           <li @click="edit">Edytuj</li>
-          <li @click="recive">Odbierz</li>
         </ul>
       </div>
     </td>
