@@ -347,6 +347,33 @@ const actions = {
       });
     });
   },
+  sendItemsSn({ commit, state }) {
+    let itemsToUpdate = [];
+    state.ordersItems.items.forEach((el) => {
+      itemsToUpdate.push({ item_id: el.order_item_id, codes: el.codes });
+    });
+    console.log(itemsToUpdate);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(itemsToUpdate),
+    };
+
+    fetch(
+      "http://localhost:3000/warehouse/spareparts/orders/items/codes",
+      requestOptions
+    ).then(async (res) => {
+      const resData = await res.json();
+
+      if (!res.ok) {
+        const error = (resData && resData.message) || res.status;
+        return Promise.reject(error);
+      }
+
+      console.log("updated");
+      commit("toggleEditSNModal");
+    });
+  },
 };
 
 export default {

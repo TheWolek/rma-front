@@ -14,6 +14,14 @@ export default {
       editSNModal_active: (state) => state.sparepartsOrders.editSNModal_active,
       items: (state) => state.sparepartsOrders.ordersItems.items,
     }),
+    enabledSubmit() {
+      let items = this.items;
+      let good = 0;
+      items.forEach((el) => {
+        if (el.amount === el.codes.length) good += 1;
+      });
+      return good !== items.length;
+    },
   },
   mounted() {
     store.commit("sparepartsOrders/clearPartsSn");
@@ -22,7 +30,9 @@ export default {
     toggleModal() {
       store.commit("sparepartsOrders/toggleEditSNModal");
     },
-    submit() {},
+    submit() {
+      store.dispatch("sparepartsOrders/sendItemsSn");
+    },
   },
 };
 </script>
@@ -45,7 +55,12 @@ export default {
             :item="{ ...item, index }"
           />
         </div>
-        <input type="submit" value="Odbierz" @click="submit" />
+        <input
+          type="button"
+          value="Odbierz"
+          @click="submit"
+          :disabled="this.enabledSubmit"
+        />
       </form>
     </div>
   </div>

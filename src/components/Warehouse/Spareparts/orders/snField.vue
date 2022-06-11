@@ -23,11 +23,13 @@ export default {
     },
     onAdd() {
       console.log(this.tempCode);
-      store.commit("sparepartsOrders/addSnToPart", {
-        index: this.item.index,
-        code: this.tempCode,
-      });
-      this.tempCode = "";
+      if (this.tempCode !== "") {
+        store.commit("sparepartsOrders/addSnToPart", {
+          index: this.item.index,
+          code: this.tempCode,
+        });
+        this.tempCode = "";
+      }
     },
   },
 };
