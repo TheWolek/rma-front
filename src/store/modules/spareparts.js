@@ -1,5 +1,5 @@
 const state = {
-  parts: [],
+  parts: {},
   categories: [],
   findModalActive: false,
 };
@@ -7,9 +7,6 @@ const state = {
 const mutations = {
   setParts(state, data) {
     state.parts = data;
-  },
-  addPart(state, toAdd) {
-    state.parts.push(toAdd);
   },
   setCategories(state, data) {
     state.categories = data;

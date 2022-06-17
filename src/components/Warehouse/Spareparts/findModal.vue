@@ -94,6 +94,7 @@ export default {
           //   if (this.date !== "") filters.names.expDate = [this.date, this.date]; //[this.date, new Date(this.date).toISOString()]
 
           console.log(resData);
+          store.commit("spareparts/setParts", resData);
 
           if (!res.ok) {
             // store.commit("sparepartsOrders/toggleRefreshTable", false);
