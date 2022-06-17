@@ -347,7 +347,7 @@ const actions = {
       });
     });
   },
-  sendItemsSn({ commit, state }) {
+  async sendItemsSn({ commit, state, dispatch }) {
     let itemsToUpdate = [];
     state.ordersItems.items.forEach((el) => {
       itemsToUpdate.push({ item_id: el.order_item_id, codes: el.codes });
@@ -359,7 +359,7 @@ const actions = {
       body: JSON.stringify(itemsToUpdate),
     };
 
-    fetch(
+    await fetch(
       "http://localhost:3000/warehouse/spareparts/orders/items/codes",
       requestOptions
     ).then(async (res) => {
@@ -373,6 +373,10 @@ const actions = {
       console.log("updated");
       commit("toggleEditSNModal");
     });
+
+    await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
+
+    await console.log("items added");
   },
 };
 
