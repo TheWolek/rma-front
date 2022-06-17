@@ -1,8 +1,41 @@
-const state = {};
+const state = {
+  parts: [],
+  categories: [],
+  findModalActive: false,
+};
 
-const mutations = {};
+const mutations = {
+  setParts(state, data) {
+    state.parts = data;
+  },
+  addPart(state, toAdd) {
+    state.parts.push(toAdd);
+  },
+  setCategories(state, data) {
+    state.categories = data;
+  },
+  toggleFindModal(state) {
+    state.findModalActive = !state.findModalActive;
+  },
+};
 
 const actions = {
+  fetchAllCategories({ commit }) {
+    fetch("http://localhost:3000/warehouse/spareparts/categories")
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setCategories", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   addSpareparts({ commit, state, rootState }, data) {
     let items = [];
     data.forEach((el) => {

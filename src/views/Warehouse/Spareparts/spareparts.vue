@@ -1,13 +1,36 @@
+<script>
+import actions from "../../../components/Warehouse/Spareparts/actions.vue";
+import findModal from "../../../components/Warehouse/Spareparts/findModal.vue";
+import store from "../../../store";
+
+export default {
+  components: {
+    actions,
+    findModal,
+  },
+  mounted() {
+    store.dispatch("spareparts/fetchAllCategories");
+  },
+};
+</script>
+
 <template>
   <div id="warehouseSpareparts">
-    <h1>This is warehouse spare parts page</h1>
+    <findModal />
+    <actions />
+    <div class="warehouseSpareparts_wrap">
+      <h1>Zarejestrowane części zamienne</h1>
+    </div>
   </div>
 </template>
 
 <style>
 #warehouseSpareparts {
-  min-height: 100vh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+}
+
+.warehouseSpareparts_wrap {
+  padding: 0.5em;
 }
 </style>
