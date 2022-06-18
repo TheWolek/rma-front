@@ -2,10 +2,11 @@
 import { useRoute } from "vue-router";
 
 import PartDetails from "../../../components/Warehouse/Spareparts/details/index.vue";
+import actions from "../../../components/Warehouse/Spareparts/details/actions.vue";
 import store from "../../../store";
 
 export default {
-  components: { PartDetails },
+  components: { PartDetails, actions },
   mounted() {
     const route = useRoute();
     const id = route.params.id;
@@ -22,6 +23,7 @@ export default {
 </script>
 <template>
   <div id="warehouseSparepartsDetails">
+    <actions />
     <div class="warehouseSparepartsDetails_wrap">
       <h1>Szczegóły części zamiennych</h1>
       <PartDetails />

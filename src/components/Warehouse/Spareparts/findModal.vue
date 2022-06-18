@@ -17,7 +17,6 @@ export default {
   computed: {
     ...mapState({
       findModalActive: (state) => state.spareparts.findModalActive,
-      categories: (state) => state.spareparts.categories,
     }),
     error_formActive() {
       if (

@@ -12,9 +12,6 @@ export default {
     partsTable,
     filters,
   },
-  mounted() {
-    store.dispatch("spareparts/fetchAllCategories");
-  },
 };
 </script>
 

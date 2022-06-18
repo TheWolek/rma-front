@@ -4,7 +4,11 @@ import store from "../../../../store";
 
 export default {
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState({
+      activePart: (state) => state.spareparts.activePartDetails,
+    }),
+  },
 };
 </script>
 <template>
