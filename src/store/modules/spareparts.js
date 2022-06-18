@@ -3,6 +3,10 @@ const state = {
   categories: [],
   findModalActive: false,
   refreshingTable: false,
+  appliedFilters: {
+    active: false,
+    names: {},
+  },
 };
 
 const mutations = {
@@ -17,6 +21,25 @@ const mutations = {
   },
   toggleRefreshTable(state, newState) {
     state.refreshingTable = newState;
+  },
+  clearParts(state) {
+    state.parts = {};
+  },
+  clearFilter(state) {
+    state.appliedFilters = {
+      active: false,
+      names: {},
+    };
+  },
+  setFilter(state, data) {
+    state.appliedFilters = data;
+  },
+  removeFilter(state, filterToDel) {
+    if (filterToDel === "category")
+      return delete state.appliedFilters.names.category;
+    if (filterToDel === "producer")
+      return delete state.appliedFilters.names.producer;
+    if (filterToDel === "name") return delete state.appliedFilters.names.name;
   },
 };
 
@@ -69,6 +92,57 @@ const actions = {
         return Promise.reject(error);
       }
     });
+  },
+  submitModal_Find({ commit }, data) {
+    commit("clearParts");
+    commit("clearFilter");
+    commit("setFilter", data.filters);
+    commit("setParts", data.data);
+  },
+  deleteFilter({ commit, dispatch }, toDel) {
+    commit("removeFilter", toDel);
+    dispatch("fetchPartsByFilters");
+  },
+  fetchPartsByFilters({ commit, state }) {
+    commit("toggleRefreshTable", true);
+    const filters = Object.entries(state.appliedFilters.names);
+
+    if (filters.length === 0) {
+      commit("clearParts");
+      commit("toggleRefreshTable", false);
+      return;
+    }
+
+    let url = `http://localhost:3000/warehouse/spareparts?`;
+    let active = 0;
+
+    filters.forEach((el) => {
+      const [key, value] = el;
+      if (active > 0) url += "&";
+      url += `${key}=${value}`;
+      active++;
+    });
+
+    fetch(url)
+      .then(async (res) => {
+        const resData = await res.json();
+        if (!res.ok) {
+          if (res.status == 404) {
+            commit("setParts", []);
+            commit("toggleRefreshTable", false);
+            return;
+          }
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+        setTimeout(() => {
+          commit("setParts", resData);
+          commit("toggleRefreshTable", false);
+        }, 500);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
   },
 };
 

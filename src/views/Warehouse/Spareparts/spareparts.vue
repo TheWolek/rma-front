@@ -2,6 +2,7 @@
 import actions from "../../../components/Warehouse/Spareparts/actions.vue";
 import partsTable from "../../../components/Warehouse/Spareparts/table.vue";
 import findModal from "../../../components/Warehouse/Spareparts/findModal.vue";
+import filters from "../../../components/Warehouse/Spareparts/filters.vue";
 import store from "../../../store";
 
 export default {
@@ -9,6 +10,7 @@ export default {
     actions,
     findModal,
     partsTable,
+    filters,
   },
   mounted() {
     store.dispatch("spareparts/fetchAllCategories");
@@ -22,6 +24,7 @@ export default {
     <actions />
     <div class="warehouseSpareparts_wrap">
       <h1>Zarejestrowane części zamienne</h1>
+      <filters />
       <partsTable />
     </div>
   </div>

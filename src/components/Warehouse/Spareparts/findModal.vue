@@ -74,37 +74,26 @@ export default {
         .then(async (res) => {
           store.commit("spareparts/toggleRefreshTable", true);
           const resData = await res.json();
-          //   let filters = {
-          //     active: true,
-          //     names: {},
-          //   };
+          let filters = {
+            active: true,
+            names: {},
+          };
 
-          //   let model = this.categories.find((o) => o.part_cat_id === this.model);
-
-          //   if (this.model !== "")
-          //     filters.names.partCatId = [
-          //       model.producer + " " + model.name,
-          //       this.model,
-          //     ];
-          //   if (this.status !== "")
-          //     filters.names.status = [
-          //       this.statuses[this.status].name,
-          //       this.status,
-          //     ];
-          //   if (this.date !== "") filters.names.expDate = [this.date, this.date]; //[this.date, new Date(this.date).toISOString()]
+          if (this.category !== "") filters.names.category = this.category;
+          if (this.producer !== "") filters.names.producer = this.producer;
+          if (this.name !== "") filters.names.name = this.name;
 
           console.log(resData);
 
           if (!res.ok) {
             store.commit("spareparts/toggleRefreshTable", false);
             this.toggleModal();
-            this.clearData();
             if (res.status == 404) {
-              //   store.dispatch("sparepartsOrders/submitModal_Find", {
-              //     data: [],
-              //     filters,
-              //     filters,
-              //   });
+              store.dispatch("spareparts/submitModal_Find", {
+                data: [],
+                filters: filters,
+              });
+              this.clearData();
               console.log("nothing was found");
               return;
             }
@@ -113,11 +102,10 @@ export default {
           }
           this.toggleModal();
           setTimeout(() => {
-            // store.dispatch("sparepartsOrders/submitModal_Find", {
-            //   data: resData,
-            //   filters: filters,
-            // });
-            store.commit("spareparts/setParts", resData);
+            store.dispatch("spareparts/submitModal_Find", {
+              data: resData,
+              filters: filters,
+            });
             this.clearData();
             store.commit("spareparts/toggleRefreshTable", false);
           }, 500);
