@@ -72,7 +72,7 @@ export default {
 
       fetch(url)
         .then(async (res) => {
-          //   store.commit("sparepartsOrders/toggleRefreshTable", true);
+          store.commit("spareparts/toggleRefreshTable", true);
           const resData = await res.json();
           //   let filters = {
           //     active: true,
@@ -94,17 +94,17 @@ export default {
           //   if (this.date !== "") filters.names.expDate = [this.date, this.date]; //[this.date, new Date(this.date).toISOString()]
 
           console.log(resData);
-          store.commit("spareparts/setParts", resData);
 
           if (!res.ok) {
-            // store.commit("sparepartsOrders/toggleRefreshTable", false);
+            store.commit("spareparts/toggleRefreshTable", false);
+            this.toggleModal();
+            this.clearData();
             if (res.status == 404) {
               //   store.dispatch("sparepartsOrders/submitModal_Find", {
               //     data: [],
               //     filters,
               //     filters,
               //   });
-              //   this.toggleModal();
               console.log("nothing was found");
               return;
             }
@@ -112,14 +112,15 @@ export default {
             return Promise.reject(error);
           }
           this.toggleModal();
-          this.clearData();
-          //   setTimeout(() => {
-          //     store.dispatch("sparepartsOrders/submitModal_Find", {
-          //       data: resData,
-          //       filters: filters,
-          //     });
-          //     store.commit("sparepartsOrders/toggleRefreshTable", false);
-          //   }, 500);
+          setTimeout(() => {
+            // store.dispatch("sparepartsOrders/submitModal_Find", {
+            //   data: resData,
+            //   filters: filters,
+            // });
+            store.commit("spareparts/setParts", resData);
+            this.clearData();
+            store.commit("spareparts/toggleRefreshTable", false);
+          }, 500);
         })
         .catch((error) => {
           return this.showError("error_form", error);

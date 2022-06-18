@@ -1,21 +1,27 @@
 <script>
 import row from "./row.vue";
+import loadingDots from "../../icons/loadingDots.vue";
 
 import { mapState } from "vuex";
 
 export default {
   components: {
     row,
+    loadingDots,
   },
   computed: {
     ...mapState({
       parts: (state) => state.spareparts.parts,
+      loading: (state) => state.spareparts.refreshingTable,
     }),
   },
 };
 </script>
 <template>
   <div class="sparepartsTable">
+    <div class="tableLoadingWrap" :class="{ active: this.loading }">
+      <loadingDots :active="this.loading" />
+    </div>
     <table>
       <tr>
         <th></th>

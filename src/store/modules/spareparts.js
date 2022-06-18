@@ -2,6 +2,7 @@ const state = {
   parts: {},
   categories: [],
   findModalActive: false,
+  refreshingTable: false,
 };
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   toggleFindModal(state) {
     state.findModalActive = !state.findModalActive;
+  },
+  toggleRefreshTable(state, newState) {
+    state.refreshingTable = newState;
   },
 };
 
