@@ -7,6 +7,7 @@ const state = {
     active: false,
     names: {},
   },
+  activePartDetails: {},
 };
 
 const mutations = {
@@ -40,6 +41,12 @@ const mutations = {
     if (filterToDel === "producer")
       return delete state.appliedFilters.names.producer;
     if (filterToDel === "name") return delete state.appliedFilters.names.name;
+  },
+  setActivePartDetails(state, data) {
+    state.activePartDetails = data;
+  },
+  clearActivePartDetails(state) {
+    state.activePartDetails = {};
   },
 };
 
@@ -139,6 +146,30 @@ const actions = {
           commit("setParts", resData);
           commit("toggleRefreshTable", false);
         }, 500);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  },
+  fetchActivePartDetails({ commit }, id) {
+    console.log(id);
+    fetch(`http://localhost:3000/warehouse/spareparts?cat_id=${id}`)
+      .then(async (res) => {
+        const resData = await res.json();
+        if (!res.ok) {
+          if (res.status == 404) {
+            commit("clearActivePartDetails");
+            // commit("toggleRefreshTable", false);
+            return;
+          }
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+        // setTimeout(() => {
+        //   commit("setParts", resData);
+        //   commit("toggleRefreshTable", false);
+        // }, 500);
+        commit("setActivePartDetails", resData);
       })
       .catch((error) => {
         return console.log(error);

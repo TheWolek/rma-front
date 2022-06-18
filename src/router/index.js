@@ -8,6 +8,7 @@ import warehouseSpareparts from "../views/Warehouse/Spareparts/spareparts.vue";
 import warehouseItemsChangeShelve from "../views/Warehouse/Items/ChangeShelve.vue";
 import warehouseSparepartsOrders from "../views/Warehouse/Spareparts/orders.vue";
 import warehouseSparepartsStock from "../views/Warehouse/Spareparts/stock.vue";
+import warehouseSparepartsDetails from "../views/Warehouse/Spareparts/details.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,13 @@ const router = createRouter({
           components: {
             default: warehouse,
             innerView: warehouseSpareparts,
+          },
+        },
+        {
+          path: "spareparts/:id",
+          components: {
+            default: warehouse,
+            innerView: warehouseSparepartsDetails,
           },
         },
         {
