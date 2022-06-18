@@ -30,7 +30,7 @@ export default {
         <th>model</th>
         <th>wolne sztuki</th>
       </tr>
-      <row v-for="part in parts" :key="part.part.cat_id" :data="part" />
+      <row v-for="part in parts" :key="part.part.cat_id" :rowData="part" />
     </table>
   </div>
 </template>
