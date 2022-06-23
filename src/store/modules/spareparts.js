@@ -9,6 +9,7 @@ const state = {
   },
   activePartDetails: {},
   partDetailsPageActive: false,
+  fetchingPartDetails: false,
 };
 
 const mutations = {
@@ -51,6 +52,9 @@ const mutations = {
   },
   togglePartDetailsPageActive(state, newState) {
     state.partDetailsPageActive = newState;
+  },
+  toggleFetchingPartDetails(state, newState) {
+    state.fetchingPartDetails = newState;
   },
 };
 
@@ -181,8 +185,12 @@ const actions = {
   },
   openPartDetails({ state, commit, dispatch }, id) {
     console.log(id);
+    commit("toggleFetchingPartDetails", true);
     dispatch("fetchActivePartDetails", id);
-    commit("togglePartDetailsPageActive", true);
+    setTimeout(() => {
+      commit("togglePartDetailsPageActive", true);
+      commit("toggleFetchingPartDetails", false);
+    }, 400);
   },
 };
 

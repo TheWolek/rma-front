@@ -20,11 +20,11 @@ export default {
     </div>
     <div class="form-group">
       <label>Producent</label>
-      <input type="text" disabled />
+      <input type="text" :value="activePart.part.producer" disabled />
     </div>
     <div class="form-group">
       <label>Model</label>
-      <input type="text" disabled />
+      <input type="text" :value="activePart.part.name" disabled />
     </div>
   </div>
 </template>

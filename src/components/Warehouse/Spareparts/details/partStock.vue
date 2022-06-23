@@ -6,17 +6,12 @@ import partStockRow from "./partStockRow.vue";
 export default {
   components: { partStockRow },
   data() {
-    return {
-      totalAmount: null,
-    };
+    return {};
   },
   computed: {
     ...mapState({
       activePart: (state) => state.spareparts.activePartDetails,
     }),
-  },
-  mounted() {
-    //this.totalAmount = this.activePart.warehouse.totalAmount;
   },
 };
 </script>
@@ -25,7 +20,7 @@ export default {
     <div class="stockData">
       <div class="form-group">
         <label>Dostępne sztuki</label>
-        <input type="text" v-model="totalAmount" disabled />
+        <input type="text" :value="activePart.warehouse.totalAmount" disabled />
       </div>
     </div>
     <table>
@@ -33,10 +28,10 @@ export default {
         <th>Lokalizacja</th>
         <th>Ilość</th>
       </tr>
-      <!-- <partStockRow
+      <partStockRow
         v-for="(part, key) in this.activePart.warehouse.parts_id"
         :key="key"
-      /> -->
+      />
     </table>
   </div>
 </template>
