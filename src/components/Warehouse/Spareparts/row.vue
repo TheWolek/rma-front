@@ -1,11 +1,11 @@
 <script>
-import { RouterLink } from "vue-router";
+import store from "../../../store";
 
 export default {
   props: ["rowData"],
   data() {
     return {
-      url: `/warehouse/spareparts/${this.rowData.part.cat_id}`,
+      id: this.rowData.part.cat_id,
     };
   },
   computed: {
@@ -15,26 +15,27 @@ export default {
       else return false;
     },
   },
-  mounted() {},
-  methods: {},
+  methods: {
+    reditect() {
+      store.dispatch("spareparts/openPartDetails", this.id);
+    },
+  },
 };
 </script>
 <template>
-  <tr :id="this.rowData.part.cat_id">
+  <tr :id="this.rowData.part.cat_id" @click="reditect">
     <td><input type="checkbox" :id="this.rowData.part.cat_id" /></td>
     <td>
-      <RouterLink :to="this.url">{{ this.rowData.part.category }}</RouterLink>
+      {{ this.rowData.part.category }}
     </td>
     <td>
-      <RouterLink :to="this.url">{{ this.rowData.part.producer }}</RouterLink>
+      {{ this.rowData.part.producer }}
     </td>
     <td>
-      <RouterLink :to="this.url">{{ this.rowData.part.name }}</RouterLink>
+      {{ this.rowData.part.name }}
     </td>
     <td :class="{ noStock: this.isStockNull }">
-      <RouterLink :to="this.url">{{
-        this.rowData.warehouse.totalAmount + " szt"
-      }}</RouterLink>
+      {{ this.rowData.warehouse.totalAmount + " szt" }}
     </td>
   </tr>
 </template>
@@ -48,6 +49,7 @@ td a {
   display: block;
 }
 tr:hover td {
+  cursor: pointer;
   background-color: #e9e9e9;
 }
 </style>

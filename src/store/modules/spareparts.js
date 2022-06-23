@@ -8,6 +8,7 @@ const state = {
     names: {},
   },
   activePartDetails: {},
+  partDetailsPageActive: false,
 };
 
 const mutations = {
@@ -43,10 +44,13 @@ const mutations = {
     if (filterToDel === "name") return delete state.appliedFilters.names.name;
   },
   setActivePartDetails(state, data) {
-    state.activePartDetails = data;
+    state.activePartDetails = data[Object.keys(data)[0]];
   },
   clearActivePartDetails(state) {
     state.activePartDetails = {};
+  },
+  togglePartDetailsPageActive(state, newState) {
+    state.partDetailsPageActive = newState;
   },
 };
 
@@ -174,6 +178,11 @@ const actions = {
       .catch((error) => {
         return console.log(error);
       });
+  },
+  openPartDetails({ state, commit, dispatch }, id) {
+    console.log(id);
+    dispatch("fetchActivePartDetails", id);
+    commit("togglePartDetailsPageActive", true);
   },
 };
 

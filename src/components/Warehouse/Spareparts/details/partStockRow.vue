@@ -1,9 +1,7 @@
 <script>
 import { mapState } from "vuex";
-import store from "../../../../store";
 
 export default {
-  mounted() {},
   computed: {
     ...mapState({
       activePart: (state) => state.spareparts.activePartDetails,
@@ -12,5 +10,8 @@ export default {
 };
 </script>
 <template>
-  <div>sdsadsa</div>
+  <tr>
+    <td>ss</td>
+    <td>dff</td>
+  </tr>
 </template>
