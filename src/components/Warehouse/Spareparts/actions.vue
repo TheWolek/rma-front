@@ -6,14 +6,33 @@ export default {
     ...mapState({
       parts: (state) => state.spareparts.parts,
       loading: (state) => state.spareparts.refreshingTable,
+      detailsPageActive: (state) => state.spareparts.partDetailsPageActive,
     }),
+    isGoBackActive() {
+      return !this.detailsPageActive;
+    },
+    isSearchActive() {
+      return this.detailsPageActive;
+    },
+    isRefreshActive() {
+      return this.detailsPageActive;
+    },
   },
   methods: {
     toggleFindModal() {
-      store.commit("spareparts/toggleFindModal");
+      if (!this.isSearchActive) {
+        store.commit("spareparts/toggleFindModal");
+      }
     },
     onRefresh() {
-      store.dispatch("spareparts/fetchPartsByFilters");
+      if (!this.isRefreshActive) {
+        store.dispatch("spareparts/fetchPartsByFilters");
+      }
+    },
+    goBack() {
+      if (!this.isGoBackActive) {
+        store.commit("spareparts/togglePartDetailsPageActive", false);
+      }
     },
   },
 };
@@ -22,8 +41,15 @@ export default {
   <div class="actions">
     <div
       class="actionBtn"
+      @click="goBack"
+      :class="{ disabled: this.isGoBackActive }"
+    >
+      <img src="@/assets/back-arrow.png" class="searchImg" /> Cofnij
+    </div>
+    <div
+      class="actionBtn"
       @click="toggleFindModal"
-      :class="{ disabled: false }"
+      :class="{ disabled: this.isSearchActive }"
     >
       <img src="@/assets/search.svg" class="searchImg" /> Szukaj
     </div>
