@@ -31,6 +31,11 @@ export default {
       <partStockRow
         v-for="(part, key) in this.activePart.warehouse.parts_id"
         :key="key"
+        :data="{
+          id: part,
+          shelve: this.activePart.warehouse.shelves[key],
+          amount: this.activePart.warehouse.stock[key],
+        }"
       />
     </table>
   </div>

@@ -23,7 +23,7 @@
 }
 
 .actionBtn.disabled {
-    color: #939393;
+    color: var(--vt-c-gray);
 }
 
 .actionBtn.disabled:hover {

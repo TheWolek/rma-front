@@ -187,6 +187,7 @@ const actions = {
     console.log(id);
     commit("toggleFetchingPartDetails", true);
     dispatch("fetchActivePartDetails", id);
+    dispatch("items/fetchAllShelves", null, { root: true });
     setTimeout(() => {
       commit("togglePartDetailsPageActive", true);
       commit("toggleFetchingPartDetails", false);
