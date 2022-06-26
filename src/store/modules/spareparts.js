@@ -75,18 +75,27 @@ const actions = {
         console.log(error);
       });
   },
-  addSpareparts({ commit, state, rootState }, data) {
+  addSpareparts({ commit, state, dispatch, rootState }) {
     let items = [];
-    data.forEach((el) => {
-      const itemData = rootState.sparepartsOrders.ordersItems.items.find(
-        (o) => o.order_item_id == el.item_id
-      );
+
+    rootState.sparepartsOrders.ordersItems.items.forEach((el) => {
       items.push({
-        cat_id: itemData.part_cat_id,
+        cat_id: el.part_cat_id,
         amount: el.codes.length,
         shelve: 0,
       });
     });
+
+    // data.forEach((el) => {
+    //   const itemData = rootState.sparepartsOrders.ordersItems.items.find(
+    //     (o) => o.order_item_id == el.item_id
+    //   );
+    //   items.push({
+    //     cat_id: itemData.part_cat_id,
+    //     amount: el.codes.length,
+    //     shelve: 0,
+    //   });
+    // });
 
     console.log(items);
 
@@ -106,6 +115,11 @@ const actions = {
         const error = (resData && resData.message) || res.status;
         return Promise.reject(error);
       }
+
+      console.log(resData);
+      dispatch("sparepartsOrders/sendItemsSn", resData.inertedRows, {
+        root: true,
+      });
     });
   },
   submitModal_Find({ commit }, data) {

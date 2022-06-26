@@ -75,7 +75,7 @@ export default {
 
           let item = {
             order_id: this.formData.part_order_id,
-            newStatus: this.orderStatus,
+            status: this.orderStatus,
           };
 
           store.dispatch("sparepartsOrders/submitModal_Edit", item);

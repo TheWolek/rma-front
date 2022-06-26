@@ -73,9 +73,9 @@ const mutations = {
   setOrders(state, orders) {
     state.orders = orders;
   },
-  updateOrderStatus(state, { order_id, newStatus }) {
+  updateOrderStatus(state, { order_id, status }) {
     const index = state.orders.findIndex((o) => o.part_order_id == order_id);
-    state.orders[index].status = newStatus;
+    state.orders[index].status = status;
   },
   syncOrderData(state) {
     const index = state.orders.findIndex(
@@ -343,14 +343,19 @@ const actions = {
 
       commit("updateOrderStatus", {
         order_id: data.order_id,
-        newStatus: data.newStatus,
+        status: data.status,
       });
+      commit("syncOrderData");
     });
   },
-  async sendItemsSn({ commit, state, dispatch }) {
+  async sendItemsSn({ commit, state, dispatch }, insertedRowsIds) {
     let itemsToUpdate = [];
-    state.ordersItems.items.forEach((el) => {
-      itemsToUpdate.push({ item_id: el.order_item_id, codes: el.codes });
+    state.ordersItems.items.forEach((el, index) => {
+      itemsToUpdate.push({
+        item_id: el.order_item_id,
+        codes: el.codes,
+        part_id: insertedRowsIds[index].insertedId,
+      });
     });
     console.log(itemsToUpdate);
     const requestOptions = {
@@ -359,6 +364,7 @@ const actions = {
       body: JSON.stringify(itemsToUpdate),
     };
 
+    //add items barcodes with order_item_id, code and part_id (from above insert)
     await fetch(
       "http://localhost:3000/warehouse/spareparts/orders/items/codes",
       requestOptions
@@ -370,13 +376,22 @@ const actions = {
         return Promise.reject(error);
       }
 
+      //add items to warehouse. Then push their insertId into state as ''
+      //await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
+
       console.log("updated");
+      dispatch("reciveOrder", {
+        order_id: state.ordersItems.orderData.part_order_id,
+        status: 2,
+      });
       commit("toggleEditSNModal");
     });
-
-    await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
-
-    await console.log("items added");
+  },
+  closeCurrentOrder({ state, commit }) {
+    let currOrderData = state.ordersItems.orderData;
+    currOrderData.status = 2;
+    console.log(currOrderData);
+    commit("setOrdersItemsOrderData", currOrderData);
   },
 };
 

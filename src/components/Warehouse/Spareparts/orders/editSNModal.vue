@@ -31,7 +31,7 @@ export default {
       store.commit("sparepartsOrders/toggleEditSNModal");
     },
     submit() {
-      store.dispatch("sparepartsOrders/sendItemsSn");
+      store.dispatch("spareparts/addSpareparts");
     },
   },
 };
