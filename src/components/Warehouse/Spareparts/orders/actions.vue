@@ -89,7 +89,11 @@ export default {
       return this.editOrderMode;
     },
     disabledSave() {
-      return !this.editOrderMode || this.saveCoolDown !== 0;
+      return (
+        !this.editOrderMode ||
+        this.saveCoolDown !== 0 ||
+        this.order.orderData.status === 2
+      );
     },
     disabledCancel() {
       return !this.editOrderMode;
