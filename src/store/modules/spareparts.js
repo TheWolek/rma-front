@@ -9,7 +9,9 @@ const state = {
   },
   activePartDetails: {},
   partDetailsPageActive: false,
+  partDetailsSnTableActive: false,
   fetchingPartDetails: false,
+  snModalActive: false,
 };
 
 const mutations = {
@@ -55,6 +57,12 @@ const mutations = {
   },
   toggleFetchingPartDetails(state, newState) {
     state.fetchingPartDetails = newState;
+  },
+  toggleSnModal(state, newState) {
+    state.snModalActive = newState;
+  },
+  togglePartDetailsSnTableActive(state, newState) {
+    state.partDetailsSnTableActive = newState;
   },
 };
 
@@ -206,6 +214,37 @@ const actions = {
       commit("togglePartDetailsPageActive", true);
       commit("toggleFetchingPartDetails", false);
     }, 400);
+  },
+  fetchActivePartDetailsByBarcode({ commit, dispatch }, code) {
+    fetch(`http://localhost:3000/warehouse/spareparts/code?codes=${code}`)
+      .then(async (res) => {
+        const resData = await res.json();
+        if (!res.ok) {
+          if (res.status == 404) {
+            commit("clearActivePartDetails");
+            // commit("toggleRefreshTable", false);
+            return;
+          }
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+        // setTimeout(() => {
+        //   commit("setParts", resData);
+        //   commit("toggleRefreshTable", false);
+        // }, 500);
+        commit("setActivePartDetails", resData);
+        commit("togglePartDetailsSnTableActive", true);
+        commit("toggleSnModal", false);
+        commit("toggleFetchingPartDetails", true);
+        dispatch("items/fetchAllShelves", null, { root: true });
+        setTimeout(() => {
+          commit("togglePartDetailsPageActive", true);
+          commit("toggleFetchingPartDetails", false);
+        }, 400);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
   },
 };
 

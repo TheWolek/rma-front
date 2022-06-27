@@ -4,9 +4,10 @@ import store from "../../../store";
 export default {
   computed: {
     ...mapState({
-      parts: (state) => state.spareparts.parts,
       loading: (state) => state.spareparts.refreshingTable,
       detailsPageActive: (state) => state.spareparts.partDetailsPageActive,
+      detailsPageSnTableActive: (state) =>
+        state.spareparts.partDetailsSnTableActive,
     }),
     isGoBackActive() {
       return !this.detailsPageActive;
@@ -16,6 +17,9 @@ export default {
     },
     isRefreshActive() {
       return this.detailsPageActive;
+    },
+    isUsePartActive() {
+      return !this.detailsPageSnTableActive;
     },
   },
   methods: {
@@ -32,6 +36,20 @@ export default {
     goBack() {
       if (!this.isGoBackActive) {
         store.commit("spareparts/togglePartDetailsPageActive", false);
+        store.commit("spareparts/togglePartDetailsSnTableActive", false);
+      }
+    },
+    toggleSnModal() {
+      store.commit("spareparts/toggleSnModal", true);
+    },
+    usePart() {
+      if (!this.isUsePartActive) console.log("using");
+    },
+    changePartShelve() {
+      if (this.detailsPageSnTableActive) {
+        console.log("toggle change shelve modal with active item selected");
+      } else {
+        console.log("toggle change shelve modal");
       }
     },
   },
@@ -52,6 +70,19 @@ export default {
       :class="{ disabled: this.isSearchActive }"
     >
       <img src="@/assets/search.svg" class="searchImg" /> Szukaj
+    </div>
+    <div class="actionBtn" @click="toggleSnModal" :class="{ disabled: false }">
+      <img src="@/assets/barcode.svg" /> Kod kreskowy
+    </div>
+    <div
+      class="actionBtn"
+      @click="usePart"
+      :class="{ disabled: isUsePartActive }"
+    >
+      <img src="@/assets/gear.svg" /> Użyj części
+    </div>
+    <div class="actionBtn" @click="changePartShelve">
+      <img src="@/assets/shelve.svg" /> Zmień lokalizacje
     </div>
     <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
       <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
