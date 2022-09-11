@@ -84,7 +84,7 @@ export default {
 <template>
   <div class="actions">
     <div class="actionBtn" id="btn1" @click="toggleNewModal">
-      <img src="@/assets/add.svg" class="addImg" /> Nowy
+      <img src="@/assets/add.svg" class="addImg" /> Dodaj
     </div>
     <div class="actionBtn" id="btn2" @click="toggleFindModal">
       <img src="@/assets/barcode.svg" />Kod kreskowy
