@@ -57,6 +57,7 @@ export default {
     <td :id="this.data.shelve">
       {{ this.data.shelve_code || this.shelves[this.data.shelve].code }}
     </td>
+    <td>{{ this.data.sn }}</td>
     <td class="actionCell">
       <div class="burger" @click="toggleMenu">
         <span></span>
