@@ -8,6 +8,9 @@ export default {
       barcode: "",
       error_barcode: "",
       barcode_reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/,
+      sn: "",
+      error_sn: "",
+      sn_reg: /^[A-z0-9]{3,}$/,
     };
   },
   methods: {
@@ -16,12 +19,18 @@ export default {
       this.error_barcode = "";
     },
     handleSubmit() {
-      if (this.barcode == "") return this.displayError("podaj kod kreskowy");
+      if (this.barcode == "")
+        return this.displayError("podaj kod kreskowy", "barcode");
+      if (this.sn == "")
+        return this.displayError("podaj kod numer seryjny", "sn");
       if (!this.barcode_reg.test(this.barcode))
-        return this.displayError("zły format kodu");
+        return this.displayError("zły format kodu", "barcode");
+      if (!this.sn_reg.test(this.sn))
+        return this.displayError("zły format sn", "sn");
 
       const data = {
         barcode: this.barcode,
+        sn: this.sn,
       };
 
       const requestOptions = {
@@ -55,23 +64,44 @@ export default {
           this.toggleModal();
         })
         .catch((error) => {
-          return this.displayError(error);
+          return this.displayError(error, "barcode");
         });
     },
-    displayError(errMsg) {
-      this.error_barcode = errMsg;
-      document.getElementById("error_barcode").style.opacity = 1;
+    displayError(errMsg, context) {
+      if (context === "barcode") {
+        this.error_barcode = errMsg;
+        document.getElementById("error_barcode").style.opacity = 1;
+      }
+      if (context === "sn") {
+        this.error_sn = errMsg;
+        document.getElementById("error_sn").style.opacity = 1;
+      }
     },
-    hideError() {
-      document.getElementById("error_barcode").style.opacity = 0;
-      this.error_barcode = "";
+    hideError(context) {
+      if (context === "barcode") {
+        document.getElementById("error_barcode").style.opacity = 0;
+        this.error_barcode = "";
+      }
+      if (context === "sn") {
+        document.getElementById("error_sn").style.opacity = 0;
+        this.error_sn = "";
+      }
     },
     onChange() {
-      if (this.barcode == "") return this.displayError("podaj kod kreskowy");
+      if (this.barcode == "")
+        return this.displayError("podaj kod kreskowy", "barcode");
       if (!this.barcode_reg.test(this.barcode)) {
-        return this.displayError("zły format kodu");
+        return this.displayError("zły format kodu", "barcode");
       } else {
-        return this.hideError();
+        return this.hideError("barcode");
+      }
+    },
+    onChangeSN() {
+      if (this.sn === "") return this.displayError("podaj numer seryjny", "sn");
+      if (!this.sn_reg.test(this.sn)) {
+        return this.displayError("zły format sn", "sn");
+      } else {
+        return this.hideError("sn");
       }
     },
   },
@@ -105,6 +135,13 @@ export default {
           />
           <p id="error_barcode" class="error_modal_form">
             {{ this.error_barcode }}
+          </p>
+        </div>
+        <label for="sn">Numer seryjny</label>
+        <div>
+          <input type="text" id="sn" v-model.lazy="sn" @change="onChangeSN" />
+          <p id="error_sn" class="error_modal_form">
+            {{ this.error_sn }}
           </p>
         </div>
         <input type="submit" value="Dodaj" />
