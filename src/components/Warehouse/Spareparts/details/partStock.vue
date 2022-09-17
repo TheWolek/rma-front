@@ -26,15 +26,15 @@ export default {
     <table>
       <tr>
         <th>Lokalizacja</th>
-        <th>Ilość</th>
+        <th>Numer seryjny</th>
       </tr>
       <partStockRow
-        v-for="(part, key) in this.activePart.warehouse.parts_id"
+        v-for="(sn, key) in this.activePart.warehouse.codes"
         :key="key"
         :data="{
-          id: part,
+          id: this.activePart.warehouse.parts_id[key],
           shelve: this.activePart.warehouse.shelves[key],
-          amount: this.activePart.warehouse.stock[key],
+          sn: sn,
         }"
       />
     </table>

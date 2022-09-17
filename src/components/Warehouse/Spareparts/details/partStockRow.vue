@@ -12,10 +12,10 @@ export default {
     getShelveName() {
       return this.shelves.find((o) => o.shelve_id === this.data.shelve).code;
     },
-    isStockLow() {
-      if (this.data.amount < 3) return true;
-      else return false;
-    },
+    // isStockLow() {
+    //   if (this.data.amount < 3) return true;
+    //   else return false;
+    // },
     isShelveAvailable() {
       for (let i = 0; i < notAvailableShelves.length; i++) {
         if (this.getShelveName.match(notAvailableShelves[i])) {
@@ -28,11 +28,11 @@ export default {
 };
 </script>
 <template>
-  <tr :id="data.id" :class="{ notAvailable: !this.isShelveAvailable }">
+  <tr :id="data.sn" :class="{ notAvailable: !this.isShelveAvailable }">
     <td>
       {{ getShelveName }}
     </td>
-    <td :class="{ lowStock: this.isStockLow }">{{ data.amount }} szt</td>
+    <td>{{ data.sn }}</td>
   </tr>
 </template>
 <style scoped>
