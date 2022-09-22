@@ -35,6 +35,7 @@ export default {
     },
     goBack() {
       if (!this.isGoBackActive) {
+        this.$router.go(-1);
         store.commit("spareparts/togglePartDetailsPageActive", false);
         store.commit("spareparts/togglePartDetailsSnTableActive", false);
       }
