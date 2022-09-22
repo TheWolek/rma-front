@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
+import fetchSubmit from "./handleSubmit";
 
 export default {
   data() {
@@ -14,6 +15,7 @@ export default {
       error_producer: "",
     };
   },
+  extends: fetchSubmit,
   computed: {
     ...mapState({
       findModalActive: (state) => state.spareparts.findModalActive,
@@ -57,61 +59,71 @@ export default {
         );
       }
 
-      let url = `http://localhost:3000/warehouse/spareparts/?`;
+      //let url = `http://localhost:3000/warehouse/spareparts/?`;
+      let query = {};
 
-      if (this.category !== "") url += `category=${this.category}`;
-      if (this.producer !== "") {
-        if (this.category !== "") url += `&`;
-        url += `producer=${this.producer}`;
-      }
-      if (this.name !== "") {
-        if (this.category !== "" || this.producer !== "") url += `&`;
-        url += `name=${this.name}`;
-      }
+      if (this.category !== "") query.cat = this.category;
+      if (this.producer !== "") query.prod = this.producer;
+      if (this.name !== "") query.name = this.name;
 
-      fetch(url)
-        .then(async (res) => {
-          store.commit("spareparts/toggleRefreshTable", true);
-          const resData = await res.json();
-          let filters = {
-            active: true,
-            names: {},
-          };
+      // if (this.category !== "") url += `category=${this.category}`;
+      // if (this.producer !== "") {
+      //   if (this.category !== "") url += `&`;
+      //   url += `producer=${this.producer}`;
+      // }
+      // if (this.name !== "") {
+      //   if (this.category !== "" || this.producer !== "") url += `&`;
+      //   url += `name=${this.name}`;
+      // }
 
-          if (this.category !== "") filters.names.category = this.category;
-          if (this.producer !== "") filters.names.producer = this.producer;
-          if (this.name !== "") filters.names.name = this.name;
+      this.$router.push({ path: "/warehouse/spareparts", query: query });
+      this.toggleModal();
+      this.handleSubmit_find(query);
+      this.clearData();
 
-          console.log(resData);
+      // fetch(url)
+      //   .then(async (res) => {
+      //     store.commit("spareparts/toggleRefreshTable", true);
+      //     const resData = await res.json();
+      //     let filters = {
+      //       active: true,
+      //       names: {},
+      //     };
 
-          if (!res.ok) {
-            store.commit("spareparts/toggleRefreshTable", false);
-            this.toggleModal();
-            if (res.status == 404) {
-              store.dispatch("spareparts/submitModal_Find", {
-                data: [],
-                filters: filters,
-              });
-              this.clearData();
-              console.log("nothing was found");
-              return;
-            }
-            const error = (resData && resData.message) || res.status;
-            return Promise.reject(error);
-          }
-          this.toggleModal();
-          setTimeout(() => {
-            store.dispatch("spareparts/submitModal_Find", {
-              data: resData,
-              filters: filters,
-            });
-            this.clearData();
-            store.commit("spareparts/toggleRefreshTable", false);
-          }, 500);
-        })
-        .catch((error) => {
-          return this.showError("error_form", error);
-        });
+      //     if (this.category !== "") filters.names.category = this.category;
+      //     if (this.producer !== "") filters.names.producer = this.producer;
+      //     if (this.name !== "") filters.names.name = this.name;
+
+      //     console.log(resData);
+
+      //     if (!res.ok) {
+      //       store.commit("spareparts/toggleRefreshTable", false);
+      //       this.toggleModal();
+      //       if (res.status == 404) {
+      //         store.dispatch("spareparts/submitModal_Find", {
+      //           data: [],
+      //           filters: filters,
+      //         });
+      //         this.clearData();
+      //         console.log("nothing was found");
+      //         return;
+      //       }
+      //       const error = (resData && resData.message) || res.status;
+      //       return Promise.reject(error);
+      //     }
+      //     this.toggleModal();
+      //     setTimeout(() => {
+      //       store.dispatch("spareparts/submitModal_Find", {
+      //         data: resData,
+      //         filters: filters,
+      //       });
+      //       this.clearData();
+      //       store.commit("spareparts/toggleRefreshTable", false);
+      //     }, 500);
+      //   })
+      //   .catch((error) => {
+      //     return this.showError("error_form", error);
+      //   });
     },
   },
 };

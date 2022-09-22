@@ -8,9 +8,16 @@ import partStock from "../../../components/Warehouse/Spareparts/details/partStoc
 import snModal from "../../../components/Warehouse/Spareparts/snModal.vue";
 import partSnTable from "../../../components/Warehouse/Spareparts/details/partSnTable.vue";
 import loadingDots from "../../../components/icons/loadingDots.vue";
+import handleSubmit from "../../../components/Warehouse/Spareparts/handleSubmit";
 import { mapState } from "vuex";
+import { useRoute } from "vue-router";
+import store from "../../../store";
 
 export default {
+  setup() {
+    store.dispatch("items/fetchAllShelves");
+  },
+  extends: handleSubmit,
   components: {
     actions,
     findModal,
@@ -29,6 +36,17 @@ export default {
       loading: (state) => state.spareparts.fetchingPartDetails,
       isSnTableActive: (state) => state.spareparts.partDetailsSnTableActive,
     }),
+  },
+  mounted() {
+    const route = useRoute();
+    console.log(route.query);
+    if (route.query.cat || route.query.prod || route.query.name) {
+      return this.handleSubmit_find(route.query);
+    }
+
+    if (route.query.code) {
+      return;
+    }
   },
 };
 </script>

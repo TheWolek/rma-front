@@ -10,6 +10,14 @@ export default {
   },
   methods: {
     deleteFilter(filter) {
+      let newQuery = { ...this.$route.query };
+      if (filter === "category") delete newQuery.cat;
+      if (filter === "producer") delete newQuery.prod;
+      if (filter === "name") delete newQuery.name;
+      this.$router.push({
+        path: this.$route.path,
+        query: newQuery,
+      });
       store.dispatch("spareparts/deleteFilter", filter);
     },
   },
