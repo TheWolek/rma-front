@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
+import fetchSubmit from "./handleSubmit";
 
 export default {
   data() {
@@ -11,6 +12,7 @@ export default {
       error_formActive: false,
     };
   },
+  extends: fetchSubmit,
   computed: {
     ...mapState({
       snModalActive: (state) => state.spareparts.snModalActive,
@@ -21,10 +23,11 @@ export default {
       store.commit("spareparts/toggleSnModal", false);
     },
     handleSubmit() {
-      store.dispatch(
-        "spareparts/fetchActivePartDetailsByBarcode",
-        this.barcode
-      );
+      this.$router.push({
+        name: "sparepartsPartSn",
+        query: { code: this.barcode },
+      });
+      this.handleSubmit_findByCode(this.barcode);
       this.clearForm();
     },
     clearForm() {

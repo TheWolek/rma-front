@@ -215,37 +215,6 @@ const actions = {
       commit("toggleFetchingPartDetails", false);
     }, 400);
   },
-  fetchActivePartDetailsByBarcode({ commit, dispatch }, code) {
-    fetch(`http://localhost:3000/warehouse/spareparts/code?codes=${code}`)
-      .then(async (res) => {
-        const resData = await res.json();
-        if (!res.ok) {
-          if (res.status == 404) {
-            commit("clearActivePartDetails");
-            // commit("toggleRefreshTable", false);
-            return;
-          }
-          const error = (resData && resData.message) || res.status;
-          return Promise.reject(error);
-        }
-        // setTimeout(() => {
-        //   commit("setParts", resData);
-        //   commit("toggleRefreshTable", false);
-        // }, 500);
-        commit("setActivePartDetails", resData);
-        commit("togglePartDetailsSnTableActive", true);
-        commit("toggleSnModal", false);
-        commit("toggleFetchingPartDetails", true);
-        dispatch("items/fetchAllShelves", null, { root: true });
-        setTimeout(() => {
-          commit("togglePartDetailsPageActive", true);
-          commit("toggleFetchingPartDetails", false);
-        }, 400);
-      })
-      .catch((error) => {
-        return console.log(error);
-      });
-  },
 };
 
 export default {

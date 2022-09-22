@@ -19,7 +19,7 @@ export default {
     reditect() {
       if (!this.isStockNull) {
         this.$router.push({
-          path: this.$route.path + "/stock",
+          name: "sparepartsDetails",
           query: { part_cat: this.id },
         });
         store.dispatch("spareparts/openPartDetails", this.id);

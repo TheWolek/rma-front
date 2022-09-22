@@ -45,7 +45,7 @@ export default {
     }
 
     if (route.query.code) {
-      return;
+      return this.handleSubmit_findByCode(route.query.code);
     }
 
     if (route.query.part_cat) {

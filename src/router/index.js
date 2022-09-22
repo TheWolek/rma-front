@@ -60,6 +60,7 @@ const router = createRouter({
         },
         {
           path: "spareparts",
+          name: "spareparts",
           components: {
             default: warehouse,
             innerView: warehouseSpareparts,
@@ -74,6 +75,15 @@ const router = createRouter({
         },
         {
           path: "spareparts/stock",
+          name: "sparepartsDetails",
+          components: {
+            default: warehouse,
+            innerView: warehouseSpareparts,
+          },
+        },
+        {
+          path: "spareparts/part",
+          name: "sparepartsPartSn",
           components: {
             default: warehouse,
             innerView: warehouseSpareparts,
