@@ -47,6 +47,15 @@ export default {
     if (route.query.code) {
       return;
     }
+
+    if (route.query.part_cat) {
+      const reg = /^\d{1,}$/;
+      if (reg.test(route.query.part_cat))
+        return store.dispatch(
+          "spareparts/openPartDetails",
+          route.query.part_cat
+        );
+    }
   },
 };
 </script>

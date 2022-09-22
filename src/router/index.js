@@ -76,7 +76,7 @@ const router = createRouter({
           path: "spareparts/stock",
           components: {
             default: warehouse,
-            innerView: warehouseSparepartsStock,
+            innerView: warehouseSpareparts,
           },
         },
       ],

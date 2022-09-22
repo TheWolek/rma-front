@@ -17,7 +17,13 @@ export default {
   },
   methods: {
     reditect() {
-      store.dispatch("spareparts/openPartDetails", this.id);
+      if (!this.isStockNull) {
+        this.$router.push({
+          path: this.$route.path + "/stock",
+          query: { part_cat: this.id },
+        });
+        store.dispatch("spareparts/openPartDetails", this.id);
+      }
     },
   },
 };
