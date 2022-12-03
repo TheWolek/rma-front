@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import rma from "../views/rma.vue";
+import rma from "../views/RMA/rma.vue";
+import rmaList from "../views/RMA/rmaList.vue";
+import rmaAdd from "../views/RMA/rmaAdd.vue";
 import warehouse from "../views/Warehouse/warehouse.vue";
 import warehouseItems from "../views/Warehouse/Items/Items.vue";
 import warehouseShelves from "../views/Warehouse/Shelves/shelves.vue";
@@ -29,6 +31,22 @@ const router = createRouter({
       path: "/rma",
       name: "rma",
       component: rma,
+      children: [
+        {
+          path: "items",
+          components: {
+            default: rma,
+            innerView: rmaList,
+          },
+        },
+        {
+          path: "add",
+          components: {
+            default: rma,
+            innerView: rmaAdd,
+          },
+        },
+      ],
     },
     {
       path: "/warehouse",
