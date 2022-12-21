@@ -12,7 +12,9 @@ export default {
       store.commit("rma/toggleModal_filters", true);
     },
     toggleStatusModal() {},
-    onRefresh() {},
+    onRefresh() {
+      store.dispatch("rma/fetchTicketsByFilters");
+    },
   },
 };
 </script>
