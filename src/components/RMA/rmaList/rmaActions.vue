@@ -8,7 +8,9 @@ export default {
     };
   },
   methods: {
-    toggleFindModal() {},
+    toggleFiltersModal() {
+      store.commit("rma/toggleModal_filters", true);
+    },
     toggleStatusModal() {},
     onRefresh() {},
   },
@@ -16,7 +18,7 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div class="actionBtn" id="btn1" @click="toggleFindModal">
+    <div class="actionBtn" id="btn1" @click="toggleFiltersModal">
       <img src="@/assets/filters.svg" /> Filtry
     </div>
     <div class="actionBtn" id="btn2" @click="toggleStatusModal">

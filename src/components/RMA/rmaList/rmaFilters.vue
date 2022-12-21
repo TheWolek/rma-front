@@ -11,16 +11,33 @@ export default {
       appliedFilter: (state) => state.rma.appliedFilter,
     }),
   },
+  methods: {
+    clearAllFilters() {
+      store.commit("rma/clearAllFilters");
+    },
+  },
 };
 </script>
 <template>
   <div>
     <div class="filterWrap" :class="{ active: this.appliedFilter.active }">
+      <div
+        class="filterChip"
+        @click="clearAllFilters"
+        v-if="appliedFilter.active"
+      >
+        Wyczyść wszystkie
+        <img src="@/assets/cancel.svg" />
+      </div>
       <rmaFilterChip
-        v-for="(value, name) in appliedFilter.filters"
-        :data="{ name: name, value: value }"
+        v-for="filter in appliedFilter.filters"
+        :data="{ name: filter.name, value: filter.value }"
       />
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.filterWrap {
+  opacity: 1;
+}
+</style>

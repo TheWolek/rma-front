@@ -4,12 +4,15 @@ import rmaList from "../../components/RMA/rmaList/rmaList.vue";
 import rmaFilters from "../../components/RMA/rmaList/rmaFilters.vue";
 import rmaPageActions from "../../components/RMA/rmaList/rmaPage/rmaPageActions.vue";
 import rmaPage from "../../components/RMA/rmaList/rmaPage/rmaPage.vue";
+
+import filtersModal from "../../components/RMA/rmaList/modals/filters.vue";
 import { mapState } from "vuex";
 
 export default {
   computed: {
     ...mapState({
       rmaPageActive: (state) => state.rma.rmaPageActive,
+      filtersModalActive: (state) => state.rma.filtersModalActive,
     }),
   },
   components: {
@@ -18,11 +21,13 @@ export default {
     rmaFilters,
     rmaPageActions,
     rmaPage,
+    filtersModal,
   },
 };
 </script>
 <template>
   <div id="rmaList">
+    <filtersModal v-if="filtersModalActive" />
     <rmaActions v-if="!rmaPageActive" />
     <rmaPageActions v-if="rmaPageActive" />
     <div class="rmaList_wrap">

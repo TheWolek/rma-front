@@ -2,14 +2,33 @@ import router from "../../router";
 
 const state = {
   rmaPageActive: false,
+  filtersModalActive: false,
   appliedFilter: {
     active: false,
-    filters: {},
+    filters: [],
   },
   tickets: [],
 };
 
-const mutations = {};
+const getters = {
+  getActiveFilters(state) {
+    return state.appliedFilter.filters;
+  },
+};
+
+const mutations = {
+  setFilters(state, data) {
+    state.appliedFilter.filters = data;
+    state.appliedFilter.active = true;
+  },
+  toggleModal_filters(state, newState) {
+    state.filtersModalActive = newState;
+  },
+  clearAllFilters(state) {
+    state.appliedFilter.active = false;
+    state.appliedFilter.filters = [];
+  },
+};
 
 const actions = {
   submitNewTicket({ commit, state }, data) {
@@ -39,10 +58,14 @@ const actions = {
         console.log(error);
       });
   },
+  applyFilters({ commit, state }, data) {
+    commit("setFilters", data);
+  },
 };
 
 export default {
   state,
+  getters,
   mutations,
   actions,
   namespaced: true,
