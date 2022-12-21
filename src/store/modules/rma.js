@@ -1,6 +1,13 @@
 import router from "../../router";
 
-const state = {};
+const state = {
+  rmaPageActive: false,
+  appliedFilter: {
+    active: false,
+    filters: {},
+  },
+  tickets: [],
+};
 
 const mutations = {};
 
