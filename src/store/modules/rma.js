@@ -1,6 +1,7 @@
 import router from "../../router";
 
 const state = {
+  apiState: 0,
   filtersModalActive: false,
   appliedFilter: {
     active: false,
@@ -14,9 +15,15 @@ const getters = {
   getActiveFilters(state) {
     return state.appliedFilter.filters;
   },
+  getRmaPage(state) {
+    return state.rmaPage;
+  },
 };
 
 const mutations = {
+  setApiState(state, newApiState) {
+    state.apiState = newApiState;
+  },
   setFilters(state, data) {
     state.appliedFilter.filters = data;
     state.appliedFilter.active = true;
@@ -34,6 +41,7 @@ const mutations = {
   },
   setRmaPageDetails(state, data) {
     state.rmaPage = data;
+    state.apiState = 2;
   },
 };
 
@@ -117,6 +125,7 @@ const actions = {
       });
   },
   getTicketData({ commit, state }, id) {
+    commit("setApiState", 1);
     fetch(`http://localhost:3000/rma?ticketId=${id}`)
       .then(async (res) => {
         const resData = await res.json();
