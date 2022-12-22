@@ -1,6 +1,8 @@
 <script>
 import { mapGetters } from "vuex";
 
+import waybillTable from "./waybillTable.vue";
+
 export default {
   data() {
     return {
@@ -8,11 +10,15 @@ export default {
       issue: "",
       editMode_sn: false,
       sn: "",
+      editMode_accessories: false,
+      accessories: "",
     };
   },
+  components: { waybillTable },
   mounted() {
     this.issue = this.rmaPage.issue;
     this.sn = this.rmaPage.device_sn;
+    this.accessories = this.rmaPage.device_accessories;
   },
   computed: {
     ...mapGetters({
@@ -24,6 +30,9 @@ export default {
     inEditMode_sn() {
       return this.editMode_sn;
     },
+    inEditMode_accessories() {
+      return this.editMode_accessories;
+    },
   },
   methods: {
     toggleEdit_issue() {
@@ -32,11 +41,14 @@ export default {
     toggleEdit_sn() {
       this.editMode_sn = !this.editMode_sn;
     },
+    toggleEdit_accessories() {
+      this.editMode_accessories = !this.editMode_accessories;
+    },
   },
 };
 </script>
 <template>
-  <div>
+  <div class="device">
     <h2>Urządzenie</h2>
     <h3>{{ rmaPage.device_cat }}</h3>
     <h3>{{ rmaPage.device_producer }} {{ rmaPage.device_name }}</h3>
@@ -47,8 +59,19 @@ export default {
         <img src="@/assets/edit.svg" />
       </div>
     </div>
+    <div class="inlineEdit">
+      <h3>Akcesoria:</h3>
+      <input
+        type="text"
+        v-model="accessories"
+        :disabled="!inEditMode_accessories"
+      />
+      <div class="btn" @click="toggleEdit_accessories">
+        <img src="@/assets/edit.svg" />
+      </div>
+    </div>
   </div>
-  <div>
+  <div class="issue">
     <h2>Diagnoza</h2>
     <div class="issueWrap">
       <textarea
@@ -63,6 +86,26 @@ export default {
         <img src="@/assets/edit.svg" />
       </div>
     </div>
+  </div>
+  <div class="owner">
+    <h2>Dane zleceniodawcy</h2>
+    <h3>
+      <b>{{ rmaPage.name }}</b>
+    </h3>
+    <h3 class="email">E-mail: {{ rmaPage.email }}</h3>
+    <h3>Telefon: {{ rmaPage.phone }}</h3>
+  </div>
+  <div class="shipment">
+    <h2>Dane adresowe i przesyłki</h2>
+    <h3>
+      <b>{{ rmaPage.name }}</b>
+    </h3>
+    <h3>{{ rmaPage.lines }}</h3>
+    <h3>{{ rmaPage.postCode }} {{ rmaPage.city }}</h3>
+    <h3 class="email">E-mail: {{ rmaPage.email }}</h3>
+    <h3>Telefon: {{ rmaPage.phone }}</h3>
+    <h3><b>Historia listów przewozowych:</b></h3>
+    <waybillTable />
   </div>
 </template>
 <style scoped>

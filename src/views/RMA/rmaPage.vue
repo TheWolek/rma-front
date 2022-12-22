@@ -47,26 +47,24 @@ export default {
   width: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1em;
+  gap: 4em 2em;
 }
 
 .inlineEdit {
-  display: flex;
-  width: 40%;
+  display: grid;
+  grid-template-columns: auto 1fr 40px;
+  justify-content: flex-start;
+  column-gap: 0.5em;
+  width: 70%;
 }
 
-.inlineEdit h3 {
-  display: inline-block;
-  margin-right: 0.5em;
-}
-
-.inlineEdit input {
-  margin-right: 0.5em;
+.inlineEdit + .inlineEdit {
+  margin-top: 0.2em;
 }
 
 .inlineEdit input:disabled {
   background: none;
-  border: none;
+  border: 2px solid transparent;
   cursor: default;
 }
 
@@ -101,6 +99,10 @@ h2 {
 h3 {
   font-size: 1em;
   padding: 0 0 0.1em 0.5em;
+}
+
+h3.email {
+  text-transform: none;
 }
 
 h2,
