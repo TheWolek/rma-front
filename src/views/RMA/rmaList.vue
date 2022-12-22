@@ -31,7 +31,7 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
+<style>
 .rmaList_wrap {
   padding: 0.5em;
 }
