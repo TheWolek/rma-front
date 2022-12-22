@@ -9,6 +9,7 @@ const state = {
   },
   tickets: [],
   rmaPage: {},
+  waybills: [],
 };
 
 const getters = {
@@ -17,6 +18,9 @@ const getters = {
   },
   getRmaPage(state) {
     return state.rmaPage;
+  },
+  getWaybills(state) {
+    return state.waybills;
   },
 };
 
@@ -42,6 +46,9 @@ const mutations = {
   setRmaPageDetails(state, data) {
     state.rmaPage = data;
     state.apiState = 2;
+  },
+  setWaybills(state, data) {
+    state.waybills = data;
   },
 };
 
@@ -138,6 +145,23 @@ const actions = {
 
         commit("setRmaPageDetails", resData[0]);
         console.log(resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  fetchWaybillsByTicketId({ commit, state }, ticketId) {
+    fetch(`http://localhost:3000/rma/waybills?ticketId=${ticketId}`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404) return console.log("błędny ticketId");
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setWaybills", resData);
       })
       .catch((error) => {
         console.log(error);

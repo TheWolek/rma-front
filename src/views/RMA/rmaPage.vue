@@ -8,6 +8,7 @@ import store from "../../store";
 export default {
   mounted() {
     store.dispatch("rma/getTicketData", this.$route.params.id);
+    store.dispatch("rma/fetchWaybillsByTicketId", this.$route.params.id);
   },
   computed: {
     ...mapState({
@@ -32,7 +33,7 @@ export default {
     <actions />
     <div class="rmaPage_wrap" v-if="apiState_loaded">
       <rmaHeader />
-      <div class="wrap">
+      <div class="rmaPage_wrap_details">
         <rmaDetails />
       </div>
     </div>
@@ -43,7 +44,7 @@ export default {
   padding: 0.5em;
 }
 
-.wrap {
+.rmaPage_wrap_details {
   width: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr;
