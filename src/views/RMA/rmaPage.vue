@@ -2,6 +2,7 @@
 import { mapState } from "vuex";
 import actions from "../../components/RMA/rmaPage/actions.vue";
 import rmaHeader from "../../components/RMA/rmaPage/header.vue";
+import rmaDetails from "../../components/RMA/rmaPage/details.vue";
 import store from "../../store";
 
 export default {
@@ -22,6 +23,7 @@ export default {
   components: {
     actions,
     rmaHeader,
+    rmaDetails,
   },
 };
 </script>
@@ -30,12 +32,22 @@ export default {
     <actions />
     <div class="rmaPage_wrap" v-if="apiState_loaded">
       <rmaHeader />
+      <div class="wrap">
+        <rmaDetails />
+      </div>
     </div>
   </div>
 </template>
 <style>
 .rmaPage_wrap {
   padding: 0.5em;
+}
+
+.wrap {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
 }
 
 .inlineEdit {
