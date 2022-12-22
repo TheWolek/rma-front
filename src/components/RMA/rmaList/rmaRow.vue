@@ -8,10 +8,9 @@ export default {
   <tr>
     <td></td>
     <td>
-      <router-link
-        :to="{ path: 'items', query: { ticketId: data.ticket_id } }"
-        >{{ data.ticket_id }}</router-link
-      >
+      <router-link :to="{ path: `ticket/${data.ticket_id}` }">{{
+        data.ticket_id
+      }}</router-link>
     </td>
     <td>{{ data.device_cat }}</td>
     <td>{{ data.device_producer }} {{ data.device_name }}</td>

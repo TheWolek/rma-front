@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import rma from "../views/RMA/rma.vue";
 import rmaList from "../views/RMA/rmaList.vue";
 import rmaAdd from "../views/RMA/rmaAdd.vue";
+import rmaPage from "../views/RMA/rmaPage.vue";
 import warehouse from "../views/Warehouse/warehouse.vue";
 import warehouseItems from "../views/Warehouse/Items/Items.vue";
 import warehouseShelves from "../views/Warehouse/Shelves/shelves.vue";
@@ -44,6 +45,13 @@ const router = createRouter({
           components: {
             default: rma,
             innerView: rmaAdd,
+          },
+        },
+        {
+          path: "ticket/:id",
+          components: {
+            default: rma,
+            innerView: rmaPage,
           },
         },
       ],

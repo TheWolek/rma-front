@@ -1,13 +1,13 @@
 import router from "../../router";
 
 const state = {
-  rmaPageActive: false,
   filtersModalActive: false,
   appliedFilter: {
     active: false,
     filters: [],
   },
   tickets: [],
+  rmaPage: {},
 };
 
 const getters = {
@@ -31,6 +31,9 @@ const mutations = {
   },
   setCurrentTickets(state, data) {
     state.tickets = data;
+  },
+  setRmaPageDetails(state, data) {
+    state.rmaPage = data;
   },
 };
 
@@ -108,6 +111,24 @@ const actions = {
         }
 
         commit("setCurrentTickets", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  getTicketData({ commit, state }, id) {
+    fetch(`http://localhost:3000/rma?ticketId=${id}`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404) return console.log("błędny ticketId");
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setRmaPageDetails", resData[0]);
+        console.log(resData);
       })
       .catch((error) => {
         console.log(error);
