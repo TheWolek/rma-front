@@ -1,4 +1,5 @@
 <script>
+import router from "../../../router";
 import store from "../../../store";
 
 export default {
@@ -8,7 +9,9 @@ export default {
     };
   },
   methods: {
-    onBack() {},
+    onBack() {
+      router.go(-1);
+    },
     onSave() {},
     toggleStatusModal() {},
     toggleWaybillModal() {
