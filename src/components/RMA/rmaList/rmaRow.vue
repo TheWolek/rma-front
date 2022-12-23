@@ -1,5 +1,6 @@
 <script>
 import { mapState } from "vuex";
+import formatDateAndHours from "../../../utils/formatDateAndHours";
 
 export default {
   props: ["data"],
@@ -10,6 +11,13 @@ export default {
     }),
     getStatusDisplayName() {
       return this.statuses.find((o) => o.id === this.data.status).displayName;
+    },
+    getFormattedCreateDate() {
+      return formatDateAndHours(this.data.created);
+    },
+    getFormattedUpdateDate() {
+      if (this.data.lastStatusUpdate === null) return "--";
+      return formatDateAndHours(this.data.lastStatusUpdate);
     },
   },
 };
@@ -26,7 +34,8 @@ export default {
     <td>{{ data.device_producer }} {{ data.device_name }}</td>
     <td>{{ getStatusDisplayName }}</td>
     <td>{{ data.type }}</td>
-    <td>{{ data.created }}</td>
+    <td>{{ getFormattedCreateDate }}</td>
+    <td>{{ getFormattedUpdateDate }}</td>
   </tr>
 </template>
 <style scoped>

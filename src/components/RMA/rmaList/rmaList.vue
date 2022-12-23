@@ -32,6 +32,7 @@ export default {
         <th id="statusCol">status</th>
         <th id="typeCol">typ</th>
         <th id="createdCol">utworzono</th>
+        <th id="lastUpdateCol">ostatnia zmiana statusu</th>
       </tr>
       <rmaRow v-for="ticket in tickets" :data="ticket" />
     </table>
