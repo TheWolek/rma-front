@@ -1,6 +1,5 @@
 <script>
-import { mapGetters } from "vuex";
-import getStatusDisplayName from "../../../utils/getRmaStatusDisplayName";
+import { mapGetters, mapState } from "vuex";
 import getTypeDisplayName from "../../../utils/getRmaTypeDisplayName";
 import formatDateAndHours from "../../../utils/formatDateAndHours";
 
@@ -21,6 +20,9 @@ export default {
     ...mapGetters({
       rmaPage: "rma/getRmaPage",
     }),
+    ...mapState({
+      statuses: (state) => state.rma.statuses,
+    }),
     inEditMode_issue() {
       return this.editMode_issue;
     },
@@ -28,7 +30,8 @@ export default {
       return this.editMode_sn;
     },
     getStatusDisplayName() {
-      return getStatusDisplayName(this.rmaPage.status);
+      return this.statuses.find((o) => o.id === this.rmaPage.status)
+        .displayName;
     },
     getTypeDisplayName() {
       return getTypeDisplayName(this.rmaPage.type);

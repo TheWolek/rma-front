@@ -2,6 +2,7 @@ import router from "../../router";
 
 const state = {
   apiState: 0,
+  statuses: {},
   filtersModalActive: false,
   appliedFilter: {
     active: false,
@@ -34,6 +35,9 @@ const getters = {
 const mutations = {
   setApiState(state, newApiState) {
     state.apiState = newApiState;
+  },
+  setStatuses(state, data) {
+    state.statuses = data;
   },
   setFilters(state, data) {
     state.appliedFilter.filters = data;
@@ -72,6 +76,18 @@ const mutations = {
 };
 
 const actions = {
+  fetchAllStatuses({ commit }) {
+    commit("setStatuses", [
+      { id: 1, displayName: "Nowy" },
+      { id: 2, displayName: "Przyjęto w serwisie" },
+      { id: 3, displayName: "W realizacji" },
+      { id: 4, displayName: "Zlecono kontakt" },
+      { id: 5, displayName: "Oczekuje na części" },
+      { id: 6, displayName: "Przekazano do odesłania" },
+      { id: 7, displayName: "Zakończone" },
+      { id: 8, displayName: "Anulowane" },
+    ]);
+  },
   submitNewTicket({ commit, state }, data) {
     console.log(data);
     const requestOptions = {
@@ -111,6 +127,11 @@ const actions = {
     filters.forEach((f) => {
       if (f.name === "zgłoszenie") {
         url += `ticketId=${f.value}`;
+        q++;
+      }
+      if (f.name === "list") {
+        if (q > 0) url += "&";
+        url += `waybill=${f.value}`;
         q++;
       }
       if (f.name === "status") {

@@ -10,6 +10,7 @@ export default {
       type: null,
       sn: null,
       producer: null,
+      waybill: null,
       error_form: "",
     };
   },
@@ -21,12 +22,14 @@ export default {
         if (f.name === "typ") this.type = f.value;
         if (f.name === "sn") this.sn = f.value;
         if (f.name === "producent") this.producer = f.value;
+        if (f.name === "list") this.waybill = f.value;
       });
     }
   },
   computed: {
     ...mapState({
       filtersModalActive: (state) => state.rma.filtersModalActive,
+      statuses: (state) => state.rma.statuses,
     }),
     ...mapGetters({
       getActiveFilters: "rma/getActiveFilters",
@@ -39,6 +42,7 @@ export default {
       this.type = null;
       this.sn = null;
       this.producer = null;
+      this.waybill = null;
       this.error_form = "";
     },
     toggleModal_filters() {
@@ -51,17 +55,21 @@ export default {
     onSubmit() {
       const filters = [];
 
-      if (this.ticketId !== null)
+      if (this.ticketId !== null && this.ticketId !== "")
         filters.push({ name: "zgłoszenie", value: this.ticketId });
+
+      if (this.waybill !== null && this.waybill !== "")
+        filters.push({ name: "list", value: this.waybill });
 
       if (this.status !== null)
         filters.push({ name: "status", value: this.status });
 
       if (this.type !== null) filters.push({ name: "typ", value: this.type });
 
-      if (this.sn !== null) filters.push({ name: "SN", value: this.sn });
+      if (this.sn !== null && this.sn !== "")
+        filters.push({ name: "SN", value: this.sn });
 
-      if (this.producer !== null)
+      if (this.producer !== null && this.producer !== "")
         filters.push({ name: "producent", value: this.producer });
 
       if (filters.length !== 0) {
@@ -91,16 +99,19 @@ export default {
         <div>
           <input type="number" id="ticketId" v-model.lazy="ticketId" />
         </div>
+        <label for="waybill">Numer listu przewozowego</label>
+        <div>
+          <input type="text" id="waybill" v-model.lazy="waybill" />
+        </div>
         <label for="status">Status zgłoszenia</label>
         <div>
           <select id="status" v-model.lazy="status">
             <option value="null" selected disabled hidden>
               Wybierz status
             </option>
-            <option value="1">Nowe</option>
-            <option value="2">Potwierdzone</option>
-            <option value="3">W serwisie</option>
-            <option value="4">Zakończone</option>
+            <option v-for="status in statuses" :value="status.id">
+              {{ status.displayName }}
+            </option>
           </select>
         </div>
         <label for="type">Typ zgłoszenia</label>

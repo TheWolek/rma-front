@@ -1,6 +1,8 @@
 <script setup>
 import rmaNav from "../../components/RMA/rmaNav.vue";
 import { RouterView } from "vue-router";
+import store from "../../store";
+store.dispatch("rma/fetchAllStatuses");
 </script>
 <template>
   <div id="rma">

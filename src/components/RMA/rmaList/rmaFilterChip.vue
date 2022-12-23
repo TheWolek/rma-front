@@ -1,8 +1,21 @@
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: ["data"],
   methods: {
     deleteFilter() {},
+  },
+  computed: {
+    ...mapState({
+      statuses: (state) => state.rma.statuses,
+    }),
+    getDisplayName() {
+      if (this.data.name === "status") {
+        return this.statuses.find((o) => o.id === this.data.value).displayName;
+      }
+      return this.data.value;
+    },
   },
 };
 </script>
@@ -17,7 +30,7 @@ export default {
         }
       "
     >
-      {{ data.value }}
+      {{ getDisplayName }}
       <img src="@/assets/cancel.svg" />
     </div>
   </div>
