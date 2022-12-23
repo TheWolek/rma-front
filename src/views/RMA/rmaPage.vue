@@ -3,6 +3,7 @@ import { mapState } from "vuex";
 import actions from "../../components/RMA/rmaPage/actions.vue";
 import rmaHeader from "../../components/RMA/rmaPage/header.vue";
 import rmaDetails from "../../components/RMA/rmaPage/details.vue";
+import shipmentModal from "../../components/RMA/rmaPage/modals/shipment.vue";
 import store from "../../store";
 
 export default {
@@ -25,11 +26,13 @@ export default {
     actions,
     rmaHeader,
     rmaDetails,
+    shipmentModal,
   },
 };
 </script>
 <template>
   <div id="rmaPage">
+    <shipmentModal />
     <actions />
     <div class="rmaPage_wrap" v-if="apiState_loaded">
       <rmaHeader />

@@ -1,4 +1,6 @@
 <script>
+import store from "../../../store";
+
 export default {
   data() {
     return {
@@ -9,7 +11,9 @@ export default {
     onBack() {},
     onSave() {},
     toggleStatusModal() {},
-    toggleWaybillModal() {},
+    toggleWaybillModal() {
+      store.commit("rma/toggleModal_shipment", true);
+    },
     toggleWarehouseModal() {},
     onRefresh() {},
   },
