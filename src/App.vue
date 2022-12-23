@@ -35,7 +35,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 
 header {
   line-height: 1.5;
-  max-height: 8vh;
+  height: 5vh;
   display: flex;
   place-items: flex-start;
   background: rgb(20, 66, 109);
