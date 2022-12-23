@@ -80,12 +80,13 @@ const actions = {
     commit("setStatuses", [
       { id: 1, displayName: "Nowy" },
       { id: 2, displayName: "Przyjęto w serwisie" },
-      { id: 3, displayName: "W realizacji" },
-      { id: 4, displayName: "Zlecono kontakt" },
-      { id: 5, displayName: "Oczekuje na części" },
-      { id: 6, displayName: "Przekazano do odesłania" },
-      { id: 7, displayName: "Zakończone" },
-      { id: 8, displayName: "Anulowane" },
+      { id: 3, displayName: "Przekazano do diagnozy" },
+      { id: 4, displayName: "W realizacji" },
+      { id: 5, displayName: "Zlecono kontakt" },
+      { id: 6, displayName: "Oczekuje na części" },
+      { id: 7, displayName: "Przekazano do odesłania" },
+      { id: 8, displayName: "Zakończone" },
+      { id: 9, displayName: "Anulowane" },
     ]);
   },
   submitNewTicket({ commit, state }, data) {
