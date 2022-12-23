@@ -81,22 +81,3 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
-.smallModal {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 11;
-  background: rgba(184, 184, 184, 0.8);
-  display: none;
-  justify-content: flex-end;
-}
-
-.smallModal.active {
-  display: flex;
-}
-
-.smallModal .formWrap {
-  width: 25%;
-}
-</style>

@@ -13,6 +13,7 @@ const state = {
   shipmentModalActive: false,
   editWaybillModalActive: false,
   editWaybillModalData: {},
+  addWaybillModalActive: false,
 };
 
 const getters = {
@@ -64,6 +65,9 @@ const mutations = {
   },
   setEditWaybillModalData(state, data) {
     state.editWaybillModalData = data;
+  },
+  toggleModal_addWaybill(state, newState) {
+    state.addWaybillModalActive = newState;
   },
 };
 
@@ -196,6 +200,34 @@ const actions = {
     };
 
     fetch(`http://localhost:3000/rma/waybills/${newData.id}`, requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        dispatch("fetchWaybillsByTicketId", newData.ticketId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  addWaybill({ commit, dispatch }, newData) {
+    commit("toggleModal_addWaybill", false);
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ticketId: newData.ticketId,
+        waybillNumber: newData.waybillNumber,
+        type: newData.type,
+      }),
+    };
+
+    fetch(`http://localhost:3000/rma/waybills`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 

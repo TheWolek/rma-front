@@ -25,6 +25,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 @import "@/assets/filters.css";
 @import "@/assets/form.css";
 @import "@/assets/bigModal.css";
+@import "@/assets/smallModal.css";
 
 #app {
   margin: 0;
