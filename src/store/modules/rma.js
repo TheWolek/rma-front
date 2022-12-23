@@ -159,7 +159,6 @@ const actions = {
         }
 
         commit("setRmaPageDetails", resData[0]);
-        console.log(resData);
       })
       .catch((error) => {
         console.log(error);
@@ -171,7 +170,7 @@ const actions = {
         const resData = await res.json();
 
         if (!res.ok) {
-          if (res.status === 404) return console.log("błędny ticketId");
+          if (res.status === 404) return commit("setWaybills", []);
           const error = (resData && resData.message) || res.status;
           return Promise.reject(error);
         }
@@ -185,7 +184,6 @@ const actions = {
   saveWaybillData({ commit, dispatch }, newData) {
     commit("toggleModal_editWaybill", false);
     commit("setEditWaybillModalData", {});
-    console.log(newData);
 
     const requestOptions = {
       method: "PUT",

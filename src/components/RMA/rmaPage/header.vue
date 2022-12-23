@@ -11,7 +11,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.rmaPage);
     this.issue = this.rmaPage.issue;
     this.sn = this.rmaPage.device_sn;
   },
