@@ -13,7 +13,9 @@ export default {
       router.go(-1);
     },
     onSave() {},
-    toggleStatusModal() {},
+    toggleStatusModal() {
+      store.commit("rma/toggleModal_status", true);
+    },
     toggleWaybillModal() {
       store.commit("rma/toggleModal_shipment", true);
     },

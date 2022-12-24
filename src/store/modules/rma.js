@@ -15,6 +15,7 @@ const state = {
   editWaybillModalActive: false,
   editWaybillModalData: {},
   addWaybillModalActive: false,
+  statusModalActive: false,
 };
 
 const getters = {
@@ -72,6 +73,9 @@ const mutations = {
   },
   toggleModal_addWaybill(state, newState) {
     state.addWaybillModalActive = newState;
+  },
+  toggleModal_status(state, newState) {
+    state.statusModalActive = newState;
   },
 };
 
