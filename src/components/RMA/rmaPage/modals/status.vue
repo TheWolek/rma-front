@@ -32,6 +32,13 @@ export default {
     toggleModal_status() {
       store.commit("rma/toggleModal_status", false);
     },
+    onSubmit() {
+      if (this.status === this.rmaPage.status) return false;
+      store.dispatch("rma/changeTicketStatus", {
+        ticketId: this.rmaPage.ticket_id,
+        newStatus: this.status,
+      });
+    },
   },
 };
 </script>
@@ -46,7 +53,7 @@ export default {
         <div id="close" @click="toggleModal_status"></div>
         <h4>Zmiana statusu zlecenia</h4>
       </div>
-      <form>
+      <form v-on:submit.prevent="onSubmit">
         <label
           v-for="s in statuses"
           :for="'status_' + s.id"

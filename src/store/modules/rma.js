@@ -288,6 +288,43 @@ const actions = {
         console.log(error);
       });
   },
+  changeTicketStatus({ commit, dispatch, getters }, data) {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        status: data.newStatus,
+      }),
+    };
+    fetch(
+      `http://localhost:3000/rma/changeState/${data.ticketId}`,
+      requestOptions
+    )
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("toggleModal_status", false);
+        dispatch("getTicketData", data.ticketId);
+
+        const rmaPage = getters.getRmaPage;
+        let barcode = `${rmaPage.ticket_id}-${rmaPage.device_producer}-${rmaPage.device_cat}`;
+        commit("items/setCreateModal_externalBarcode", barcode, {
+          root: true,
+        });
+        commit("items/setcreateModal_externalSn", rmaPage.device_sn, {
+          root: true,
+        });
+        commit("items/toggleCreateModal", null, { root: true });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default {
