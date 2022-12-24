@@ -4,6 +4,7 @@ import actions from "../../components/RMA/rmaPage/actions.vue";
 import rmaHeader from "../../components/RMA/rmaPage/header.vue";
 import rmaDetails from "../../components/RMA/rmaPage/details.vue";
 import shipmentModal from "../../components/RMA/rmaPage/modals/shipment.vue";
+import itemCreateModal from "../../components/Warehouse/Items/itemCreateModal.vue";
 import store from "../../store";
 
 export default {
@@ -14,6 +15,7 @@ export default {
   computed: {
     ...mapState({
       apiState: (state) => state.rma.apiState,
+      createModal_Active: (state) => state.items.createModal_Active,
     }),
     apiState_loaded() {
       return this.apiState === 2;
@@ -27,12 +29,14 @@ export default {
     rmaHeader,
     rmaDetails,
     shipmentModal,
+    itemCreateModal,
   },
 };
 </script>
 <template>
   <div id="rmaPage">
     <shipmentModal />
+    <itemCreateModal v-if="createModal_Active" />
     <actions />
     <div class="rmaPage_wrap" v-if="apiState_loaded">
       <rmaHeader />

@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
+import store from "../../../store";
 
 import waybillTable from "./waybillTable.vue";
 
@@ -33,6 +34,9 @@ export default {
     inEditMode_accessories() {
       return this.editMode_accessories;
     },
+    inWarehouse() {
+      return this.rmaPage.inWarehouse;
+    },
   },
   methods: {
     toggleEdit_issue() {
@@ -43,6 +47,13 @@ export default {
     },
     toggleEdit_accessories() {
       this.editMode_accessories = !this.editMode_accessories;
+    },
+    toggleModal_createItem() {
+      // store.dispatch("items/fetchAllShelves");
+      let barcode = `${this.rmaPage.ticket_id}-${this.rmaPage.device_producer}-${this.rmaPage.device_cat}`;
+      store.commit("items/setCreateModal_externalBarcode", barcode);
+      store.commit("items/setcreateModal_externalSn", this.rmaPage.device_sn);
+      store.commit("items/toggleCreateModal");
     },
   },
 };
@@ -69,6 +80,18 @@ export default {
       <div class="btn" @click="toggleEdit_accessories">
         <img src="@/assets/edit.svg" />
       </div>
+    </div>
+    <div class="register">
+      <div
+        class="actionBtn"
+        :class="{ disabled: inWarehouse }"
+        @click="toggleModal_createItem"
+      >
+        Zarejestruj
+      </div>
+      <h3 v-if="inWarehouse">
+        Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
+      </h3>
     </div>
   </div>
   <div class="issue">
@@ -113,5 +136,14 @@ export default {
   padding: 0.5em;
   display: flex;
   gap: 0.6em;
+}
+
+.register {
+  display: flex;
+  align-items: center;
+}
+
+.register .actionBtn {
+  width: fit-content;
 }
 </style>

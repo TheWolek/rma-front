@@ -1,5 +1,5 @@
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import store from "../../../store";
 
 export default {
@@ -12,6 +12,14 @@ export default {
       error_sn: "",
       sn_reg: /^[A-z0-9]{3,}$/,
     };
+  },
+  mounted() {
+    if (this.externalBarcode !== null) {
+      this.barcode = this.externalBarcode;
+    }
+    if (this.externalSn !== null) {
+      this.sn = this.externalSn;
+    }
   },
   methods: {
     toggleModal() {
@@ -48,17 +56,21 @@ export default {
             return Promise.reject(error);
           }
 
-          let item = {
-            id: resData.id,
-            ticket_id: resData.ticket_id,
-            name: data.barcode.split("-")[1],
-            category: data.barcode.split("-")[2],
-            shelve_code: this.shelves[resData.shelve].code,
-            shelve: resData.shelve,
-            barcode: data.barcode,
-          };
+          if (this.externalBarcode === null) {
+            let item = {
+              id: resData.id,
+              ticket_id: resData.ticket_id,
+              name: data.barcode.split("-")[1],
+              category: data.barcode.split("-")[2],
+              shelve_code: this.shelves[resData.shelve].code,
+              shelve: resData.shelve,
+              barcode: data.barcode,
+            };
 
-          store.dispatch("items/submitModal_Create", item);
+            store.dispatch("items/submitModal_Create", item);
+          }
+
+          store.dispatch("rma/registerDeviceInWarehouse", resData.ticket_id);
           this.error_barcode = "";
           this.barcode = "";
           this.toggleModal();
@@ -109,6 +121,10 @@ export default {
     ...mapState({
       createModal_Active: (state) => state.items.createModal_Active,
       shelves: (state) => state.items.shelves,
+    }),
+    ...mapGetters({
+      externalBarcode: "items/getCreateModalExternalBarcode",
+      externalSn: "items/getcreateModalExternalSn",
     }),
   },
 };

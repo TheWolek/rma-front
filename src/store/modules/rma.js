@@ -264,6 +264,26 @@ const actions = {
         console.log(error);
       });
   },
+  registerDeviceInWarehouse({ commit, dispatch }, ticketId) {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`http://localhost:3000/rma/register/${ticketId}`, requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        dispatch("getTicketData", ticketId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 
 export default {
