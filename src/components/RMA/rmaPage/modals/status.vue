@@ -43,6 +43,26 @@ export default {
         newStatus: this.status,
       });
     },
+    getTooltipText(selectedId) {
+      if (this.rmaPage.status === 1) {
+        return "Należy przyjąć w serwisie";
+      }
+
+      if (this.rmaPage.status === 2) {
+        if (selectedId === 4 || selectedId === 6)
+          return "Należy przekazać do diagnozy";
+        if (selectedId === 8) return "Należy przekazać do odesłania";
+      }
+
+      if ([3, 4, 5, 6].includes(this.rmaPage.status)) {
+        if (selectedId === 8) return "Należy przekazać do odesłania";
+      }
+      if (this.rmaPage.status === 7) {
+        if (selectedId === 8) return "Należy dodać list przewozowy";
+      }
+
+      return "Nie można cofać statusu";
+    },
   },
 };
 </script>
@@ -76,6 +96,9 @@ export default {
             :disabled="!availableStatuses.includes(s.id)"
           />
           <p>{{ s.displayName }}</p>
+          <span class="tooltipText" v-if="!availableStatuses.includes(s.id)">{{
+            getTooltipText(s.id)
+          }}</span>
         </label>
         <input type="submit" value="Zapisz" />
       </form>
@@ -89,6 +112,7 @@ form {
   gap: 0.8em;
 }
 .radioBtn {
+  position: relative;
   display: flex;
   padding: 0.5em;
   border: 1px solid #000;
@@ -103,6 +127,38 @@ form {
 
 .radioBtn.active {
   background-color: rgb(48, 117, 182);
+}
+
+.radioBtn .tooltipText {
+  visibility: hidden;
+  width: 250px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 0.2em 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  left: 105%;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.radioBtn .tooltipText[data-v-55fcf8d0]::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: -5px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #555 transparent transparent;
+}
+
+.radioBtn:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
 }
 
 .radioBtn.active p,
