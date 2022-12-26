@@ -60,6 +60,23 @@ export default {
       store.commit("items/setcreateModal_externalSn", this.rmaPage.device_sn);
       store.commit("items/toggleCreateModal");
     },
+    changeShelve() {
+      store.dispatch("items/fetchAllShelves");
+      setTimeout(() => {
+        this.$router.push({
+          name: "itemsChangeShelve",
+          params: {
+            barcode:
+              this.rmaPage.ticket_id +
+              "-" +
+              this.rmaPage.device_producer +
+              "-" +
+              this.rmaPage.device_cat,
+            activeShelve: this.rmaPage.shelve_id,
+          },
+        });
+      }, 100);
+    },
   },
 };
 </script>
@@ -96,6 +113,12 @@ export default {
       </div>
       <h3 v-if="inWarehouse">
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
+      </h3>
+    </div>
+    <div class="shelve" v-if="inWarehouse">
+      <div class="actionBtn" @click="changeShelve">Zmień lokalizacje</div>
+      <h3>
+        Lokalizacja: <b>{{ rmaPage.code }}</b>
       </h3>
     </div>
   </div>
@@ -137,18 +160,32 @@ export default {
   </div>
 </template>
 <style scoped>
+.device {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  padding-left: 0.5em;
+}
+
+.device h3 {
+  padding: 0;
+}
+
 .issueWrap {
   padding: 0.5em;
   display: flex;
   gap: 0.6em;
 }
 
-.register {
+.register,
+.shelve {
   display: flex;
   align-items: center;
+  gap: 0.5em;
 }
 
-.register .actionBtn {
+.register .actionBtn,
+.shelve .actionBtn {
   width: fit-content;
 }
 </style>

@@ -70,10 +70,6 @@ export default {
   width: 70%;
 }
 
-.inlineEdit + .inlineEdit {
-  margin-top: 0.2em;
-}
-
 .inlineEdit input:disabled {
   background: none;
   border: 2px solid transparent;

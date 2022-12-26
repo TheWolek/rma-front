@@ -4,6 +4,9 @@ import store from "../../../../store";
 
 export default {
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     toggleChangeModal() {
       if (!this.form_active.status) store.commit("changeShelve/toggleModal");
     },
@@ -108,6 +111,9 @@ export default {
 </script>
 <template>
   <div class="actions">
+    <div class="actionBtn" @click="goBack">
+      <img src="@/assets/back-arrow.png" /> Cofnij
+    </div>
     <div
       class="actionBtn"
       id="btn1"
