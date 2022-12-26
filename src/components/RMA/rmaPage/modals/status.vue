@@ -14,16 +14,20 @@ export default {
   computed: {
     ...mapGetters({
       rmaPage: "rma/getRmaPage",
+      waybills: "rma/getWaybills",
     }),
     ...mapState({
       statusModalActive: (state) => state.rma.statusModalActive,
       statuses: (state) => state.rma.statuses,
     }),
     availableStatuses() {
+      if (this.waybills[0].status !== "odebrany") return [1, 9];
+      if (!this.rmaPage.inWarehouse) return [1, 2, 9];
       if (this.rmaPage.status === 1) return [1, 2, 9];
       if (this.rmaPage.status === 2) return [2, 3, 5, 7, 9];
       if (this.rmaPage.status === 3) return [3, 4, 5, 6, 7, 9];
       if ([4, 5, 6].includes(this.rmaPage.status)) return [4, 5, 6, 7, 9];
+      if (!this.waybills.find((o) => o.type === "wychodzący")) return [7, 9];
       if (this.rmaPage.status === 7) return [7, 8, 9];
       return [];
     },

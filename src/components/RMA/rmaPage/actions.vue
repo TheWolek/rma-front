@@ -1,4 +1,5 @@
 <script>
+import { mapGetters } from "vuex";
 import router from "../../../router";
 import store from "../../../store";
 
@@ -23,11 +24,17 @@ export default {
     onRefresh() {},
   },
   computed: {
+    ...mapGetters({
+      rmaPage: "rma/getRmaPage",
+    }),
     isSaveBtnActive() {
       return false;
     },
     isBeginBtnActive() {
       return false;
+    },
+    isStatusBtnActive() {
+      return ![8, 9].includes(this.rmaPage.status);
     },
   },
 };
@@ -45,7 +52,12 @@ export default {
     >
       <img src="@/assets/save.svg" /> Zapisz
     </div>
-    <div class="actionBtn" id="btn3" @click="toggleStatusModal">
+    <div
+      class="actionBtn"
+      id="btn3"
+      @click="toggleStatusModal"
+      :class="{ disabled: !isStatusBtnActive }"
+    >
       <img src="@/assets/change.svg" /> Status
     </div>
     <div class="actionBtn" id="btn4" @click="toggleWaybillModal">

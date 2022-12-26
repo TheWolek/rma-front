@@ -37,6 +37,11 @@ export default {
     inWarehouse() {
       return this.rmaPage.inWarehouse;
     },
+    ableToRegister() {
+      if (this.inWarehouse) return false;
+      if (![1, 8, 9].includes(this.rmaPage.status)) return true;
+      return false;
+    },
   },
   methods: {
     toggleEdit_issue() {
@@ -84,7 +89,7 @@ export default {
     <div class="register">
       <div
         class="actionBtn"
-        :class="{ disabled: inWarehouse }"
+        :class="{ disabled: !ableToRegister }"
         @click="toggleModal_createItem"
       >
         Zarejestruj

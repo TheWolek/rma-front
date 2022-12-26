@@ -311,15 +311,17 @@ const actions = {
         commit("toggleModal_status", false);
         dispatch("getTicketData", data.ticketId);
 
-        const rmaPage = getters.getRmaPage;
-        let barcode = `${rmaPage.ticket_id}-${rmaPage.device_producer}-${rmaPage.device_cat}`;
-        commit("items/setCreateModal_externalBarcode", barcode, {
-          root: true,
-        });
-        commit("items/setcreateModal_externalSn", rmaPage.device_sn, {
-          root: true,
-        });
-        commit("items/toggleCreateModal", null, { root: true });
+        if (data.newStatus === 2) {
+          const rmaPage = getters.getRmaPage;
+          let barcode = `${rmaPage.ticket_id}-${rmaPage.device_producer}-${rmaPage.device_cat}`;
+          commit("items/setCreateModal_externalBarcode", barcode, {
+            root: true,
+          });
+          commit("items/setcreateModal_externalSn", rmaPage.device_sn, {
+            root: true,
+          });
+          commit("items/toggleCreateModal", null, { root: true });
+        }
       })
       .catch((error) => {
         console.log(error);
