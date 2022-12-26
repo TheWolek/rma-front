@@ -15,7 +15,7 @@ export default {
     },
     onSave() {},
     toggleStatusModal() {
-      store.commit("rma/toggleModal_status", true);
+      if (this.isStatusBtnActive) store.commit("rma/toggleModal_status", true);
     },
     toggleWaybillModal() {
       store.commit("rma/toggleModal_shipment", true);
