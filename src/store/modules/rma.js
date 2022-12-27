@@ -16,6 +16,10 @@ const state = {
   editWaybillModalData: {},
   addWaybillModalActive: false,
   statusModalActive: false,
+  processModalActive: false,
+  comments: [],
+  parts: [],
+  partError: "",
 };
 
 const getters = {
@@ -30,6 +34,18 @@ const getters = {
   },
   getEditWaybillModalData(state) {
     return state.editWaybillModalData;
+  },
+  getComments(state) {
+    return state.comments;
+  },
+  getParts(state) {
+    return state.parts;
+  },
+  getTicketId(state) {
+    return state.rmaPage.ticket_id;
+  },
+  getPartError(state) {
+    return state.partError;
   },
 };
 
@@ -76,6 +92,18 @@ const mutations = {
   },
   toggleModal_status(state, newState) {
     state.statusModalActive = newState;
+  },
+  toggleModal_process(state, newState) {
+    state.processModalActive = newState;
+  },
+  setComments(state, data) {
+    state.comments = data;
+  },
+  setParts(state, data) {
+    state.parts = data;
+  },
+  setPartError(state, msg) {
+    state.partError = msg;
   },
 };
 
@@ -322,6 +350,94 @@ const actions = {
           });
           commit("items/toggleCreateModal", null, { root: true });
         }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  fetchCommentsByTicketId({ commit }, ticketId) {
+    fetch(`http://localhost:3000/rma/comments/${ticketId}`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404) return commit("setComments", []);
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setComments", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  toggleModal_process({ state, commit, dispatch }, newState) {
+    dispatch("fetchCommentsByTicketId", state.rmaPage.ticket_id);
+    dispatch("fetchPartsByTicketId", state.rmaPage.ticket_id);
+    commit("toggleModal_process", newState);
+  },
+  fetchPartsByTicketId({ commit }, ticketId) {
+    fetch(`http://localhost:3000/rma/spareparts/${ticketId}`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404) return commit("setParts", []);
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setParts", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  addPartToTicket({ commit, dispatch }, data) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        code: data.sn,
+      }),
+    };
+    fetch(
+      `http://localhost:3000/rma/spareparts/${data.ticketId}`,
+      requestOptions
+    )
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404)
+            return commit("setPartError", resData.message);
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sn: data.sn,
+          }),
+        };
+
+        fetch(`http://localhost:3000/warehouse/spareparts/use`, requestOptions)
+          .then(async (res) => {
+            const resData = await res.json();
+
+            if (!res.ok) {
+              if (res.status === 404)
+                return commit("setPartError", resData.message);
+              const error = (resData && resData.message) || res.status;
+              return Promise.reject(error);
+            }
+
+            dispatch("fetchPartsByTicketId", data.ticketId);
+          })
+          .catch((e) => console.log(e));
       })
       .catch((error) => {
         console.log(error);

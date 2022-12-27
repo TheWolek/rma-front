@@ -20,7 +20,11 @@ export default {
     toggleWaybillModal() {
       store.commit("rma/toggleModal_shipment", true);
     },
-    toggleWarehouseModal() {},
+    toggleProcessModal() {
+      if (this.isProcessBtnActive)
+        store.dispatch("rma/toggleModal_process", true);
+    },
+    toggleHistoryModal() {},
     onRefresh() {},
   },
   computed: {
@@ -30,7 +34,8 @@ export default {
     isSaveBtnActive() {
       return false;
     },
-    isBeginBtnActive() {
+    isProcessBtnActive() {
+      if (this.rmaPage.status === 4) return true;
       return false;
     },
     isStatusBtnActive() {
@@ -66,10 +71,10 @@ export default {
     <div
       class="actionBtn"
       id="btn5"
-      @click="toggleWarehouseModal"
-      :class="{ disabled: !isBeginBtnActive }"
+      @click="toggleProcessModal"
+      :class="{ disabled: !isProcessBtnActive }"
     >
-      <img src="@/assets/gear.svg" /> Rozpoczęcie
+      <img src="@/assets/gear.svg" /> Procesuj
     </div>
     <div class="actionBtn" id="btn6" @click="toggleHistoryModal">
       <img src="@/assets/form.svg" /> Dziennik zdarzeń
