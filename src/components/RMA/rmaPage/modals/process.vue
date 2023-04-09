@@ -4,6 +4,8 @@ import store from "../../../../store";
 
 import process_partsList from "./process_partsList.vue";
 import process_partForm from "./process_partForm.vue";
+import process_commentForm from "./process_commentForm.vue";
+import process_commentList from "./process_commentList.vue";
 
 export default {
   computed: {
@@ -16,7 +18,12 @@ export default {
       parts: "rma/getParts",
     }),
   },
-  components: { process_partsList, process_partForm },
+  components: {
+    process_partsList,
+    process_partForm,
+    process_commentForm,
+    process_commentList,
+  },
   methods: {
     toggleModal_process() {
       store.commit("rma/toggleModal_process", false);
@@ -43,12 +50,8 @@ export default {
         </div>
         <div class="comments">
           <h2>Ustalenia do zlecenia</h2>
-          <div>
-            <div v-for="c in comments">
-              <p>{{ c.comment }}</p>
-              <p>{{ c.created }}</p>
-            </div>
-          </div>
+          <process_commentForm />
+          <process_commentList :comments="comments" />
         </div>
       </div>
     </div>

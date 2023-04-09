@@ -372,6 +372,29 @@ const actions = {
         console.log(error);
       });
   },
+  addCommentToTicket({ dispatch }, data) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        comment: data.comment,
+      }),
+    };
+    fetch(`http://localhost:3000/rma/comment/${data.ticketId}`, requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        dispatch("fetchCommentsByTicketId", data.ticketId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   toggleModal_process({ state, commit, dispatch }, newState) {
     dispatch("fetchCommentsByTicketId", state.rmaPage.ticket_id);
     dispatch("fetchPartsByTicketId", state.rmaPage.ticket_id);
