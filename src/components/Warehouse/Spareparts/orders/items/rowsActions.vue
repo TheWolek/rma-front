@@ -1,8 +1,10 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../../store";
+import actionButtonSmall from "../../../../../parts/actionButtonSmall.vue";
 
 export default {
+  components: { actionButtonSmall },
   computed: {
     ...mapState({
       orderData: (state) => state.sparepartsOrders.ordersItems,
@@ -10,9 +12,7 @@ export default {
       checkedItems: (state) => state.sparepartsOrders.orderItemsChecked,
     }),
     getImage() {
-      return this.activeNewRow
-        ? "/src/assets/cancel.svg"
-        : "/src/assets/add.svg";
+      return this.activeNewRow ? "cancel.svg" : "add.svg";
     },
     getCopy() {
       return this.activeNewRow ? "Anuluj" : "Dodaj";
@@ -40,27 +40,24 @@ export default {
 </script>
 <template>
   <div class="buttonsWrap">
-    <div
-      class="actionBtn small"
-      @click="onAdd"
-      :class="{ disabled: this.orderData.orderData.status !== 0 }"
-    >
-      <img :src="getImage" /> {{ getCopy }}
-    </div>
-    <div
-      class="actionBtn small"
-      :class="{ disabled: this.orderData.orderData.status !== 0 }"
-      @click="onDelete"
-    >
-      <img src="@/assets/delete.svg" /> Usuń
-    </div>
-    <div
-      class="actionBtn small"
-      :class="{ disabled: this.orderData.items.length === 0 }"
-      @click="onChangeStatus"
-    >
-      <img src="@/assets/change.svg" /> Zmień status
-    </div>
+    <actionButtonSmall
+      :event="onAdd"
+      :display="getCopy"
+      :icon="getImage"
+      :disabled="this.orderData.orderData.status !== 0"
+    />
+    <actionButtonSmall
+      :event="onDelete"
+      display="Usuń"
+      :icon="`delete.svg`"
+      :disabled="this.orderData.orderData.status !== 0"
+    />
+    <actionButtonSmall
+      :event="onChangeStatus"
+      display="Zmień status"
+      :icon="`change.svg`"
+      :disabled="this.orderData.items.length === 0"
+    />
   </div>
 </template>
 <style scoped>
