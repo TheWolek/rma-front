@@ -1,5 +1,18 @@
 import router from "../../router";
 
+import {
+  getUrl,
+  rma,
+  rmaCreate,
+  rmaWaybills,
+  rmaRegister,
+  rmaChangeState,
+  rmaComments,
+  rmaComment,
+  rmaSpareparts,
+  rmaSparepartsUse,
+} from "../../helpers/endpoints";
+
 const state = {
   apiState: 0,
   statuses: {},
@@ -129,7 +142,7 @@ const actions = {
       body: JSON.stringify(data),
     };
 
-    fetch("http://localhost:3000/rma/create", requestOptions)
+    fetch(getUrl(rmaCreate), requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -153,7 +166,7 @@ const actions = {
     dispatch("fetchTicketsByFilters");
   },
   fetchTicketsByFilters({ commit, state }) {
-    let url = "http://localhost:3000/rma?";
+    let url = `${getUrl(rma)}?`;
     const filters = state.appliedFilter.filters;
     let q = 0;
 
@@ -206,7 +219,7 @@ const actions = {
   },
   getTicketData({ commit, state }, id) {
     commit("setApiState", 1);
-    fetch(`http://localhost:3000/rma?ticketId=${id}`)
+    fetch(`${getUrl(rma)}?ticketId=${id}`)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -223,7 +236,7 @@ const actions = {
       });
   },
   fetchWaybillsByTicketId({ commit, state }, ticketId) {
-    fetch(`http://localhost:3000/rma/waybills?ticketId=${ticketId}`)
+    fetch(`${getUrl(rmaWaybills)}?ticketId=${ticketId}`)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -253,7 +266,7 @@ const actions = {
       }),
     };
 
-    fetch(`http://localhost:3000/rma/waybills/${newData.id}`, requestOptions)
+    fetch(`${getUrl(rmaWaybills)}/${newData.id}`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -281,7 +294,7 @@ const actions = {
       }),
     };
 
-    fetch(`http://localhost:3000/rma/waybills`, requestOptions)
+    fetch(getUrl(rmaWaybills), requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -301,7 +314,7 @@ const actions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
     };
-    fetch(`http://localhost:3000/rma/register/${ticketId}`, requestOptions)
+    fetch(`${getUrl(rmaRegister)}/${ticketId}`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -324,10 +337,7 @@ const actions = {
         status: data.newStatus,
       }),
     };
-    fetch(
-      `http://localhost:3000/rma/changeState/${data.ticketId}`,
-      requestOptions
-    )
+    fetch(`${getUrl(rmaChangeState)}/${data.ticketId}`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -356,7 +366,7 @@ const actions = {
       });
   },
   fetchCommentsByTicketId({ commit }, ticketId) {
-    fetch(`http://localhost:3000/rma/comments/${ticketId}`)
+    fetch(`${getUrl(rmaComments)}/${ticketId}`)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -380,7 +390,7 @@ const actions = {
         comment: data.comment,
       }),
     };
-    fetch(`http://localhost:3000/rma/comment/${data.ticketId}`, requestOptions)
+    fetch(`${getUrl(rmaComment)}/${data.ticketId}`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -401,7 +411,7 @@ const actions = {
     commit("toggleModal_process", newState);
   },
   fetchPartsByTicketId({ commit }, ticketId) {
-    fetch(`http://localhost:3000/rma/spareparts/${ticketId}`)
+    fetch(`${getUrl(rmaSpareparts)}/${ticketId}`)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -425,10 +435,7 @@ const actions = {
         code: data.sn,
       }),
     };
-    fetch(
-      `http://localhost:3000/rma/spareparts/${data.ticketId}`,
-      requestOptions
-    )
+    fetch(`${getUrl(rmaSpareparts)}/${data.ticketId}`, requestOptions)
       .then(async (res) => {
         const resData = await res.json();
 
@@ -447,7 +454,7 @@ const actions = {
           }),
         };
 
-        fetch(`http://localhost:3000/warehouse/spareparts/use`, requestOptions)
+        fetch(getUrl(rmaSparepartsUse), requestOptions)
           .then(async (res) => {
             const resData = await res.json();
 

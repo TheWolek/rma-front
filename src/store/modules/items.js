@@ -1,3 +1,5 @@
+import { getUrl, shelve } from "../../helpers/endpoints";
+
 const state = {
   createModal_Active: false,
   findModal_Active: false,
@@ -103,7 +105,7 @@ const actions = {
     commit("setContextMenu", id);
   },
   fetchAllShelves({ commit }) {
-    fetch("http://localhost:3000/warehouse/shelve")
+    fetch(getUrl(shelve))
       .then(async (res) => {
         const resData = await res.json();
 

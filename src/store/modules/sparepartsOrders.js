@@ -1,3 +1,14 @@
+import {
+  getUrl,
+  sparepartsCategories,
+  sparepartsSuppliers,
+  sparepartsStatuses,
+  sparepartsOrdersFind,
+  sparepartsOrdersItems,
+  sparepartsOrders,
+  sparepartsOrdersItemsCodes,
+} from "../../helpers/endpoints";
+
 const state = {
   createModal_active: false,
   findModal_active: false,
@@ -148,7 +159,7 @@ const mutations = {
 
 const actions = {
   fetchAllCategories({ commit }) {
-    fetch("http://localhost:3000/warehouse/spareparts/categories")
+    fetch(getUrl(sparepartsCategories))
       .then(async (res) => {
         const resData = await res.json();
 
@@ -164,7 +175,7 @@ const actions = {
       });
   },
   fetchAllSuppliers({ commit }) {
-    fetch("http://localhost:3000/warehouse/spareparts/suppliers")
+    fetch(getUrl(sparepartsSuppliers))
       .then(async (res) => {
         const resData = await res.json();
 
@@ -180,7 +191,7 @@ const actions = {
       });
   },
   fetchAllStatuses({ commit }) {
-    fetch("http://localhost:3000/warehouse/spareparts/statuses")
+    fetch(getUrl(sparepartsStatuses))
       .then(async (res) => {
         const resData = await res.json();
 
@@ -234,7 +245,7 @@ const actions = {
       return;
     }
 
-    let url = `http://localhost:3000/warehouse/spareparts/orders/find?`;
+    let url = `${getUrl(sparepartsOrdersFind)}?`;
     let active = 0;
 
     filters.forEach((el) => {
@@ -283,9 +294,7 @@ const actions = {
   },
   toggleEditOrder({ commit, state }, data) {
     console.log("EditOrder", data);
-    fetch(
-      `http://localhost:3000/warehouse/spareparts/orders/items?order_id=${data.part_order_id}`
-    )
+    fetch(`${getUrl(sparepartsOrdersItems)}?order_id=${data.part_order_id}`)
       .then(async (res) => {
         const resData = await res.json();
         if (!res.ok) {
@@ -330,10 +339,7 @@ const actions = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
-    fetch(
-      "http://localhost:3000/warehouse/spareparts/orders",
-      requestOptions
-    ).then(async (res) => {
+    fetch(getUrl(sparepartsOrders), requestOptions).then(async (res) => {
       const resData = await res.json();
 
       if (!res.ok) {
@@ -365,27 +371,26 @@ const actions = {
     };
 
     //add items barcodes with order_item_id, code and part_id (from above insert)
-    await fetch(
-      "http://localhost:3000/warehouse/spareparts/orders/items/codes",
-      requestOptions
-    ).then(async (res) => {
-      const resData = await res.json();
+    await fetch(getUrl(sparepartsOrdersItemsCodes), requestOptions).then(
+      async (res) => {
+        const resData = await res.json();
 
-      if (!res.ok) {
-        const error = (resData && resData.message) || res.status;
-        return Promise.reject(error);
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        //add items to warehouse. Then push their insertId into state as ''
+        //await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
+
+        console.log("updated");
+        dispatch("reciveOrder", {
+          order_id: state.ordersItems.orderData.part_order_id,
+          status: 2,
+        });
+        commit("toggleEditSNModal");
       }
-
-      //add items to warehouse. Then push their insertId into state as ''
-      //await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
-
-      console.log("updated");
-      dispatch("reciveOrder", {
-        order_id: state.ordersItems.orderData.part_order_id,
-        status: 2,
-      });
-      commit("toggleEditSNModal");
-    });
+    );
   },
   closeCurrentOrder({ state, commit }) {
     let currOrderData = state.ordersItems.orderData;

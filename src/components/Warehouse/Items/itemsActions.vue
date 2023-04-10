@@ -2,6 +2,8 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 
+import { getUrl, itemsShelve, items } from "../../../helpers/endpoints";
+
 export default {
   data() {
     return {
@@ -53,7 +55,7 @@ export default {
         this.emitter.emit("refreshing", true);
         if (this.appliedFilter.barcode != null) {
           this.fetchItemsData(
-            `http://localhost:3000/warehouse/items?barcode=${this.appliedFilter.barcode}`
+            `${getUrl(items)}?barcode=${this.appliedFilter.barcode}`
           );
           return;
         }
@@ -62,9 +64,7 @@ export default {
           let shelveId = this.shelves.find(
             (o) => o.code == this.appliedFilter.shelve
           ).shelve_id;
-          this.fetchItemsData(
-            `http://localhost:3000/warehouse/items/shelve?shelve=${shelveId}`
-          );
+          this.fetchItemsData(`${getUrl(itemsShelve)}?shelve=${shelveId}`);
           return;
         }
       }

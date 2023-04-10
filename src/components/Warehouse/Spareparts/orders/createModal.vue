@@ -2,6 +2,9 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import formatDate from "../../../../utils/formatDate";
+
+import { getUrl, sparepartsOrders } from "../../../../helpers/endpoints";
+
 export default {
   data() {
     return {
@@ -59,7 +62,7 @@ export default {
         body: JSON.stringify(data),
       };
 
-      fetch("http://localhost:3000/warehouse/spareparts/orders", requestOptions)
+      fetch(getUrl(sparepartsOrders), requestOptions)
         .then(async (res) => {
           const resData = await res.json();
 

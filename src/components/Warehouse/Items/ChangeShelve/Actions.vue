@@ -2,6 +2,8 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 
+import { getUrl, itemsChangeShelve } from "../../../../helpers/endpoints";
+
 export default {
   methods: {
     goBack() {
@@ -30,10 +32,7 @@ export default {
           }),
         };
 
-        fetch(
-          "http://localhost:3000/warehouse/items/changeshelve",
-          requestOptions
-        )
+        fetch(getUrl(itemsChangeShelve), requestOptions)
           .then(async (res) => {
             const resData = await res.json();
 

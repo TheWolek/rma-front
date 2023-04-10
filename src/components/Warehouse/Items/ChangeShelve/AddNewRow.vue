@@ -1,6 +1,9 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+
+import { getUrl, itemsShelve } from "../../../../helpers/endpoints";
+
 export default {
   data() {
     return {
@@ -112,9 +115,7 @@ export default {
       let active_shelve = this.shelves.find(
         (o) => o.code == currShelve
       ).shelve_id;
-      fetch(
-        `http://localhost:3000/warehouse/items/shelve?shelve=${active_shelve}`
-      )
+      fetch(`${getUrl(itemsShelve)}?shelve=${active_shelve}`)
         .then(async (res) => {
           const resData = await res.json();
 

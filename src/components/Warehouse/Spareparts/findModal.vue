@@ -59,7 +59,6 @@ export default {
         );
       }
 
-      //let url = `http://localhost:3000/warehouse/spareparts/?`;
       let query = {};
 
       if (this.category !== "") query.cat = this.category;

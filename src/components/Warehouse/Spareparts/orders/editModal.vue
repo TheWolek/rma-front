@@ -2,6 +2,9 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import formatDate from "../../../../utils/formatDate";
+
+import { getUrl, sparepartsOrders } from "../../../../helpers/endpoints";
+
 export default {
   data() {
     return {
@@ -39,7 +42,7 @@ export default {
     },
     handleSubmitEdit() {
       let data = {};
-      let url = `http://localhost:3000/warehouse/spareparts/orders`;
+      let url = getUrl(sparepartsOrders);
       if (this.formData.mode === "status") {
         data = {
           order_id: this.formData.part_order_id,

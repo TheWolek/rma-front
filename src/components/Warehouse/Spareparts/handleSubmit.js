@@ -1,7 +1,7 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 
-import waitUntil from "../../../utils/waitUntil";
+import { getUrl, spareparts, sparepartsCode } from "../../../helpers/endpoints";
 
 export default {
   computed: {
@@ -12,7 +12,7 @@ export default {
   methods: {
     handleSubmit_find(params) {
       console.log(params);
-      let url = `http://localhost:3000/warehouse/spareparts/?`;
+      let url = `${getUrl(spareparts)}/?`;
 
       if (params.cat !== undefined) url += `category=${params.cat}`;
       if (params.prod !== undefined) {
@@ -69,7 +69,7 @@ export default {
     },
     handleSubmit_findByCode(code) {
       console.log(code);
-      fetch(`http://localhost:3000/warehouse/spareparts/code?codes=${code}`)
+      fetch(`${getUrl(sparepartsCode)}?codes=${code}`)
         .then(async (res) => {
           const resData = await res.json();
           if (!res.ok) {

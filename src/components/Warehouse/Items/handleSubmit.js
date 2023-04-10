@@ -2,6 +2,7 @@ import { mapState } from "vuex";
 import store from "../../../store";
 
 import waitUntil from "../../../utils/waitUntil";
+import { getUrl, items, itemsShelve } from "../../../helpers/endpoints";
 
 export default {
   computed: {
@@ -43,7 +44,7 @@ export default {
       }
 
       const fetchItems = (id) => {
-        fetch(`http://localhost:3000/warehouse/items/shelve?shelve=${id}`)
+        fetch(`${getUrl(itemsShelve)}?shelve=${id}`)
           .then(async (res) => {
             const resData = await res.json();
 
@@ -82,7 +83,7 @@ export default {
         this.barcode_find = "";
         return;
       }
-      fetch(`http://localhost:3000/warehouse/items?barcode=${barcode}`)
+      fetch(`${getUrl(items)}?barcode=${barcode}`)
         .then(async (res) => {
           this.emitter.emit("refreshing", true);
           const resData = await res.json();

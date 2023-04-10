@@ -1,3 +1,10 @@
+import {
+  getUrl,
+  sparepartsCategories,
+  sparepartsAdd,
+  spareparts,
+} from "../../helpers/endpoints";
+
 const state = {
   parts: {},
   categories: [],
@@ -68,7 +75,7 @@ const mutations = {
 
 const actions = {
   fetchAllCategories({ commit }) {
-    fetch("http://localhost:3000/warehouse/spareparts/categories")
+    fetch(getUrl(sparepartsCategories))
       .then(async (res) => {
         const resData = await res.json();
 
@@ -113,10 +120,7 @@ const actions = {
       body: JSON.stringify(items),
     };
 
-    fetch(
-      "http://localhost:3000/warehouse/spareparts/add",
-      requestOptions
-    ).then(async (res) => {
+    fetch(getUrl(sparepartsAdd), requestOptions).then(async (res) => {
       const resData = await res.json();
 
       if (!res.ok) {
@@ -150,7 +154,7 @@ const actions = {
       return;
     }
 
-    let url = `http://localhost:3000/warehouse/spareparts?`;
+    let url = `${getUrl(spareparts)}?`;
     let active = 0;
 
     filters.forEach((el) => {
@@ -183,7 +187,7 @@ const actions = {
   },
   fetchActivePartDetails({ commit }, id) {
     console.log(id);
-    fetch(`http://localhost:3000/warehouse/spareparts?cat_id=${id}`)
+    fetch(`${getUrl(spareparts)}?cat_id=${id}`)
       .then(async (res) => {
         const resData = await res.json();
         if (!res.ok) {

@@ -2,6 +2,8 @@
 import { mapGetters, mapState } from "vuex";
 import store from "../../../store";
 
+import { getUrl, items } from "../../../helpers/endpoints";
+
 export default {
   data() {
     return {
@@ -47,7 +49,7 @@ export default {
         body: JSON.stringify(data),
       };
 
-      fetch("http://localhost:3000/warehouse/items", requestOptions)
+      fetch(getUrl(items), requestOptions)
         .then(async (res) => {
           const resData = await res.json();
 
