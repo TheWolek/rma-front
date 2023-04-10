@@ -1,12 +1,12 @@
 <script>
 import { mapState } from "vuex";
-import actions from "../../components/RMA/rmaPage/actions.vue";
-import rmaHeader from "../../components/RMA/rmaPage/header.vue";
-import rmaDetails from "../../components/RMA/rmaPage/details.vue";
-import shipmentModal from "../../components/RMA/rmaPage/modals/shipment.vue";
-import itemCreateModal from "../../components/Warehouse/Items/itemCreateModal.vue";
-import statusModal from "../../components/RMA/rmaPage/modals/status.vue";
-import processModal from "../../components/RMA/rmaPage/modals/process.vue";
+import actions from "@/components/RMA/rmaPage/actions.vue";
+import rmaHeader from "@/components/RMA/rmaPage/header.vue";
+import rmaDetails from "@/components/RMA/rmaPage/details.vue";
+import shipmentModal from "@/components/RMA/rmaPage/modals/shipment.vue";
+import itemCreateModal from "@/components/Warehouse/Items/itemCreateModal.vue";
+import statusModal from "@/components/RMA/rmaPage/modals/status.vue";
+import processModal from "@/components/RMA/rmaPage/modals/process.vue";
 import store from "../../store";
 
 export default {

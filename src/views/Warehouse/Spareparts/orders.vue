@@ -1,12 +1,12 @@
 <script>
-import actions from "../../../components/Warehouse/Spareparts/orders/actions.vue";
-import createModal from "../../../components/Warehouse/Spareparts/orders/createModal.vue";
-import findModal from "../../../components/Warehouse/Spareparts/orders/findModal.vue";
-import editModal from "../../../components/Warehouse/Spareparts/orders/editModal.vue";
-import editSNModal from "../../../components/Warehouse/Spareparts/orders/editSNModal.vue";
-import Table from "../../../components/Warehouse/Spareparts/orders/ordersTable.vue";
-import filters from "../../../components/Warehouse/Spareparts/orders/filters.vue";
-import items from "../../../components/Warehouse/Spareparts/orders/items/index.vue";
+import actions from "@/components/Warehouse/Spareparts/orders/actions.vue";
+import createModal from "@/components/Warehouse/Spareparts/orders/createModal.vue";
+import findModal from "@/components/Warehouse/Spareparts/orders/findModal.vue";
+import editModal from "@/components/Warehouse/Spareparts/orders/editModal.vue";
+import editSNModal from "@/components/Warehouse/Spareparts/orders/editSNModal.vue";
+import Table from "@/components/Warehouse/Spareparts/orders/ordersTable.vue";
+import filters from "@/components/Warehouse/Spareparts/orders/filters.vue";
+import items from "@/components/Warehouse/Spareparts/orders/items/index.vue";
 import store from "../../../store";
 import { mapState } from "vuex";
 

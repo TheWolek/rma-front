@@ -1,5 +1,5 @@
 <script setup>
-import warehouseNav from "../../components/Warehouse/warehouseNav.vue";
+import warehouseNav from "@/components/Warehouse/warehouseNav.vue";
 import { RouterView } from "vue-router";
 </script>
 <template>

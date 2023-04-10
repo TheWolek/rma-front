@@ -1,11 +1,11 @@
 <script>
-import ItemsActions from "../../../components/Warehouse/Items/itemsActions.vue";
-import ItemCreateModal from "../../../components/Warehouse/Items/itemCreateModal.vue";
-import ItemsTable from "../../../components/Warehouse/Items/itemsTable.vue";
-import ItemFindModal from "../../../components/Warehouse/Items/itemFindModal.vue";
-import ItemShelveFindModal from "../../../components/Warehouse/Items/itemShelveFindModal.vue";
-import filters from "../../../components/Warehouse/Items/filters.vue";
-import handleSubmit from "../../../components/Warehouse/Items/handleSubmit";
+import ItemsActions from "@/components/Warehouse/Items/itemsActions.vue";
+import ItemCreateModal from "@/components/Warehouse/Items/itemCreateModal.vue";
+import ItemsTable from "@/components/Warehouse/Items/itemsTable.vue";
+import ItemFindModal from "@/components/Warehouse/Items/itemFindModal.vue";
+import ItemShelveFindModal from "@/components/Warehouse/Items/itemShelveFindModal.vue";
+import filters from "@/components/Warehouse/Items/filters.vue";
+import handleSubmit from "@/components/Warehouse/Items/handleSubmit";
 
 import { useRoute } from "vue-router";
 import store from "../../../store";

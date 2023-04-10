@@ -1,9 +1,9 @@
 <script>
 import { useRoute } from "vue-router";
 
-import ChangeShelveActions from "../../../components/Warehouse/Items/ChangeShelve/Actions.vue";
-import ChangeShelveModal from "../../../components/Warehouse/Items/ChangeShelve/Modal.vue";
-import ChangeShelveForm from "../../../components/Warehouse/Items/ChangeShelve/Form.vue";
+import ChangeShelveActions from "@/components/Warehouse/Items/ChangeShelve/Actions.vue";
+import ChangeShelveModal from "@/components/Warehouse/Items/ChangeShelve/Modal.vue";
+import ChangeShelveForm from "@/components/Warehouse/Items/ChangeShelve/Form.vue";
 import store from "../../../store";
 import { mapState } from "vuex";
 

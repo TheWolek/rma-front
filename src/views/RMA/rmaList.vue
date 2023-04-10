@@ -1,9 +1,8 @@
 <script>
-import rmaActions from "../../components/RMA/rmaList/rmaActions.vue";
-import rmaList from "../../components/RMA/rmaList/rmaList.vue";
-import rmaFilters from "../../components/RMA/rmaList/rmaFilters.vue";
-
-import filtersModal from "../../components/RMA/rmaList/modals/filters.vue";
+import rmaActions from "@/components/RMA/rmaList/rmaActions.vue";
+import rmaList from "@/components/RMA/rmaList/rmaList.vue";
+import rmaFilters from "@/components/RMA/rmaList/rmaFilters.vue";
+import filtersModal from "@/components/RMA/rmaList/modals/filters.vue";
 import { mapState } from "vuex";
 
 export default {

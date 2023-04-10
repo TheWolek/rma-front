@@ -1,5 +1,5 @@
 <script>
-import addForm from "../../components/RMA/rmaAdd/form.vue";
+import addForm from "@/components/RMA/rmaAdd/form.vue";
 
 export default {
   components: { addForm },

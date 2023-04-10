@@ -1,14 +1,14 @@
 <script>
-import actions from "../../../components/Warehouse/Spareparts/actions.vue";
-import partsTable from "../../../components/Warehouse/Spareparts/table.vue";
-import findModal from "../../../components/Warehouse/Spareparts/findModal.vue";
-import filters from "../../../components/Warehouse/Spareparts/filters.vue";
-import partData from "../../../components/Warehouse/Spareparts/details/partData.vue";
-import partStock from "../../../components/Warehouse/Spareparts/details/partStock.vue";
-import snModal from "../../../components/Warehouse/Spareparts/snModal.vue";
-import partSnTable from "../../../components/Warehouse/Spareparts/details/partSnTable.vue";
-import loadingDots from "../../../components/icons/loadingDots.vue";
-import handleSubmit from "../../../components/Warehouse/Spareparts/handleSubmit";
+import actions from "@/components/Warehouse/Spareparts/actions.vue";
+import partsTable from "@/components/Warehouse/Spareparts/table.vue";
+import findModal from "@/components/Warehouse/Spareparts/findModal.vue";
+import filters from "@/components/Warehouse/Spareparts/filters.vue";
+import partData from "@/components/Warehouse/Spareparts/details/partData.vue";
+import partStock from "@/components/Warehouse/Spareparts/details/partStock.vue";
+import snModal from "@/components/Warehouse/Spareparts/snModal.vue";
+import partSnTable from "@/components/Warehouse/Spareparts/details/partSnTable.vue";
+import loadingDots from "@/components/icons/loadingDots.vue";
+import handleSubmit from "@/components/Warehouse/Spareparts/handleSubmit";
 import { mapState } from "vuex";
 import { useRoute } from "vue-router";
 import store from "../../../store";
