@@ -1,6 +1,8 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import actionButton from "../../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../../parts/actionButtonRefresh.vue";
 
 import { getUrl, sparepartsOrdersEdit } from "../../../../helpers/endpoints";
 
@@ -9,6 +11,10 @@ export default {
     return {
       saveCoolDown: 0,
     };
+  },
+  components: {
+    actionButton,
+    actionButtonRefresh,
   },
   methods: {
     toggleNewModal() {
@@ -111,42 +117,36 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div
-      class="actionBtn"
-      @click="toggleNewModal"
-      :class="{ disabled: disabledNew }"
-    >
-      <img src="@/assets/add.svg" class="addImg" /> Nowy
-    </div>
-    <div class="actionBtn" @click="onSave" :class="{ disabled: disabledSave }">
-      <img src="@/assets/save.svg" class="saveImg" />Zapisz
-    </div>
-    <div
-      class="actionBtn"
-      @click="onCancel"
-      :class="{ disabled: disabledCancel }"
-    >
-      <img src="@/assets/cancel.svg" /> Anuluj
-    </div>
-    <div
-      class="actionBtn"
-      @click="onRecive"
-      :class="{
-        disabled: disabledRecive,
-      }"
-    >
-      <img src="@/assets/open-box.png" />
-      Odbierz
-    </div>
-    <div
-      class="actionBtn"
-      @click="toggleFindModal"
-      :class="{ disabled: disabledSearch }"
-    >
-      <img src="@/assets/search.svg" class="searchImg" /> Szukaj
-    </div>
-    <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
-      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
-    </div>
+    <actionButton
+      :event="toggleNewModal"
+      display="Nowy"
+      :icon="`add.svg`"
+      :disabled="this.disabledNew"
+    />
+    <actionButton
+      :event="onSave"
+      display="Zapisz"
+      :icon="`save.svg`"
+      :disabled="this.disabledSave"
+    />
+    <actionButton
+      :event="onCancel"
+      display="Anuluj"
+      :icon="`cancel.svg`"
+      :disabled="this.disabledCancel"
+    />
+    <actionButton
+      :event="onRecive"
+      display="Odbierz"
+      :icon="`open-box.png`"
+      :disabled="this.disabledRecive"
+    />
+    <actionButton
+      :event="toggleFindModal"
+      display="Szukaj"
+      :icon="`search.svg`"
+      :disabled="this.disabledSearch"
+    />
+    <actionButtonRefresh :event="onRefresh" :loading="this.loading" />
   </div>
 </template>

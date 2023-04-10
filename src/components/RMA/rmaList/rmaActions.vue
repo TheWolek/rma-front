@@ -1,11 +1,17 @@
 <script>
 import store from "../../../store";
+import actionButton from "../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../parts/actionButtonRefresh.vue";
 
 export default {
   data() {
     return {
       loading: false,
     };
+  },
+  components: {
+    actionButton,
+    actionButtonRefresh,
   },
   methods: {
     toggleFiltersModal() {
@@ -20,14 +26,16 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div class="actionBtn" id="btn1" @click="toggleFiltersModal">
-      <img src="@/assets/filters.svg" /> Filtry
-    </div>
-    <div class="actionBtn" id="btn2" @click="toggleStatusModal">
-      <img src="@/assets/change.svg" /> Status
-    </div>
-    <div class="actionBtn refreshBtn" id="btn3" @click="onRefresh">
-      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
-    </div>
+    <actionButton
+      :event="toggleFiltersModal"
+      display="Filtry"
+      :icon="`filters.svg`"
+    />
+    <actionButton
+      :event="toggleStatusModal"
+      display="Status"
+      :icon="`change.svg`"
+    />
+    <actionButtonRefresh :event="onRefresh" :loading="this.loading" />
   </div>
 </template>

@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "../../../store";
+import actionButton from "../../../parts/actionButton.vue";
 
 import waybillTable from "./waybillTable.vue";
 
@@ -15,7 +16,7 @@ export default {
       accessories: "",
     };
   },
-  components: { waybillTable },
+  components: { actionButton, waybillTable },
   mounted() {
     this.issue = this.rmaPage.issue;
     this.sn = this.rmaPage.device_sn;
@@ -104,19 +105,13 @@ export default {
       </div>
     </div>
     <div class="register">
-      <div
-        class="actionBtn"
-        :class="{ disabled: !ableToRegister }"
-        @click="toggleModal_createItem"
-      >
-        Zarejestruj
-      </div>
+      <actionButton :event="toggleModal_createItem" display="Zarejestruj" />
       <h3 v-if="inWarehouse">
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
       </h3>
     </div>
     <div class="shelve" v-if="inWarehouse">
-      <div class="actionBtn" @click="changeShelve">Zmień lokalizacje</div>
+      <actionButton :event="changeShelve" display="Zmień lokalizacje" />
       <h3>
         Lokalizacja: <b>{{ rmaPage.code }}</b>
       </h3>

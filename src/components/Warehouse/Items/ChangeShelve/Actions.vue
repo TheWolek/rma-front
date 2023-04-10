@@ -1,10 +1,16 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import actionButton from "../../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../../parts/actionButtonRefresh.vue";
 
 import { getUrl, itemsChangeShelve } from "../../../../helpers/endpoints";
 
 export default {
+  components: {
+    actionButton,
+    actionButtonRefresh,
+  },
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -110,28 +116,20 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div class="actionBtn" @click="goBack">
-      <img src="@/assets/back-arrow.png" /> Cofnij
-    </div>
-    <div
-      class="actionBtn"
-      id="btn1"
-      @click="toggleChangeModal"
-      :class="newBtnVisible"
-    >
-      <img src="@/assets/add.svg" class="addImg" /> Nowy
-    </div>
-    <div
-      class="actionBtn"
-      id="btn2"
-      @click="clearForm"
-      :class="CancelBtnVisible"
-    >
-      <img src="@/assets/cancel.svg" /> Anuluj
-    </div>
-    <div class="actionBtn" id="btn3" @click="submit" :class="SubmitBtnVisible">
-      <img src="@/assets/gear.svg" />Przetwarzaj
-    </div>
+    <actionButton :event="goBack" display="Cofnij" :icon="`back-arrow.png`" />
+    <actionButton :event="toggleChangeModal" display="Nowy" :icon="`add.svg`" />
+    <actionButton
+      :event="clearForm"
+      display="Anuluj"
+      :icon="`cancel.svg`"
+      :disabled="CancelBtnVisible"
+    />
+    <actionButton
+      :event="submit"
+      display="Przetwarzaj"
+      :icon="`gear.svg`"
+      :disabled="SubmitBtnVisible"
+    />
     <div id="changeShelveResponse-msg" :class="notificationVisible">
       {{ notification.message
       }}<span id="close_notifi" @click="disMissNotification"></span>

@@ -1,6 +1,8 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
+import actionButton from "../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../parts/actionButtonRefresh.vue";
 
 import { getUrl, itemsShelve, items } from "../../../helpers/endpoints";
 
@@ -9,6 +11,10 @@ export default {
     return {
       loading: false,
     };
+  },
+  components: {
+    actionButton,
+    actionButtonRefresh,
   },
   computed: {
     ...mapState({
@@ -83,18 +89,18 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div class="actionBtn" id="btn1" @click="toggleNewModal">
-      <img src="@/assets/add.svg" class="addImg" /> Dodaj
-    </div>
-    <div class="actionBtn" id="btn2" @click="toggleFindModal">
-      <img src="@/assets/barcode.svg" />Kod kreskowy
-    </div>
-    <div class="actionBtn" id="btn3" @click="toggleShelveFindModal">
-      <img src="@/assets/shelve.svg" />Lokalizacja
-    </div>
+    <actionButton :event="toggleNewModal" display="Dodaj" :icon="`add.svg`" />
+    <actionButton
+      :event="toggleFindModal"
+      display="Kod kreskowy"
+      :icon="`barcode.svg`"
+    />
+    <actionButton
+      :event="toggleShelveFindModal"
+      display="Lokalizacja"
+      :icon="`shelve.svg`"
+    />
     <div class="actionBtn" id="btn4"><img src="@/assets/delete.svg" />Usuń</div>
-    <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
-      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
-    </div>
+    <actionButtonRefresh :event="onRefresh" :loading="this.loading" />
   </div>
 </template>

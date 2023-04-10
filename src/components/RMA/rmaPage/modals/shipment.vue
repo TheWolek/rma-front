@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import actionButton from "../../../../parts/actionButton.vue";
 
 import waybillTable from "../waybillTable.vue";
 import editWaybill from "./editWaybill.vue";
@@ -14,7 +15,7 @@ export default {
       addWaybillModalActive: (state) => state.rma.addWaybillModalActive,
     }),
   },
-  components: { waybillTable, editWaybill, addWaybill },
+  components: { actionButton, waybillTable, editWaybill, addWaybill },
   methods: {
     toggleModal_shipment() {
       store.commit("rma/toggleModal_shipment", false);
@@ -41,7 +42,11 @@ export default {
       <div class="tableWrap">
         <waybillTable withEdit="true" />
         <div class="addBtnWrap">
-          <div class="actionBtn" @click="toggleModal_addWaybill">+ Dodaj</div>
+          <actionButton
+            :event="toggleModal_addWaybill"
+            display="Dodaj"
+            :icon="`add.svg`"
+          />
         </div>
       </div>
     </div>

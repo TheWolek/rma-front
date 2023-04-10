@@ -1,7 +1,14 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
+import actionButton from "../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../parts/actionButtonRefresh.vue";
+
 export default {
+  components: {
+    actionButton,
+    actionButtonRefresh,
+  },
   computed: {
     ...mapState({
       loading: (state) => state.spareparts.refreshingTable,
@@ -58,35 +65,35 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div
-      class="actionBtn"
-      @click="goBack"
-      :class="{ disabled: this.isGoBackActive }"
-    >
-      <img src="@/assets/back-arrow.png" class="searchImg" /> Cofnij
-    </div>
-    <div
-      class="actionBtn"
-      @click="toggleFindModal"
-      :class="{ disabled: this.isSearchActive }"
-    >
-      <img src="@/assets/search.svg" class="searchImg" /> Szukaj
-    </div>
-    <div class="actionBtn" @click="toggleSnModal" :class="{ disabled: false }">
-      <img src="@/assets/barcode.svg" /> Kod kreskowy
-    </div>
-    <div
-      class="actionBtn"
-      @click="usePart"
-      :class="{ disabled: isUsePartActive }"
-    >
-      <img src="@/assets/gear.svg" /> Użyj części
-    </div>
-    <div class="actionBtn" @click="changePartShelve">
-      <img src="@/assets/shelve.svg" /> Zmień lokalizacje
-    </div>
-    <div class="actionBtn refreshBtn" id="btn5" @click="onRefresh">
-      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
-    </div>
+    <actionButton
+      :event="goBack"
+      display="Cofnij"
+      :icon="`back-arrow.png`"
+      :disabled="this.isGoBackActive"
+    />
+    <actionButton
+      :event="toggleFindModal"
+      display="Szukaj"
+      :icon="`search.svg`"
+      :disabled="this.isSearchActive"
+    />
+    <actionButton
+      :event="toggleSnModal"
+      display="Kod kreskowy"
+      :icon="`barcode.svg`"
+      :disabled="false"
+    />
+    <actionButton
+      :event="usePart"
+      display="Użyj części"
+      :icon="`gear.svg`"
+      :disabled="this.isUsePartActive"
+    />
+    <actionButton
+      :event="changePartShelve"
+      display="Zmień lokalizacje"
+      :icon="`shelve.svg`"
+    />
+    <actionButtonRefresh :event="onRefresh" :loading="this.loading" />
   </div>
 </template>

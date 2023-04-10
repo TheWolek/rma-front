@@ -2,12 +2,18 @@
 import { mapGetters } from "vuex";
 import router from "../../../router";
 import store from "../../../store";
+import actionButton from "../../../parts/actionButton.vue";
+import actionButtonRefresh from "../../../parts/actionButtonRefresh.vue";
 
 export default {
   data() {
     return {
       loading: false,
     };
+  },
+  components: {
+    actionButton,
+    actionButtonRefresh,
   },
   methods: {
     onBack() {
@@ -46,41 +52,35 @@ export default {
 </script>
 <template>
   <div class="actions">
-    <div class="actionBtn" id="btn1" @click="onBack">
-      <img src="@/assets/back-arrow.png" /> Cofnij
-    </div>
-    <div
-      class="actionBtn"
-      id="btn2"
-      @click="onSave"
-      :class="{ disabled: !isSaveBtnActive }"
-    >
-      <img src="@/assets/save.svg" /> Zapisz
-    </div>
-    <div
-      class="actionBtn"
-      id="btn3"
-      @click="toggleStatusModal"
-      :class="{ disabled: !isStatusBtnActive }"
-    >
-      <img src="@/assets/change.svg" /> Status
-    </div>
-    <div class="actionBtn" id="btn4" @click="toggleWaybillModal">
-      <img src="@/assets/box.svg" /> Przesyłka
-    </div>
-    <div
-      class="actionBtn"
-      id="btn5"
-      @click="toggleProcessModal"
-      :class="{ disabled: !isProcessBtnActive }"
-    >
-      <img src="@/assets/gear.svg" /> Procesuj
-    </div>
-    <div class="actionBtn" id="btn6" @click="toggleHistoryModal">
-      <img src="@/assets/form.svg" /> Dziennik zdarzeń
-    </div>
-    <div class="actionBtn refreshBtn" id="btn7" @click="onRefresh">
-      <img src="@/assets/refresh.svg" :class="{ active: this.loading }" />
-    </div>
+    <actionButton :event="onBack" display="Cofnij" :icon="`back-arrow.png`" />
+    <actionButton
+      :event="onSave"
+      display="Zapisz"
+      :icon="`save.svg`"
+      :disabled="!isSaveBtnActive"
+    />
+    <actionButton
+      :event="toggleStatusModal"
+      display="Status"
+      :icon="`change.svg`"
+      :disabled="!isStatusBtnActive"
+    />
+    <actionButton
+      :event="toggleWaybillModal"
+      display="Przesyłka"
+      :icon="`box.svg`"
+    />
+    <actionButton
+      :event="toggleProcessModal"
+      display="Procesuj"
+      :icon="`gear.svg`"
+      :disabled="!isProcessBtnActive"
+    />
+    <actionButton
+      :event="toggleHistoryModal"
+      display="Dziennik zdarzeń"
+      :icon="`form.svg`"
+    />
+    <actionButtonRefresh :event="onRefresh" :loading="this.loading" />
   </div>
 </template>
