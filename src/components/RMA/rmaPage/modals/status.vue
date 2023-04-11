@@ -1,6 +1,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import store from "../../../../store";
+import bigModal from "../../../../parts/bigModal.vue";
 
 export default {
   data() {
@@ -8,6 +9,7 @@ export default {
       status: null,
     };
   },
+  components: { bigModal },
   mounted() {
     this.status = this.rmaPage.status;
   },
@@ -67,43 +69,37 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="rmaStatusModalWrap"
-    class="bigModal"
-    :class="{ active: this.statusModalActive }"
+  <bigModal
+    :modalActive="this.statusModalActive"
+    :toggleAction="toggleModal_status"
+    modalTitle="Zmiana statusu zlecenia"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal_status"></div>
-        <h4>Zmiana statusu zlecenia</h4>
-      </div>
-      <form v-on:submit.prevent="onSubmit">
-        <label
-          v-for="s in statuses"
-          :for="'status_' + s.id"
-          class="radioBtn"
-          :class="{
-            active: s.id === rmaPage.status,
-            disabled: !availableStatuses.includes(s.id),
-          }"
-        >
-          <input
-            type="radio"
-            name="status"
-            :id="'status_' + s.id"
-            :value="s.id"
-            v-model="status"
-            :disabled="!availableStatuses.includes(s.id)"
-          />
-          <p>{{ s.displayName }}</p>
-          <span class="tooltipText" v-if="!availableStatuses.includes(s.id)">{{
-            getTooltipText(s.id)
-          }}</span>
-        </label>
-        <input type="submit" value="Zapisz" />
-      </form>
-    </div>
-  </div>
+    <form v-on:submit.prevent="onSubmit">
+      <label
+        v-for="s in statuses"
+        :for="'status_' + s.id"
+        class="radioBtn"
+        :class="{
+          active: s.id === rmaPage.status,
+          disabled: !availableStatuses.includes(s.id),
+        }"
+      >
+        <input
+          type="radio"
+          name="status"
+          :id="'status_' + s.id"
+          :value="s.id"
+          v-model="status"
+          :disabled="!availableStatuses.includes(s.id)"
+        />
+        <p>{{ s.displayName }}</p>
+        <span class="tooltipText" v-if="!availableStatuses.includes(s.id)">{{
+          getTooltipText(s.id)
+        }}</span>
+      </label>
+      <input type="submit" value="Zapisz" />
+    </form>
+  </bigModal>
 </template>
 <style scoped>
 form {

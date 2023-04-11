@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import bigModal from "../../../../parts/bigModal.vue";
 
 export default {
   data() {
@@ -13,6 +14,7 @@ export default {
       modal_active: false,
     };
   },
+  components: { bigModal },
   computed: {
     ...mapState({
       isModalActive: (state) => state.changeShelve.modal_active,
@@ -113,43 +115,37 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="changeShelveModalWrap"
-    class="bigModal"
-    :class="{ active: this.modal_active }"
+  <bigModal
+    :modalActive="this.modal_active"
+    :toggleAction="toggleModal"
+    modalTitle="Zmiana lokalizacji produktu"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal"></div>
-        <h4>Zmiana lokalizacji produktu</h4>
+    <form v-on:submit.prevent="handleSubmit">
+      <label for="active_code">Kod bierzącej lokalizacji</label>
+      <div>
+        <input
+          type="text"
+          id="active_code"
+          v-model="active_code"
+          @change="active_onChange"
+        />
+        <p id="error_active_code" class="error_modal_form">
+          {{ this.error_active_code }}
+        </p>
       </div>
-      <form v-on:submit.prevent="handleSubmit">
-        <label for="active_code">Kod bierzącej lokalizacji</label>
-        <div>
-          <input
-            type="text"
-            id="active_code"
-            v-model="active_code"
-            @change="active_onChange"
-          />
-          <p id="error_active_code" class="error_modal_form">
-            {{ this.error_active_code }}
-          </p>
-        </div>
-        <label for="new_code">Kod nowej lokalizacji</label>
-        <div>
-          <input
-            type="text"
-            id="new_code"
-            v-model="new_code"
-            @change="new_onChange"
-          />
-          <p id="error_new_code" class="error_modal_form">
-            {{ this.error_new_code }}
-          </p>
-        </div>
-        <input type="submit" value="Dodaj" />
-      </form>
-    </div>
-  </div>
+      <label for="new_code">Kod nowej lokalizacji</label>
+      <div>
+        <input
+          type="text"
+          id="new_code"
+          v-model="new_code"
+          @change="new_onChange"
+        />
+        <p id="error_new_code" class="error_modal_form">
+          {{ this.error_new_code }}
+        </p>
+      </div>
+      <input type="submit" value="Dodaj" />
+    </form>
+  </bigModal>
 </template>

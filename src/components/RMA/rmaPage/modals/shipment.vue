@@ -2,6 +2,7 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import actionButton from "../../../../parts/actionButton.vue";
+import bigModal from "../../../../parts/bigModal.vue";
 
 import waybillTable from "../waybillTable.vue";
 import editWaybill from "./editWaybill.vue";
@@ -15,7 +16,7 @@ export default {
       addWaybillModalActive: (state) => state.rma.addWaybillModalActive,
     }),
   },
-  components: { actionButton, waybillTable, editWaybill, addWaybill },
+  components: { bigModal, actionButton, waybillTable, editWaybill, addWaybill },
   methods: {
     toggleModal_shipment() {
       store.commit("rma/toggleModal_shipment", false);
@@ -27,30 +28,24 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="rmaShipmentModalWrap"
-    class="bigModal"
-    :class="{ active: this.shipmentModalActive }"
+  <bigModal
+    :modalActive="this.shipmentModalActive"
+    :toggleAction="toggleModal_shipment"
+    modalTitle="Zarządzanie przesyłkami do zlecenia"
   >
     <editWaybill v-if="editWaybillModalActive" />
     <addWaybill v-if="addWaybillModalActive" />
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal_shipment"></div>
-        <h4>Zarządzanie przesyłkami do zlecenia</h4>
-      </div>
-      <div class="tableWrap">
-        <waybillTable withEdit="true" />
-        <div class="addBtnWrap">
-          <actionButton
-            :event="toggleModal_addWaybill"
-            display="Dodaj"
-            :icon="`add.svg`"
-          />
-        </div>
+    <div class="tableWrap">
+      <waybillTable withEdit="true" />
+      <div class="addBtnWrap">
+        <actionButton
+          :event="toggleModal_addWaybill"
+          display="Dodaj"
+          :icon="`add.svg`"
+        />
       </div>
     </div>
-  </div>
+  </bigModal>
 </template>
 <style scoped>
 .tableWrap {

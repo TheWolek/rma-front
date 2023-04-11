@@ -2,6 +2,7 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import formatDate from "../../../../utils/formatDate";
+import bigModal from "../../../../parts/bigModal.vue";
 
 import { getUrl, sparepartsOrders } from "../../../../helpers/endpoints";
 
@@ -16,6 +17,7 @@ export default {
       error_orderStatus: "",
     };
   },
+  components: { bigModal },
   computed: {
     ...mapState({
       editModal_active: (state) => state.sparepartsOrders.editModal_active,
@@ -92,80 +94,74 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="sparepartsOrderEditModalWrap"
-    class="bigModal"
-    :class="{ active: this.editModal_active }"
+  <bigModal
+    :modalActive="this.editModal_active"
+    :toggleAction="toggleModal"
+    modalTitle="Edycja dostawy części"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal"></div>
-        <h4>Edycja dostawy części</h4>
+    <form v-on:submit.prevent="handleSubmitEdit">
+      <div class="form-group">
+        <label for="supplier">dostawca</label>
+        <div>
+          <select
+            id="supplier"
+            v-model="supplier"
+            :disabled="formData.mode == 'status'"
+          >
+            <option disabled value>dostawca</option>
+            <option v-for="el in suppliers" :key="el.id" :value="el.id">
+              {{ el.name }}
+            </option>
+          </select>
+          <p
+            id="error_supplier"
+            class="error_modal_form"
+            :class="{ active: this.error_supplier !== '' }"
+          >
+            {{ this.error_supplier }}
+          </p>
+        </div>
       </div>
-      <form v-on:submit.prevent="handleSubmitEdit">
-        <div class="form-group">
-          <label for="supplier">dostawca</label>
-          <div>
-            <select
-              id="supplier"
-              v-model="supplier"
-              :disabled="formData.mode == 'status'"
-            >
-              <option disabled value>dostawca</option>
-              <option v-for="el in suppliers" :key="el.id" :value="el.id">
-                {{ el.name }}
-              </option>
-            </select>
-            <p
-              id="error_supplier"
-              class="error_modal_form"
-              :class="{ active: this.error_supplier !== '' }"
-            >
-              {{ this.error_supplier }}
-            </p>
-          </div>
+      <div class="form-group">
+        <label for="date">data dostawy</label>
+        <div>
+          <input
+            type="date"
+            id="date"
+            v-model="dateFormatted"
+            @change="onChangeDate"
+            :disabled="formData.mode == 'status'"
+          />
+          <p
+            id="error_date"
+            class="error_modal_form"
+            :class="{ active: this.error_date !== '' }"
+          >
+            {{ this.error_date }}
+          </p>
         </div>
-        <div class="form-group">
-          <label for="date">data dostawy</label>
-          <div>
-            <input
-              type="date"
-              id="date"
-              v-model="dateFormatted"
-              @change="onChangeDate"
-              :disabled="formData.mode == 'status'"
-            />
-            <p
-              id="error_date"
-              class="error_modal_form"
-              :class="{ active: this.error_date !== '' }"
-            >
-              {{ this.error_date }}
-            </p>
-          </div>
+      </div>
+      <div class="form-group">
+        <label for="status">status</label>
+        <div>
+          <select id="status" v-model="orderStatus">
+            <option disabled value>status</option>
+            <option v-for="el in statuses" :key="el.id" :value="el.id">
+              {{ el.name }}
+            </option>
+          </select>
+          <p
+            id="error_orderStatus"
+            class="error_modal_form"
+            :class="{ active: this.error_orderStatus !== '' }"
+          >
+            {{ this.error_orderStatus }}
+          </p>
         </div>
-        <div class="form-group">
-          <label for="status">status</label>
-          <div>
-            <select id="status" v-model="orderStatus">
-              <option disabled value>status</option>
-              <option v-for="el in statuses" :key="el.id" :value="el.id">
-                {{ el.name }}
-              </option>
-            </select>
-            <p
-              id="error_orderStatus"
-              class="error_modal_form"
-              :class="{ active: this.error_orderStatus !== '' }"
-            >
-              {{ this.error_orderStatus }}
-            </p>
-          </div>
-        </div>
-        <input type="submit" value="Edytuj" />
-      </form>
-    </div>
-  </div>
+      </div>
+      <input type="submit" value="Edytuj" />
+    </form>
+  </bigModal>
 </template>
 <style scoped>
 #sparepartsOrderEditModalWrap .form-group {

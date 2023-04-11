@@ -1,6 +1,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import store from "../../../../store";
+import bigModal from "../../../../parts/bigModal.vue";
 
 import process_partsList from "./process_partsList.vue";
 import process_partForm from "./process_partForm.vue";
@@ -19,6 +20,7 @@ export default {
     }),
   },
   components: {
+    bigModal,
     process_partsList,
     process_partForm,
     process_commentForm,
@@ -32,30 +34,24 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="processModal"
-    class="bigModal"
-    :class="{ active: processModalActive }"
+  <bigModal
+    :modalActive="processModalActive"
+    :toggleAction="toggleModal_process"
+    modalTitle="Procesowanie naprawy zlecenia"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal_process"></div>
-        <h4>Procesowanie naprawy zlecenia</h4>
+    <div class="innerWrap">
+      <div class="spareparts">
+        <h2>Części zamienne</h2>
+        <process_partForm />
+        <process_partsList :parts="parts" />
       </div>
-      <div class="innerWrap">
-        <div class="spareparts">
-          <h2>Części zamienne</h2>
-          <process_partForm />
-          <process_partsList :parts="parts" />
-        </div>
-        <div class="comments">
-          <h2>Ustalenia do zlecenia</h2>
-          <process_commentForm />
-          <process_commentList :comments="comments" />
-        </div>
+      <div class="comments">
+        <h2>Ustalenia do zlecenia</h2>
+        <process_commentForm />
+        <process_commentList :comments="comments" />
       </div>
     </div>
-  </div>
+  </bigModal>
 </template>
 <style scoped>
 .innerWrap {

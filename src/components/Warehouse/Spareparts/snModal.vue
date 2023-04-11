@@ -2,6 +2,7 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 import fetchSubmit from "./handleSubmit";
+import bigModal from "../../../parts/bigModal.vue";
 
 export default {
   data() {
@@ -12,6 +13,7 @@ export default {
       error_formActive: false,
     };
   },
+  components: { bigModal },
   extends: fetchSubmit,
   computed: {
     ...mapState({
@@ -39,37 +41,31 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="sparepartsSnModalWrap"
-    class="bigModal"
-    :class="{ active: this.snModalActive }"
+  <bigModal
+    :modalActive="this.snModalActive"
+    :toggleAction="toggleModal"
+    modalTitle="Wyszukiwanie części zamiennych"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal"></div>
-        <h4>Wyszukiwanie części zamiennych</h4>
-      </div>
-      <form v-on:submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="category">Kod kreskowy</label>
-          <div>
-            <input type="text" v-model="barcode" />
-            <p id="error_category" class="error_modal_form">
-              {{ this.error_barcode }}
-            </p>
-          </div>
+    <form v-on:submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="category">Kod kreskowy</label>
+        <div>
+          <input type="text" v-model="barcode" />
+          <p id="error_category" class="error_modal_form">
+            {{ this.error_barcode }}
+          </p>
         </div>
-        <input type="submit" value="Szukaj" />
-        <p
-          id="error_form"
-          class="error_modal_form"
-          :class="{ active: this.error_formActive }"
-        >
-          {{ this.error_form }}
-        </p>
-      </form>
-    </div>
-  </div>
+      </div>
+      <input type="submit" value="Szukaj" />
+      <p
+        id="error_form"
+        class="error_modal_form"
+        :class="{ active: this.error_formActive }"
+      >
+        {{ this.error_form }}
+      </p>
+    </form>
+  </bigModal>
 </template>
 <style scoped>
 .form-group {

@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
+import bigModal from "../../../parts/bigModal.vue";
 
 import handleSubmit from "./handleSubmit";
 
@@ -13,6 +14,7 @@ export default {
       code_reg: /^([A-Z]){1,}_([A-Z]){1,}_([0-9]){1,}$/,
     };
   },
+  components: { bigModal },
   methods: {
     toggleModal_shelveFind() {
       //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
@@ -47,31 +49,25 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="itemShelveFindModalWrap"
-    class="bigModal"
-    :class="{ active: this.itemShelveFindModal_Active }"
+  <bigModal
+    :modalActive="itemShelveFindModal_Active"
+    :toggleAction="toggleModal_shelveFind"
+    modalTitle="Wyszukiwanie produktów w lokalizacji"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal_shelveFind"></div>
-        <h4>Wyszukiwanie produktów w lokalizacji</h4>
+    <form v-on:submit.prevent="handleSubmit_shelveFind">
+      <label for="shelveCode">Kod lokalizacji</label>
+      <div>
+        <input
+          type="text"
+          id="shelveCode"
+          v-model.lazy="shelve_code"
+          @change="onChange_shelveCode"
+        />
+        <p id="error_shelveCode" class="error_modal_form">
+          {{ this.error_shelveCode }}
+        </p>
       </div>
-      <form v-on:submit.prevent="handleSubmit_shelveFind">
-        <label for="shelveCode">Kod lokalizacji</label>
-        <div>
-          <input
-            type="text"
-            id="shelveCode"
-            v-model.lazy="shelve_code"
-            @change="onChange_shelveCode"
-          />
-          <p id="error_shelveCode" class="error_modal_form">
-            {{ this.error_shelveCode }}
-          </p>
-        </div>
-        <input type="submit" value="Szukaj" />
-      </form>
-    </div>
-  </div>
+      <input type="submit" value="Szukaj" />
+    </form>
+  </bigModal>
 </template>

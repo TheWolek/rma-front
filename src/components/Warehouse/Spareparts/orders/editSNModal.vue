@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import bigModal from "../../../../parts/bigModal.vue";
 
 import snField from "./snField.vue";
 
@@ -8,7 +9,7 @@ export default {
   data() {
     return {};
   },
-  components: { snField },
+  components: { bigModal, snField },
   computed: {
     ...mapState({
       editSNModal_active: (state) => state.sparepartsOrders.editSNModal_active,
@@ -37,33 +38,27 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="sparepartsOrderEditSNModalWrap"
-    class="bigModal"
-    :class="{ active: this.editSNModal_active }"
+  <bigModal
+    :modalActive="this.editSNModal_active"
+    :toggleAction="toggleModal"
+    modalTitle="Odbiór dostawy - skanowanie kodów kreskowych"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal"></div>
-        <h4>Odbiór dostawy - skanowanie kodów kreskowych</h4>
-      </div>
-      <form v-on:submit.prevent="">
-        <div class="form-group">
-          <snField
-            v-for="(item, index) in items"
-            :key="item.order_item_id"
-            :item="{ ...item, index }"
-          />
-        </div>
-        <input
-          type="button"
-          value="Odbierz"
-          @click="submit"
-          :disabled="this.enabledSubmit"
+    <form v-on:submit.prevent="">
+      <div class="form-group">
+        <snField
+          v-for="(item, index) in items"
+          :key="item.order_item_id"
+          :item="{ ...item, index }"
         />
-      </form>
-    </div>
-  </div>
+      </div>
+      <input
+        type="button"
+        value="Odbierz"
+        @click="submit"
+        :disabled="this.enabledSubmit"
+      />
+    </form>
+  </bigModal>
 </template>
 <style scoped>
 #sparepartsOrderEditSNModalWrap .form-group {

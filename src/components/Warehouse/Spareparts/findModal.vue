@@ -2,6 +2,7 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 import fetchSubmit from "./handleSubmit";
+import bigModal from "../../../parts/bigModal.vue";
 
 export default {
   data() {
@@ -15,6 +16,7 @@ export default {
       error_producer: "",
     };
   },
+  components: { bigModal },
   extends: fetchSubmit,
   computed: {
     ...mapState({
@@ -65,118 +67,58 @@ export default {
       if (this.producer !== "") query.prod = this.producer;
       if (this.name !== "") query.name = this.name;
 
-      // if (this.category !== "") url += `category=${this.category}`;
-      // if (this.producer !== "") {
-      //   if (this.category !== "") url += `&`;
-      //   url += `producer=${this.producer}`;
-      // }
-      // if (this.name !== "") {
-      //   if (this.category !== "" || this.producer !== "") url += `&`;
-      //   url += `name=${this.name}`;
-      // }
-
       this.$router.push({ path: "/warehouse/spareparts", query: query });
       this.toggleModal();
       this.handleSubmit_find(query);
       this.clearData();
-
-      // fetch(url)
-      //   .then(async (res) => {
-      //     store.commit("spareparts/toggleRefreshTable", true);
-      //     const resData = await res.json();
-      //     let filters = {
-      //       active: true,
-      //       names: {},
-      //     };
-
-      //     if (this.category !== "") filters.names.category = this.category;
-      //     if (this.producer !== "") filters.names.producer = this.producer;
-      //     if (this.name !== "") filters.names.name = this.name;
-
-      //     console.log(resData);
-
-      //     if (!res.ok) {
-      //       store.commit("spareparts/toggleRefreshTable", false);
-      //       this.toggleModal();
-      //       if (res.status == 404) {
-      //         store.dispatch("spareparts/submitModal_Find", {
-      //           data: [],
-      //           filters: filters,
-      //         });
-      //         this.clearData();
-      //         console.log("nothing was found");
-      //         return;
-      //       }
-      //       const error = (resData && resData.message) || res.status;
-      //       return Promise.reject(error);
-      //     }
-      //     this.toggleModal();
-      //     setTimeout(() => {
-      //       store.dispatch("spareparts/submitModal_Find", {
-      //         data: resData,
-      //         filters: filters,
-      //       });
-      //       this.clearData();
-      //       store.commit("spareparts/toggleRefreshTable", false);
-      //     }, 500);
-      //   })
-      //   .catch((error) => {
-      //     return this.showError("error_form", error);
-      //   });
     },
   },
 };
 </script>
 <template>
-  <div
-    id="sparepartsFindModalWrap"
-    class="bigModal"
-    :class="{ active: this.findModalActive }"
+  <bigModal
+    :modalActive="this.findModalActive"
+    :toggleAction="toggleModal"
+    modalTitle="Wyszukiwanie części zamiennych"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal"></div>
-        <h4>Wyszukiwanie części zamiennych</h4>
+    <form v-on:submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="category">Kategoria</label>
+        <div>
+          <input type="text" v-model="category" />
+          <p id="error_category" class="error_modal_form">
+            {{ this.error_category }}
+          </p>
+        </div>
       </div>
-      <form v-on:submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="category">Kategoria</label>
-          <div>
-            <input type="text" v-model="category" />
-            <p id="error_category" class="error_modal_form">
-              {{ this.error_category }}
-            </p>
-          </div>
+      <div class="form-group">
+        <label for="producer">Producent</label>
+        <div>
+          <input type="text" v-model="producer" />
+          <p id="error_producer" class="error_modal_form">
+            {{ this.error_producer }}
+          </p>
         </div>
-        <div class="form-group">
-          <label for="producer">Producent</label>
-          <div>
-            <input type="text" v-model="producer" />
-            <p id="error_producer" class="error_modal_form">
-              {{ this.error_producer }}
-            </p>
-          </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Nazwa</label>
+        <div>
+          <input type="text" v-model="name" />
+          <p id="error_name" class="error_modal_form">
+            {{ this.error_name }}
+          </p>
         </div>
-        <div class="form-group">
-          <label for="name">Nazwa</label>
-          <div>
-            <input type="text" v-model="name" />
-            <p id="error_name" class="error_modal_form">
-              {{ this.error_name }}
-            </p>
-          </div>
-        </div>
-        <input type="submit" value="Szukaj" />
-        <p
-          id="error_form"
-          class="error_modal_form"
-          :class="{ active: this.error_formActive }"
-        >
-          {{ this.error_form }}
-        </p>
-      </form>
-    </div>
-  </div>
+      </div>
+      <input type="submit" value="Szukaj" />
+      <p
+        id="error_form"
+        class="error_modal_form"
+        :class="{ active: this.error_formActive }"
+      >
+        {{ this.error_form }}
+      </p>
+    </form>
+  </bigModal>
 </template>
 <style scoped>
 .form-group {

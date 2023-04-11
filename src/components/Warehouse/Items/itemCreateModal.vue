@@ -1,6 +1,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import store from "../../../store";
+import bigModal from "../../../parts/bigModal.vue";
 
 import { getUrl, items } from "../../../helpers/endpoints";
 
@@ -15,6 +16,7 @@ export default {
       sn_reg: /^[A-z0-9]{3,}$/,
     };
   },
+  components: { bigModal },
   mounted() {
     if (this.externalBarcode !== null) {
       this.barcode = this.externalBarcode;
@@ -132,38 +134,32 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="itemCreateModalWrap"
-    class="bigModal"
-    :class="{ active: this.createModal_Active }"
+  <bigModal
+    :modalActive="this.createModal_Active"
+    :toggleAction="toggleModal"
+    modalTitle="Rejestracja nowego produktu"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" v-on:click="toggleModal"></div>
-        <h4>Rejestracja nowego produktu</h4>
+    <form v-on:submit.prevent="handleSubmit">
+      <label for="barcode">Kod kreskowy</label>
+      <div>
+        <input
+          type="text"
+          id="barcode"
+          v-model.lazy="barcode"
+          @change="onChange"
+        />
+        <p id="error_barcode" class="error_modal_form">
+          {{ this.error_barcode }}
+        </p>
       </div>
-      <form v-on:submit.prevent="handleSubmit">
-        <label for="barcode">Kod kreskowy</label>
-        <div>
-          <input
-            type="text"
-            id="barcode"
-            v-model.lazy="barcode"
-            @change="onChange"
-          />
-          <p id="error_barcode" class="error_modal_form">
-            {{ this.error_barcode }}
-          </p>
-        </div>
-        <label for="sn">Numer seryjny</label>
-        <div>
-          <input type="text" id="sn" v-model.lazy="sn" @change="onChangeSN" />
-          <p id="error_sn" class="error_modal_form">
-            {{ this.error_sn }}
-          </p>
-        </div>
-        <input type="submit" value="Dodaj" />
-      </form>
-    </div>
-  </div>
+      <label for="sn">Numer seryjny</label>
+      <div>
+        <input type="text" id="sn" v-model.lazy="sn" @change="onChangeSN" />
+        <p id="error_sn" class="error_modal_form">
+          {{ this.error_sn }}
+        </p>
+      </div>
+      <input type="submit" value="Dodaj" />
+    </form>
+  </bigModal>
 </template>
