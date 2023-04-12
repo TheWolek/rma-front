@@ -68,17 +68,4 @@ export default {
   display: flex;
   gap: 0.1em;
 }
-
-.actionBtn.small {
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.actionBtn.small img {
-  width: 14px;
-}
-
-.actionBtn.small:nth-child(1) {
-  width: 74px;
-}
 </style>

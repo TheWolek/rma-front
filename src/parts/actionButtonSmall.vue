@@ -18,4 +18,17 @@ export default {
     <img v-if="icon" :src="getIcon" /> {{ display }}
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.actionBtn.small {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.actionBtn.small img {
+  width: 14px;
+}
+
+.actionBtn.small:nth-child(1) {
+  width: 74px;
+}
+</style>
