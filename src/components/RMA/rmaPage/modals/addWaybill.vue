@@ -2,14 +2,21 @@
 import { mapGetters, mapState } from "vuex";
 import store from "../../../../store";
 
+import smallModal from "../../../../parts/smallModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import selectInput from "../../../../parts/inputs/selectInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
+
 export default {
   data() {
     return {
       waybill: "",
       type: null,
-      erorr_type: "",
+      error_type: "",
+      error_waybill: "",
     };
   },
+  components: { smallModal, textInput, selectInput, submitButton },
   computed: {
     ...mapState({
       addWaybillModalActive: (state) => state.rma.addWaybillModalActive,
@@ -23,12 +30,17 @@ export default {
       store.commit("rma/toggleModal_addWaybill", false);
     },
     onSubmit() {
+      this.error_type = "";
+      this.error_waybill = "";
+      if (this.waybill === "") {
+        this.error_waybill = "Podaj nr listu";
+        return;
+      }
       if (this.type === null) {
-        this.erorr_type = "Wybierz typ";
+        this.error_type = "Wybierz typ";
         return;
       }
 
-      this.erorr_type = "";
       store.dispatch("rma/addWaybill", {
         ticketId: this.rmaPage.ticket_id,
         waybillNumber: this.waybill,
@@ -41,32 +53,30 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="addWaybillModal"
-    class="smallModal"
-    :class="{ active: addWaybillModalActive }"
+  <smallModal
+    :modalActive="this.addWaybillModalActive"
+    :toggleAction="toggleModal_addWaybill"
+    modalTitle="Dodawanie nowego listu"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal_addWaybill"></div>
-        <h4>Dodawanie nowego listu</h4>
-      </div>
-      <form v-on:submit.prevent="onSubmit">
-        <label for="waybill">Numer listu</label>
-        <div>
-          <input type="text" id="waybill" v-model.lazy="waybill" />
-        </div>
-        <label for="type">Typ</label>
-        <div>
-          <select name="type" id="type" v-model="type">
-            <option value="null" selected hidden>Wybierz typ</option>
-            <option value="przychodzący">Przychodzący</option>
-            <option value="wychodzący">Wychodzący</option>
-          </select>
-          <p class="error">{{ erorr_type }}</p>
-        </div>
-        <input type="submit" value="Zapisz" />
-      </form>
-    </div>
-  </div>
+    <form v-on:submit.prevent="onSubmit">
+      <textInput
+        id="waybill"
+        label="Numer listu"
+        v-model="waybill"
+        :error="error_waybill"
+      />
+      <selectInput
+        id="type"
+        label="Typ"
+        v-model="type"
+        :error="error_type"
+        :display="true"
+      >
+        <option value="null" selected hidden>Wybierz typ</option>
+        <option value="przychodzący">Przychodzący</option>
+        <option value="wychodzący">Wychodzący</option>
+      </selectInput>
+      <submitButton label="Zapisz" />
+    </form>
+  </smallModal>
 </template>

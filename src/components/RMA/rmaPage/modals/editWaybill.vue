@@ -2,6 +2,11 @@
 import { mapState, mapGetters } from "vuex";
 import store from "../../../../store";
 
+import smallModal from "../../../../parts/smallModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
+import selectInput from "../../../../parts/inputs/selectInput.vue";
+
 export default {
   data() {
     return {
@@ -10,8 +15,10 @@ export default {
       waybillNumber: null,
       status: null,
       type: null,
+      error_waybill: "",
     };
   },
+  components: { smallModal, textInput, submitButton, selectInput },
   mounted() {
     this.id = this.data.id;
     this.ticketId = this.data.ticket_id;
@@ -33,6 +40,12 @@ export default {
       store.commit("rma/setEditWaybillModalData", {});
     },
     onSubmit() {
+      this.error_waybill = "";
+      if (this.waybillNumber === "") {
+        this.error_waybill = "Podaj nr listu";
+        return;
+      }
+
       store.dispatch("rma/saveWaybillData", {
         id: this.id,
         ticketId: this.ticketId,
@@ -45,39 +58,31 @@ export default {
 };
 </script>
 <template>
-  <div
-    id="editWaybillModal"
-    class="smallModal"
-    :class="{ active: editWaybillModalActive }"
+  <smallModal
+    :modalActive="this.editWaybillModalActive"
+    :toggleAction="toggleModal_editWaybill"
+    modalTitle="Edycja listu"
   >
-    <div class="formWrap">
-      <div class="header">
-        <div id="close" @click="toggleModal_editWaybill"></div>
-        <h4>
-          Edycja Listu <b>{{ data.waybill_number }}</b>
-        </h4>
-      </div>
-      <form v-on:submit.prevent="onSubmit">
-        <label for="waybill">Numer listu</label>
-        <div>
-          <input type="text" id="waybill" v-model.lazy="waybillNumber" />
-        </div>
-        <label for="status">Status</label>
-        <div>
-          <select name="status" id="status" v-model="status">
-            <option value="potwierdzony">Potwierdzony</option>
-            <option value="odebrany">Odebrany</option>
-          </select>
-        </div>
-        <label for="type">Typ</label>
-        <div>
-          <select name="type" id="type" v-model="type">
-            <option value="przychodzący">Przychodzący</option>
-            <option value="wychodzący">Wychodzący</option>
-          </select>
-        </div>
-        <input type="submit" value="Zapisz" />
-      </form>
-    </div>
-  </div>
+    <form v-on:submit.prevent="onSubmit">
+      <textInput
+        id="waybill"
+        label="Numer listu"
+        v-model="waybillNumber"
+        :error="error_waybill"
+      />
+
+      <selectInput id="status" label="Status" v-model="status" :display="true">
+        <option value="potwierdzony">Potwierdzony</option>
+        <option value="odebrany">Odebrany</option>
+        <option value="anulowany">Anulowany</option>
+      </selectInput>
+
+      <selectInput id="type" label="Typ" v-model="type" :display="true">
+        <option value="przychodzący">Przychodzący</option>
+        <option value="wychodzący">Wychodzący</option>
+      </selectInput>
+
+      <submitButton label="Zapisz" />
+    </form>
+  </smallModal>
 </template>
