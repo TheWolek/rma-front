@@ -1,6 +1,7 @@
 <script>
 import store from "../../../store";
 import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -203,7 +204,7 @@ export default {
       });
     },
   },
-  components: { textInput },
+  components: { textInput, submitButton },
 };
 </script>
 <template>
@@ -320,7 +321,7 @@ export default {
           ></textarea>
           <p class="error" v-if="err_issue">{{ err_issue }}</p>
         </div>
-        <input type="submit" value="Dodaj" />
+        <submitButton label="Dodaj" />
       </div>
     </form>
   </div>
