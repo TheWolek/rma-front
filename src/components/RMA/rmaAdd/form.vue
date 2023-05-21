@@ -1,5 +1,6 @@
 <script>
 import store from "../../../store";
+import textInput from "../../../parts/inputs/textInput.vue";
 
 export default {
   data() {
@@ -202,6 +203,7 @@ export default {
       });
     },
   },
+  components: { textInput },
 };
 </script>
 <template>
@@ -209,127 +211,78 @@ export default {
     <form action="" @submit.prevent="onSubmit">
       <div class="device">
         <h3>Dane urządzenia</h3>
-        <div class="form-group">
-          <label for="deviceCat">Kategoria</label>
-          <input
-            type="text"
-            id="deviceCat"
-            v-model="deviceCat"
-            :class="{ error_input: err_deviceCat }"
-          />
-          <p class="error" v-if="err_deviceCat">
-            {{ err_deviceCat }}
-          </p>
-        </div>
-        <div class="form-group">
-          <label for="deviceProducer">Producent</label>
-          <input
-            type="text"
-            id="deviceProducer"
-            v-model="deviceProducer"
-            :class="{ error_input: err_deviceProducer }"
-          />
-          <p class="error" v-if="err_deviceProducer">
-            {{ err_deviceProducer }}
-          </p>
-        </div>
-        <div class="form-group">
-          <label for="deviceName">Model</label>
-          <input
-            type="text"
-            id="deviceName"
-            v-model="deviceName"
-            :class="{ error_input: err_deviceName }"
-          />
-          <p class="error" v-if="err_deviceName">{{ err_deviceName }}</p>
-        </div>
-        <div class="form-group">
-          <label for="deviceSn">Numer seryjny</label>
-          <input
-            type="text"
-            id="deviceSn"
-            v-model="deviceSn"
-            :class="{ error_input: err_deviceSn }"
-          />
-          <p class="error" v-if="err_deviceSn">{{ err_deviceSn }}</p>
-        </div>
-        <div class="form-group">
-          <label for="deviceAccessories">Dołączone akcesoria</label>
-          <input
-            type="text"
-            id="deviceAccessories"
-            v-model="deviceAccessories"
-          />
-          <p class="error" v-if="err_deviceAccessories">
-            {{ err_deviceAccessories }}
-          </p>
-        </div>
+        <textInput
+          id="deviceCat"
+          label="Kategoria"
+          v-model="deviceCat"
+          :error="err_deviceCat"
+        />
+        <textInput
+          id="deviceProducer"
+          label="Producent"
+          v-model="deviceProducer"
+          :error="err_deviceProducer"
+        />
+        <textInput
+          id="deviceName"
+          label="Model"
+          v-model="deviceName"
+          :error="err_deviceName"
+        />
+        <textInput
+          id="deviceSn"
+          label="Numer seryjny"
+          v-model="deviceSn"
+          :error="err_deviceSn"
+        />
+        <textInput
+          id="deviceAccessories"
+          label="Dołączone akcesoria"
+          v-model="deviceAccessories"
+          :error="err_deviceAccessories"
+        />
       </div>
       <div class="owner">
         <h3>Dane zgłaszającego</h3>
-        <div class="form-group">
-          <label for="name">Imię i nazwisko lub nazwa firmy</label>
-          <input
-            type="text"
-            id="name"
-            v-model="name"
-            :class="{ error_input: err_name }"
-          />
-          <p class="error" v-if="err_name">{{ err_name }}</p>
-        </div>
-        <div class="form-group">
-          <label for="phone">Telefon</label>
-          <input
-            type="text"
-            id="phone"
-            v-model="phone"
-            :class="{ error_input: err_phone }"
-          />
-          <p class="error" v-if="err_phone">{{ err_phone }}</p>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            v-model="email"
-            :class="{ error_input: err_email }"
-          />
-          <p class="error" v-if="err_email">{{ err_email }}</p>
-        </div>
+        <textInput
+          id="name"
+          label="Imię i nazwisko lub nazwa firmy"
+          v-model="name"
+          :error="err_name"
+        />
+        <textInput
+          id="phone"
+          label="Telefon"
+          v-model="phone"
+          :error="err_phone"
+        />
+        <textInput
+          id="email"
+          label="Email"
+          v-model="email"
+          :error="err_email"
+        />
       </div>
       <div class="address">
         <h3>Adres odsyłki</h3>
-        <div class="form-group">
-          <label for="name">Ulica i numer</label>
-          <input
-            type="text"
-            id="lines"
-            v-model="lines"
-            :class="{ error_input: err_lines }"
-          />
-          <p class="error" v-if="err_lines">{{ err_lines }}</p>
-        </div>
-        <div class="form-group">
-          <label for="phone">Kod pocztowy</label>
-          <input
-            type="text"
-            id="postCode"
-            v-model="postCode"
-            :class="{ error_input: err_postCode }"
-          />
-          <p class="error" v-if="err_postCode">{{ err_postCode }}</p>
-        </div>
-        <div class="form-group">
-          <label for="email">Miejscowość</label>
-          <input
-            type="text"
-            id="city"
-            v-model="city"
-            :class="{ error_input: err_city }"
-          />
-          <p class="error" v-if="err_city">{{ err_city }}</p>
-        </div>
+        <textInput
+          id="name"
+          label="Ulica i numer"
+          v-model="lines"
+          :error="err_lines"
+        />
+        <textInput
+          id="postCode"
+          label="Kod pocztowy"
+          v-model="postCode"
+          :error="err_postCode"
+        />
+        <textInput
+          id="city"
+          label="Miejscowość"
+          v-model="city"
+          :error="err_city"
+        />
       </div>
       <div class="ticket">
         <h3>Dane zgłoszenia</h3>
@@ -394,6 +347,8 @@ form {
 h3 {
   color: var(--vt-c-black-mute);
   margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 17px;
 }
 
 .form-group {

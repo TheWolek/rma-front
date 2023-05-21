@@ -52,7 +52,7 @@ form .form-group {
 }
 
 .form-group label {
-    margin-left: .3em;
+    margin-left: .5em;
     color: var(--vt-c-black-mute)
 }
 

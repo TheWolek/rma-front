@@ -29,23 +29,25 @@ export default {
 };
 </script>
 <template>
-  <label :for="id">{{ label }}</label>
-  <div>
-    <input
-      :type="inputType"
-      :id="id"
-      :value="modelValue"
-      @change="onChange"
-      :min="min"
-      :disabled="disabled"
-    />
-    <p
-      :id="`error_${id}`"
-      class="error_modal_form"
-      :class="{ active: this.error !== '' }"
-    >
-      {{ error }}
-    </p>
+  <div class="form-group">
+    <label :for="id">{{ label }}</label>
+    <div>
+      <input
+        :type="inputType"
+        :id="id"
+        :value="modelValue"
+        @change="onChange"
+        :min="min"
+        :disabled="disabled"
+      />
+      <p
+        :id="`error_${id}`"
+        class="error_modal_form"
+        :class="{ active: this.error !== '' }"
+      >
+        {{ error }}
+      </p>
+    </div>
   </div>
 </template>
 <style scoped></style>

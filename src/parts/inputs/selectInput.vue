@@ -40,32 +40,34 @@ export default {
 };
 </script>
 <template>
-  <label :for="id">{{ label }}</label>
-  <div>
-    <select
-      :id="id"
-      :value="modelValue"
-      @change="onChange"
-      :disabled="disabled"
-    >
-      <option disabled value>{{ label }}</option>
-      <slot v-if="this.display"></slot>
-      <option
-        v-if="!this.display"
-        v-for="el in options"
-        :key="el.id"
-        :value="el.id"
+  <div class="form-group">
+    <label :for="id">{{ label }}</label>
+    <div>
+      <select
+        :id="id"
+        :value="modelValue"
+        @change="onChange"
+        :disabled="disabled"
       >
-        <span>{{ el.name }}</span>
-      </option>
-    </select>
-    <p
-      :id="`error_${id}`"
-      class="error_modal_form"
-      :class="{ active: this.error !== '' }"
-    >
-      {{ error }}
-    </p>
+        <option disabled value>{{ label }}</option>
+        <slot v-if="this.display"></slot>
+        <option
+          v-if="!this.display"
+          v-for="el in options"
+          :key="el.id"
+          :value="el.id"
+        >
+          <span>{{ el.name }}</span>
+        </option>
+      </select>
+      <p
+        :id="`error_${id}`"
+        class="error_modal_form"
+        :class="{ active: this.error !== '' }"
+      >
+        {{ error }}
+      </p>
+    </div>
   </div>
 </template>
 <style scoped></style>
