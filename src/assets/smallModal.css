@@ -1,5 +1,6 @@
 .smallModal {
     position: absolute;
+    top: 0;
     width: 100%;
     height: 100%;
     z-index: 11;
@@ -8,12 +9,12 @@
     justify-content: flex-end;
 }
 
-.smallModal.active {
-    display: flex;
+.smallModal form {
+    width: 100%;
 }
 
-.smallModal .formWrap {
-    width: 25%;
+.smallModal.active {
+    display: flex;
 }
 
 .smallModal .error {
