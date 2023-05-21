@@ -12,7 +12,8 @@ export default {
     }),
     getDisplayName() {
       if (this.data.name === "status") {
-        return this.statuses.find((o) => o.id === this.data.value).displayName;
+        return this.statuses.find((o) => o.id === parseInt(this.data.value))
+          .displayName;
       }
       return this.data.value;
     },

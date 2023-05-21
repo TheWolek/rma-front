@@ -42,12 +42,12 @@ export default {
   },
   methods: {
     clearData() {
-      this.ticketId = null;
-      this.status = null;
-      this.type = null;
-      this.sn = null;
-      this.producer = null;
-      this.waybill = null;
+      this.ticketId = "";
+      this.status = "";
+      this.type = "";
+      this.sn = "";
+      this.producer = "";
+      this.waybill = "";
       this.error_form = "";
     },
     toggleModal_filters() {
@@ -60,21 +60,21 @@ export default {
     onSubmit() {
       const filters = [];
 
-      if (this.ticketId !== null && this.ticketId !== "")
+      if (this.ticketId !== "" && this.ticketId !== "")
         filters.push({ name: "zgłoszenie", value: this.ticketId });
 
-      if (this.waybill !== null && this.waybill !== "")
+      if (this.waybill !== "" && this.waybill !== "")
         filters.push({ name: "list", value: this.waybill });
 
-      if (this.status !== null)
+      if (this.status !== "")
         filters.push({ name: "status", value: this.status });
 
-      if (this.type !== null) filters.push({ name: "typ", value: this.type });
+      if (this.type !== "") filters.push({ name: "typ", value: this.type });
 
-      if (this.sn !== null && this.sn !== "")
+      if (this.sn !== "" && this.sn !== "")
         filters.push({ name: "SN", value: this.sn });
 
-      if (this.producer !== null && this.producer !== "")
+      if (this.producer !== "" && this.producer !== "")
         filters.push({ name: "producent", value: this.producer });
 
       if (filters.length !== 0) {
@@ -113,7 +113,7 @@ export default {
         v-model="status"
         :display="true"
       >
-        <option value="null" selected disabled hidden>Wybierz status</option>
+        <option value="" selected disabled hidden>Wybierz status</option>
         <option v-for="status in statuses" :value="status.id">
           {{ status.displayName }}
         </option>
@@ -125,7 +125,7 @@ export default {
         v-model="type"
         :display="true"
       >
-        <option value="null" selected disabled hidden>Wybierz typ</option>
+        <option value="" selected disabled hidden>Wybierz typ</option>
         <option value="1">gwarancja</option>
         <option value="2">płatne</option>
       </selectInput>
