@@ -26,16 +26,16 @@ export default {
     },
   },
   computed: {
-    getDisplayName() {
-      if (this.display) {
-        let out = "";
-        this.display.forEach((el) => {
-          out += `el['${el}'] `;
-        });
-        return out;
-      }
-      return "";
-    },
+    // getDisplayName() {
+    //   if (this.display) {
+    //     let out = "";
+    //     this.display.forEach((el) => {
+    //       out += `el['${el}'] `;
+    //     });
+    //     return out;
+    //   }
+    //   return "";
+    // },
   },
 };
 </script>

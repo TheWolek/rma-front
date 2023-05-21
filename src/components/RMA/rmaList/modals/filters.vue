@@ -2,20 +2,23 @@
 import { mapGetters, mapState } from "vuex";
 import store from "../../../../store";
 import bigModal from "../../../../parts/bigModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import selectInput from "../../../../parts/inputs/selectInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
     return {
-      ticketId: null,
-      status: null,
-      type: null,
-      sn: null,
-      producer: null,
-      waybill: null,
+      ticketId: "",
+      status: "",
+      type: "",
+      sn: "",
+      producer: "",
+      waybill: "",
       error_form: "",
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, selectInput, submitButton },
   mounted() {
     if (this.getActiveFilters.length !== 0) {
       this.getActiveFilters.forEach((f) => {
@@ -92,43 +95,48 @@ export default {
     modalTitle="Filtry wyszukiwania zgłoszenia serwisowego"
   >
     <form v-on:submit.prevent="onSubmit">
-      <label for="ticketId">Numer zgłoszenia</label>
-      <div>
-        <input type="number" id="ticketId" v-model.lazy="ticketId" />
-      </div>
-      <label for="waybill">Numer listu przewozowego</label>
-      <div>
-        <input type="text" id="waybill" v-model.lazy="waybill" />
-      </div>
-      <label for="status">Status zgłoszenia</label>
-      <div>
-        <select id="status" v-model.lazy="status">
-          <option value="null" selected disabled hidden>Wybierz status</option>
-          <option v-for="status in statuses" :value="status.id">
-            {{ status.displayName }}
-          </option>
-        </select>
-      </div>
-      <label for="type">Typ zgłoszenia</label>
-      <div>
-        <select id="type" v-model.lazy="type">
-          <option value="null" selected disabled hidden>Wybierz typ</option>
-          <option value="1">gwarancja</option>
-          <option value="2">płatne</option>
-        </select>
-      </div>
-      <label for="sn">Numer seryjny</label>
-      <div>
-        <input type="text" id="sn" v-model.lazy="sn" />
-      </div>
-      <label for="producer">Producent</label>
-      <div>
-        <input type="text" id="producer" v-model.lazy="producer" />
-      </div>
+      <textInput
+        id="ticketId"
+        label="Numer zgłoszenia"
+        inputType="number"
+        v-model="ticketId"
+      />
+      <textInput
+        id="waybill"
+        label="Numer listu przewozowego"
+        v-model="waybill"
+      />
+
+      <selectInput
+        id="status"
+        label="Status zgłoszenia"
+        v-model="status"
+        :display="true"
+      >
+        <option value="null" selected disabled hidden>Wybierz status</option>
+        <option v-for="status in statuses" :value="status.id">
+          {{ status.displayName }}
+        </option>
+      </selectInput>
+
+      <selectInput
+        id="type"
+        label="Typ zgłoszenia"
+        v-model="type"
+        :display="true"
+      >
+        <option value="null" selected disabled hidden>Wybierz typ</option>
+        <option value="1">gwarancja</option>
+        <option value="2">płatne</option>
+      </selectInput>
+
+      <textInput id="sn" label="Numer seryjny" v-model="sn" />
+      <textInput id="producer" label="Producent" v-model="producer" />
+
       <p class="error" :class="{ active: error_form !== '' }">
         {{ this.error_form }}
       </p>
-      <input type="submit" value="zastosuj" />
+      <submitButton label="Zastosuj" />
     </form>
   </bigModal>
 </template>
