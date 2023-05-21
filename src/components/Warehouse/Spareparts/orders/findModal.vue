@@ -2,6 +2,9 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import bigModal from "../../../../parts/bigModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
+import selectInput from "../../../../parts/inputs/selectInput.vue";
 
 import { getUrl, sparepartsOrdersFind } from "../../../../helpers/endpoints";
 
@@ -17,7 +20,7 @@ export default {
       error_form: "",
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton, selectInput },
   computed: {
     ...mapState({
       findModalActive: (state) => state.sparepartsOrders.findModal_active,
@@ -133,48 +136,38 @@ export default {
     modalTitle="Wyszukiwanie dostawy części"
   >
     <form v-on:submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="model">Model</label>
-        <div>
-          <select id="model" v-model="model">
-            <option disabled value="">Model</option>
-            <option
-              v-for="el in categories"
-              :key="el.part_cat_id"
-              :value="el.part_cat_id"
-            >
-              {{ el.producer + " " + el.name }}
-            </option>
-          </select>
-          <p id="error_model" class="error_modal_form">
-            {{ this.error_model }}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="status">status</label>
-        <div>
-          <select id="status" v-model="status">
-            <option disabled value="">Status</option>
-            <option v-for="el in statuses" :key="el.id" :value="el.id">
-              {{ el.name }}
-            </option>
-          </select>
-          <p id="error_status" class="error_modal_form">
-            {{ this.error_status }}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="date">data dostawy</label>
-        <div>
-          <input type="date" id="date" v-model="date" />
-          <p id="error_date" class="error_modal_form">
-            {{ this.error_date }}
-          </p>
-        </div>
-      </div>
-      <input type="submit" value="Szukaj" />
+      <selectInput
+        id="model"
+        label="Model"
+        v-model="model"
+        :error="error_model"
+        :options="categories"
+        display="true"
+      >
+        <option
+          v-for="el in categories"
+          :key="el.part_cat_id"
+          :value="el.part_cat_id"
+        >
+          {{ el.producer + " " + el.name }}
+        </option>
+      </selectInput>
+
+      <selectInput
+        id="status"
+        label="Status"
+        v-model="status"
+        :error="this.error_status"
+        :options="statuses"
+      />
+      <textInput
+        id="date"
+        label="Data dostawy"
+        inputType="date"
+        v-model="date"
+        :error="this.error_date"
+      />
+      <submitButton label="Szukaj" />
       <p
         id="error_form"
         class="error_modal_form"

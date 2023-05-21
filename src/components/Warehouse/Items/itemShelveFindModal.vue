@@ -2,6 +2,8 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 import bigModal from "../../../parts/bigModal.vue";
+import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 import handleSubmit from "./handleSubmit";
 
@@ -14,7 +16,7 @@ export default {
       code_reg: /^([A-Z]){1,}_([A-Z]){1,}_([0-9]){1,}$/,
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   methods: {
     toggleModal_shelveFind() {
       //document.getElementById("itemShelveFindModalWrap").classList.toggle("active")
@@ -55,19 +57,15 @@ export default {
     modalTitle="Wyszukiwanie produktów w lokalizacji"
   >
     <form v-on:submit.prevent="handleSubmit_shelveFind">
-      <label for="shelveCode">Kod lokalizacji</label>
-      <div>
-        <input
-          type="text"
-          id="shelveCode"
-          v-model.lazy="shelve_code"
-          @change="onChange_shelveCode"
-        />
-        <p id="error_shelveCode" class="error_modal_form">
-          {{ this.error_shelveCode }}
-        </p>
-      </div>
-      <input type="submit" value="Szukaj" />
+      <textInput
+        id="shelveCode"
+        label="Kod lokalizacji"
+        inputType="text"
+        v-model="shelve_code"
+        :change="onChange_shelveCode"
+        :error="error_shelveCode"
+      />
+      <submitButton label="Szukaj" />
     </form>
   </bigModal>
 </template>

@@ -3,7 +3,7 @@ export default {
   props: ["event", "display", "icon", "disabled"],
   computed: {
     getIcon() {
-      return new URL(`../assets/${this.icon}`, import.meta.url).href;
+      return new URL(`../../assets/${this.icon}`, import.meta.url).href;
     },
     isDisabled() {
       return {

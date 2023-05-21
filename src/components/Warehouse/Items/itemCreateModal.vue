@@ -2,6 +2,8 @@
 import { mapGetters, mapState } from "vuex";
 import store from "../../../store";
 import bigModal from "../../../parts/bigModal.vue";
+import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 import { getUrl, items } from "../../../helpers/endpoints";
 
@@ -16,7 +18,7 @@ export default {
       sn_reg: /^[A-z0-9]{3,}$/,
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   mounted() {
     if (this.externalBarcode !== null) {
       this.barcode = this.externalBarcode;
@@ -135,31 +137,28 @@ export default {
 </script>
 <template>
   <bigModal
-    :modalActive="this.createModal_Active"
+    :modalActive="createModal_Active"
     :toggleAction="toggleModal"
     modalTitle="Rejestracja nowego produktu"
   >
     <form v-on:submit.prevent="handleSubmit">
-      <label for="barcode">Kod kreskowy</label>
-      <div>
-        <input
-          type="text"
-          id="barcode"
-          v-model.lazy="barcode"
-          @change="onChange"
-        />
-        <p id="error_barcode" class="error_modal_form">
-          {{ this.error_barcode }}
-        </p>
-      </div>
-      <label for="sn">Numer seryjny</label>
-      <div>
-        <input type="text" id="sn" v-model.lazy="sn" @change="onChangeSN" />
-        <p id="error_sn" class="error_modal_form">
-          {{ this.error_sn }}
-        </p>
-      </div>
-      <input type="submit" value="Dodaj" />
+      <textInput
+        id="barcode"
+        label="Kod kreskowy"
+        inputType="text"
+        v-model="barcode"
+        :change="onChange"
+        :error="error_barcode"
+      />
+      <textInput
+        id="sn"
+        label="Numer seryjny"
+        inputType="text"
+        v-model="sn"
+        :change="onChangeSN"
+        :error="error_sn"
+      />
+      <submitButton label="Dodaj" />
     </form>
   </bigModal>
 </template>

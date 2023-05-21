@@ -1,7 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../../store";
-import actionButtonSmall from "../../../../../parts/actionButtonSmall.vue";
+import actionButtonSmall from "../../../../../parts/buttons/actionButtonSmall.vue";
 
 export default {
   components: { actionButtonSmall },

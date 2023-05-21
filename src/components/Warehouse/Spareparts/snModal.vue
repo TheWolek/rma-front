@@ -3,6 +3,8 @@ import { mapState } from "vuex";
 import store from "../../../store";
 import fetchSubmit from "./handleSubmit";
 import bigModal from "../../../parts/bigModal.vue";
+import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -13,7 +15,7 @@ export default {
       error_formActive: false,
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   extends: fetchSubmit,
   computed: {
     ...mapState({
@@ -47,16 +49,13 @@ export default {
     modalTitle="Wyszukiwanie części zamiennych"
   >
     <form v-on:submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="category">Kod kreskowy</label>
-        <div>
-          <input type="text" v-model="barcode" />
-          <p id="error_category" class="error_modal_form">
-            {{ this.error_barcode }}
-          </p>
-        </div>
-      </div>
-      <input type="submit" value="Szukaj" />
+      <textInput
+        id="barcode"
+        label="Kod kreskowy"
+        v-model="barcode"
+        :error="error_barcode"
+      />
+      <submitButton label="Szukaj" />
       <p
         id="error_form"
         class="error_modal_form"
@@ -67,8 +66,3 @@ export default {
     </form>
   </bigModal>
 </template>
-<style scoped>
-.form-group {
-  width: 100%;
-}
-</style>

@@ -2,6 +2,8 @@
 import { mapState } from "vuex";
 import store from "../../../store";
 import bigModal from "../../../parts/bigModal.vue";
+import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 import handleSubmit from "./handleSubmit";
 
@@ -14,7 +16,7 @@ export default {
       barcode_reg: /^(\d{1,})-([A-ż(),. 0-9]{1,})-([A-z(),. 0-9]{1,})$/,
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   methods: {
     toggleModal_find() {
       //document.getElementById("itemFindModalWrap").classList.toggle("active")
@@ -48,24 +50,20 @@ export default {
 </script>
 <template>
   <bigModal
-    :modalActive="this.findModal_Active"
+    :modalActive="findModal_Active"
     :toggleAction="toggleModal_find"
     modalTitle="Wyszukiwanie produktu po kodzie kreskowym"
   >
     <form v-on:submit.prevent="handleSubmit_find">
-      <label for="barcode_find">Kod kreskowy</label>
-      <div>
-        <input
-          type="text"
-          id="barcode_find"
-          v-model.lazy="barcode_find"
-          @change="onChange_find"
-        />
-        <p id="error_barcode_find" class="error_modal_form">
-          {{ this.error_barcode_find }}
-        </p>
-      </div>
-      <input type="submit" value="Szukaj" />
+      <textInput
+        id="barcode_find"
+        inputType="text"
+        label="Kod kreskowy"
+        v-model="barcode_find"
+        :change="onChange_find"
+        :error="error_barcode_find"
+      />
+      <submitButton />
     </form>
   </bigModal>
 </template>

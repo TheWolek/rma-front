@@ -3,6 +3,8 @@ import { mapState } from "vuex";
 import store from "../../../store";
 import fetchSubmit from "./handleSubmit";
 import bigModal from "../../../parts/bigModal.vue";
+import textInput from "../../../parts/inputs/textInput.vue";
+import submitButton from "../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -16,7 +18,7 @@ export default {
       error_producer: "",
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   extends: fetchSubmit,
   computed: {
     ...mapState({
@@ -82,34 +84,20 @@ export default {
     modalTitle="Wyszukiwanie części zamiennych"
   >
     <form v-on:submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="category">Kategoria</label>
-        <div>
-          <input type="text" v-model="category" />
-          <p id="error_category" class="error_modal_form">
-            {{ this.error_category }}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="producer">Producent</label>
-        <div>
-          <input type="text" v-model="producer" />
-          <p id="error_producer" class="error_modal_form">
-            {{ this.error_producer }}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="name">Nazwa</label>
-        <div>
-          <input type="text" v-model="name" />
-          <p id="error_name" class="error_modal_form">
-            {{ this.error_name }}
-          </p>
-        </div>
-      </div>
-      <input type="submit" value="Szukaj" />
+      <textInput
+        id="category"
+        label="Kategoria"
+        v-model="category"
+        :error="error_category"
+      />
+      <textInput
+        id="producer"
+        label="Producent"
+        v-model="producer"
+        :error="error_producer"
+      />
+      <textInput id="name" label="Nazwa" v-model="name" :error="error_name" />
+      <submitButton label="Szukaj" />
       <p
         id="error_form"
         class="error_modal_form"
@@ -120,8 +108,3 @@ export default {
     </form>
   </bigModal>
 </template>
-<style scoped>
-.form-group {
-  width: 100%;
-}
-</style>

@@ -3,6 +3,9 @@ import { mapState } from "vuex";
 import store from "../../../../store";
 import formatDate from "../../../../utils/formatDate";
 import bigModal from "../../../../parts/bigModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
+import selectInput from "../../../../parts/inputs/selectInput.vue";
 
 import { getUrl, sparepartsOrders } from "../../../../helpers/endpoints";
 
@@ -15,7 +18,7 @@ export default {
       error_date: "",
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton, selectInput },
   computed: {
     ...mapState({
       createModalActive: (state) => state.sparepartsOrders.createModal_active,
@@ -102,49 +105,24 @@ export default {
     modalTitle="Dodawanie nowej dostawy części"
   >
     <form v-on:submit.prevent="handleSubmitCreate">
-      <div class="form-group">
-        <label for="supplier">Dostawca</label>
-        <div>
-          <select id="supplier" v-model="supplier" @change="onChangeSupplier">
-            <option disabled value>Dostawca</option>
-            <option v-for="el in suppliers" :key="el.id" :value="el.id">
-              {{ el.name }}
-            </option>
-          </select>
-          <p
-            id="error_supplier"
-            class="error_modal_form"
-            :class="{ active: this.error_supplier !== '' }"
-          >
-            {{ this.error_supplier }}
-          </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="date">data dostawy</label>
-        <div>
-          <input
-            type="date"
-            id="date"
-            v-model="date"
-            @change="onChangeDate"
-            :min="today"
-          />
-          <p
-            id="error_date"
-            class="error_modal_form"
-            :class="{ active: this.error_date !== '' }"
-          >
-            {{ this.error_date }}
-          </p>
-        </div>
-      </div>
-      <input type="submit" value="Dodaj" />
+      <selectInput
+        id="supplier"
+        label="Dostawca"
+        v-model="supplier"
+        :change="onChangeSupplier"
+        :error="error_supplier"
+        :options="suppliers"
+      />
+      <textInput
+        id="date"
+        label="Data dostawy"
+        inputType="date"
+        v-model="date"
+        :change="onChangeDate"
+        :error="error_date"
+        :min="today"
+      />
+      <submitButton label="Dodaj" />
     </form>
   </bigModal>
 </template>
-<style scoped>
-#sparepartsOrderCreateModalWrap .form-group {
-  width: 100%;
-}
-</style>

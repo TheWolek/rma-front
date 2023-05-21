@@ -1,8 +1,8 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../store";
-import actionButton from "../../../parts/actionButton.vue";
-import actionButtonRefresh from "../../../parts/actionButtonRefresh.vue";
+import actionButton from "../../../parts/buttons/actionButton.vue";
+import actionButtonRefresh from "../../../parts/buttons/actionButtonRefresh.vue";
 
 export default {
   components: {

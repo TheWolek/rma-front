@@ -1,7 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
-import actionButton from "../../../../parts/actionButton.vue";
+import actionButton from "../../../../parts/buttons/actionButton.vue";
 import bigModal from "../../../../parts/bigModal.vue";
 
 import waybillTable from "../waybillTable.vue";

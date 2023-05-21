@@ -2,14 +2,14 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import bigModal from "../../../../parts/bigModal.vue";
-
+import submitButton from "../../../../parts/buttons/submitButton.vue";
 import snField from "./snField.vue";
 
 export default {
   data() {
     return {};
   },
-  components: { bigModal, snField },
+  components: { bigModal, snField, submitButton },
   computed: {
     ...mapState({
       editSNModal_active: (state) => state.sparepartsOrders.editSNModal_active,
@@ -43,7 +43,7 @@ export default {
     :toggleAction="toggleModal"
     modalTitle="Odbiór dostawy - skanowanie kodów kreskowych"
   >
-    <form v-on:submit.prevent="">
+    <form v-on:submit.prevent="submit">
       <div class="form-group">
         <snField
           v-for="(item, index) in items"
@@ -51,12 +51,7 @@ export default {
           :item="{ ...item, index }"
         />
       </div>
-      <input
-        type="button"
-        value="Odbierz"
-        @click="submit"
-        :disabled="this.enabledSubmit"
-      />
+      <submitButton label="Odbierz" :disabled="this.enabledSubmit" />
     </form>
   </bigModal>
 </template>
