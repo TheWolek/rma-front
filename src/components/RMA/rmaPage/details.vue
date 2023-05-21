@@ -2,6 +2,7 @@
 import { mapGetters } from "vuex";
 import store from "../../../store";
 import actionButton from "../../../parts/buttons/actionButton.vue";
+import inlineEditInput from "../../../parts/inputs/inlineEditInput.vue";
 
 import waybillTable from "./waybillTable.vue";
 
@@ -16,7 +17,7 @@ export default {
       accessories: "",
     };
   },
-  components: { actionButton, waybillTable },
+  components: { actionButton, waybillTable, inlineEditInput },
   mounted() {
     this.issue = this.rmaPage.issue;
     this.sn = this.rmaPage.device_sn;
@@ -25,16 +26,8 @@ export default {
   computed: {
     ...mapGetters({
       rmaPage: "rma/getRmaPage",
+      editMode: "rma/getRmaPageEditMode",
     }),
-    inEditMode_issue() {
-      return this.editMode_issue;
-    },
-    inEditMode_sn() {
-      return this.editMode_sn;
-    },
-    inEditMode_accessories() {
-      return this.editMode_accessories;
-    },
     inWarehouse() {
       return this.rmaPage.inWarehouse;
     },
@@ -45,15 +38,6 @@ export default {
     },
   },
   methods: {
-    toggleEdit_issue() {
-      this.editMode_issue = !this.editMode_issue;
-    },
-    toggleEdit_sn() {
-      this.editMode_sn = !this.editMode_sn;
-    },
-    toggleEdit_accessories() {
-      this.editMode_accessories = !this.editMode_accessories;
-    },
     toggleModal_createItem() {
       // store.dispatch("items/fetchAllShelves");
       let barcode = `${this.rmaPage.ticket_id}-${this.rmaPage.device_producer}-${this.rmaPage.device_cat}`;
@@ -86,24 +70,19 @@ export default {
     <h2>Urządzenie</h2>
     <h3>{{ rmaPage.device_cat }}</h3>
     <h3>{{ rmaPage.device_producer }} {{ rmaPage.device_name }}</h3>
-    <div class="inlineEdit">
-      <h3>SN:</h3>
-      <input type="text" v-model="sn" :disabled="!inEditMode_sn" />
-      <div class="btn" @click="toggleEdit_sn">
-        <img src="@/assets/edit.svg" />
-      </div>
-    </div>
-    <div class="inlineEdit">
-      <h3>Akcesoria:</h3>
-      <input
-        type="text"
-        v-model="accessories"
-        :disabled="!inEditMode_accessories"
-      />
-      <div class="btn" @click="toggleEdit_accessories">
-        <img src="@/assets/edit.svg" />
-      </div>
-    </div>
+    <inlineEditInput
+      id="sn"
+      label="SN:"
+      v-model="sn"
+      :disabled="!this.editMode"
+    />
+    <inlineEditInput
+      id="accessories"
+      label="Akcesoria:"
+      v-model="accessories"
+      :disabled="!this.editMode"
+    />
+
     <div class="register">
       <actionButton :event="toggleModal_createItem" display="Zarejestruj" />
       <h3 v-if="inWarehouse">
@@ -126,11 +105,8 @@ export default {
         v-model="issue"
         cols="70"
         rows="10"
-        :disabled="!inEditMode_issue"
+        :disabled="!this.editMode"
       ></textarea>
-      <div class="btn" @click="toggleEdit_issue">
-        <img src="@/assets/edit.svg" />
-      </div>
     </div>
   </div>
   <div class="owner">
@@ -182,5 +158,9 @@ export default {
 .register .actionBtn,
 .shelve .actionBtn {
   width: fit-content;
+}
+
+textarea:disabled {
+  background-color: rgb(248, 248, 248);
 }
 </style>

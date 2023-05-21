@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import router from "../../../router";
 import store from "../../../store";
 import actionButton from "../../../parts/buttons/actionButton.vue";
@@ -20,6 +20,9 @@ export default {
       router.go(-1);
     },
     onSave() {},
+    onEdit() {
+      store.commit("rma/setRmaPageEditMode", !this.editMode);
+    },
     toggleStatusModal() {
       if (this.isStatusBtnActive) store.commit("rma/toggleModal_status", true);
     },
@@ -36,6 +39,7 @@ export default {
   computed: {
     ...mapGetters({
       rmaPage: "rma/getRmaPage",
+      editMode: "rma/getRmaPageEditMode",
     }),
     isSaveBtnActive() {
       return false;
@@ -47,12 +51,19 @@ export default {
     isStatusBtnActive() {
       return ![8, 9].includes(this.rmaPage.status);
     },
+    editBtnText() {
+      return this.editMode ? "Anuluj edycję" : "Edytuj";
+    },
+    editBtnIcon() {
+      return this.editMode ? "cancel.svg" : "edit.svg";
+    },
   },
 };
 </script>
 <template>
   <div class="actions">
     <actionButton :event="onBack" display="Cofnij" :icon="`back-arrow.png`" />
+    <actionButton :event="onEdit" :display="editBtnText" :icon="editBtnIcon" />
     <actionButton
       :event="onSave"
       display="Zapisz"

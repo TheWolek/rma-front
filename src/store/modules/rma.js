@@ -33,6 +33,7 @@ const state = {
   comments: [],
   parts: [],
   partError: "",
+  rmaPageEditMode: false,
 };
 
 const getters = {
@@ -59,6 +60,9 @@ const getters = {
   },
   getPartError(state) {
     return state.partError;
+  },
+  getRmaPageEditMode(state) {
+    return state.rmaPageEditMode;
   },
 };
 
@@ -117,6 +121,9 @@ const mutations = {
   },
   setPartError(state, msg) {
     state.partError = msg;
+  },
+  setRmaPageEditMode(state, newState) {
+    state.rmaPageEditMode = newState;
   },
 };
 
