@@ -2,6 +2,7 @@
 import { mapGetters, mapState } from "vuex";
 import store from "../../../../store";
 import bigModal from "../../../../parts/bigModal.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -9,7 +10,7 @@ export default {
       status: null,
     };
   },
-  components: { bigModal },
+  components: { bigModal, submitButton },
   mounted() {
     this.status = this.rmaPage.status;
   },
@@ -97,7 +98,7 @@ export default {
           getTooltipText(s.id)
         }}</span>
       </label>
-      <input type="submit" value="Zapisz" />
+      <submitButton label="Zapisz" />
     </form>
   </bigModal>
 </template>

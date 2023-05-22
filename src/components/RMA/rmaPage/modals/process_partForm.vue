@@ -2,12 +2,16 @@
 import { mapGetters } from "vuex";
 import store from "../../../../store";
 
+import submitButton from "../../../../parts/buttons/submitButton.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+
 export default {
   data() {
     return {
       sn: "",
     };
   },
+  components: { submitButton, textInput },
   computed: {
     ...mapGetters({
       ticketId: "rma/getTicketId",
@@ -29,12 +33,13 @@ export default {
 </script>
 <template>
   <form v-on:submit.prevent="onSubmit">
-    <label for="sn">Numer seryjny części</label>
-    <div>
-      <input type="text" v-model.lazy="sn" id="sn" />
-      <p class="error">{{ partError }}</p>
-    </div>
-    <input type="submit" value="Dodaj" />
+    <textInput
+      id="sn"
+      label="Numer seryjny części"
+      v-model="sn"
+      :error="partError"
+    />
+    <submitButton label="Dodaj" />
   </form>
 </template>
 <style scoped>

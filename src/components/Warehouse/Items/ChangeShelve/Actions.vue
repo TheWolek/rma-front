@@ -95,14 +95,10 @@ export default {
       // this.form_active.status = true = enable
       // this.form_active.status = false = disable
       // this.form_active.status = true && this.fail = true = enable
-      return {
-        disabled: !this.form_active.status,
-      };
+      return !this.form_active.status;
     },
     SubmitBtnVisible() {
-      return {
-        disabled: !this.ableToSubmit || this.fail, //submit btn visible only when is ready to submit and no error
-      };
+      return !this.ableToSubmit || this.fail; //submit btn visible only when is ready to submit and no error
     },
     notificationVisible() {
       return {
@@ -119,13 +115,13 @@ export default {
     <actionButton :event="goBack" display="Cofnij" :icon="`back-arrow.png`" />
     <actionButton :event="toggleChangeModal" display="Nowy" :icon="`add.svg`" />
     <actionButton
-      :event="clearForm"
+      :event="this.clearForm"
       display="Anuluj"
       :icon="`cancel.svg`"
       :disabled="CancelBtnVisible"
     />
     <actionButton
-      :event="submit"
+      :event="this.submit"
       display="Przetwarzaj"
       :icon="`gear.svg`"
       :disabled="SubmitBtnVisible"

@@ -2,6 +2,8 @@
 import { mapState } from "vuex";
 import store from "../../../../store";
 import bigModal from "../../../../parts/bigModal.vue";
+import textInput from "../../../../parts/inputs/textInput.vue";
+import submitButton from "../../../../parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -14,7 +16,7 @@ export default {
       modal_active: false,
     };
   },
-  components: { bigModal },
+  components: { bigModal, textInput, submitButton },
   computed: {
     ...mapState({
       isModalActive: (state) => state.changeShelve.modal_active,
@@ -111,6 +113,7 @@ export default {
     this.emitter.on("changeShelve_modal_toggle", () => {
       this.toggleModal();
     });
+    store.dispatch("items/fetchAllShelves");
   },
 };
 </script>
@@ -121,31 +124,21 @@ export default {
     modalTitle="Zmiana lokalizacji produktu"
   >
     <form v-on:submit.prevent="handleSubmit">
-      <label for="active_code">Kod bierzącej lokalizacji</label>
-      <div>
-        <input
-          type="text"
-          id="active_code"
-          v-model="active_code"
-          @change="active_onChange"
-        />
-        <p id="error_active_code" class="error_modal_form">
-          {{ this.error_active_code }}
-        </p>
-      </div>
-      <label for="new_code">Kod nowej lokalizacji</label>
-      <div>
-        <input
-          type="text"
-          id="new_code"
-          v-model="new_code"
-          @change="new_onChange"
-        />
-        <p id="error_new_code" class="error_modal_form">
-          {{ this.error_new_code }}
-        </p>
-      </div>
-      <input type="submit" value="Dodaj" />
+      <textInput
+        id="active_code"
+        label="Kod bieżącej lokalizacji"
+        v-model="active_code"
+        :change="active_onChange"
+        :error="error_active_code"
+      />
+      <textInput
+        id="new_code"
+        label="Kod nowej lokalizacji"
+        v-model="new_code"
+        :change="new_onChange"
+        :error="error_new_code"
+      />
+      <submitButton label="Dodaj" />
     </form>
   </bigModal>
 </template>

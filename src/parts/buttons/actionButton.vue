@@ -6,15 +6,13 @@ export default {
       return new URL(`../../assets/${this.icon}`, import.meta.url).href;
     },
     isDisabled() {
-      return {
-        disabled: this.disabled,
-      };
+      return this.disabled;
     },
   },
 };
 </script>
 <template>
-  <div class="actionBtn" @click="event" :class="isDisabled">
+  <div class="actionBtn" @click="event" :class="{ disabled: isDisabled }">
     <img v-if="icon" :src="getIcon" /> {{ display }}
   </div>
 </template>
