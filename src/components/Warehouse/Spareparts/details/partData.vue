@@ -1,10 +1,12 @@
 <script>
 import { mapGetters, mapState } from "vuex";
+import textInput from "../../../../parts/inputs/textInput.vue";
 
 export default {
   data() {
     return {};
   },
+  components: { textInput },
   computed: {
     ...mapState({
       activePart: (state) => state.spareparts.activePartDetails,
@@ -14,18 +16,24 @@ export default {
 </script>
 <template>
   <div class="partData">
-    <div class="form-group">
-      <label>Kategoria</label>
-      <input type="text" :value="activePart.part.category" disabled />
-    </div>
-    <div class="form-group">
-      <label>Producent</label>
-      <input type="text" :value="activePart.part.producer" disabled />
-    </div>
-    <div class="form-group">
-      <label>Model</label>
-      <input type="text" :value="activePart.part.name" disabled />
-    </div>
+    <textInput
+      id="cat"
+      label="Kategoria"
+      v-model="activePart.part.category"
+      :disabled="true"
+    />
+    <textInput
+      id="producer"
+      label="Producent"
+      v-model="activePart.part.producer"
+      :disabled="true"
+    />
+    <textInput
+      id="name"
+      label="Model"
+      v-model="activePart.part.name"
+      :disabled="true"
+    />
   </div>
 </template>
 <style scoped>

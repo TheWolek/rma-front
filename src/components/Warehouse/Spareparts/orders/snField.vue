@@ -1,6 +1,7 @@
 <script>
 import { mapState } from "vuex";
 import store from "../../../../store";
+import textInput from "../../../../parts/inputs/textInput.vue";
 
 export default {
   props: ["item"],
@@ -9,18 +10,19 @@ export default {
       tempCode: "",
     };
   },
+  components: { textInput },
   computed: {
     ...mapState({
       categories: (state) => state.sparepartsOrders.categories,
     }),
-  },
-  methods: {
     getFullItemName() {
       let cat = this.categories.find(
         (o) => o.part_cat_id === this.item.part_cat_id
       );
-      return cat.producer + " " + cat.name;
+      return `${cat.producer} ${cat.name} (${this.item.codes.length} z ${this.item.amount})`;
     },
+  },
+  methods: {
     onAdd() {
       console.log(this.tempCode);
       if (this.tempCode !== "") {
@@ -36,14 +38,11 @@ export default {
 </script>
 <template>
   <div class="partBarcodes">
-    <label
-      >{{ getFullItemName() }}
-      <b>({{ this.item.codes.length }} z {{ this.item.amount }})</b></label
-    >
-    <input
-      type="text"
+    <textInput
+      id="sn"
+      :label="getFullItemName"
       v-model="tempCode"
-      v-on:keyup.enter="onAdd"
+      :onEnter="onAdd"
       :disabled="this.item.codes.length === this.item.amount"
     />
   </div>

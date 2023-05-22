@@ -18,6 +18,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    onEnter: {
+      type: Function,
+      default: null,
+    },
   },
   // props: ["id", "label", "inputType", "modelValue", "change", "error"],
   methods: {
@@ -39,6 +43,7 @@ export default {
         @change="onChange"
         :min="min"
         :disabled="disabled"
+        v-on:keyup.enter="onEnter"
       />
       <p
         :id="`error_${id}`"

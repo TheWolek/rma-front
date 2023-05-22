@@ -1,10 +1,11 @@
 <script>
 import { mapState } from "vuex";
 
+import textInput from "../../../../parts/inputs/textInput.vue";
 import partStockRow from "./partStockRow.vue";
 
 export default {
-  components: { partStockRow },
+  components: { partStockRow, textInput },
   data() {
     return {};
   },
@@ -18,10 +19,12 @@ export default {
 <template>
   <div class="partStock">
     <div class="stockData">
-      <div class="form-group">
-        <label>Dostępne sztuki</label>
-        <input type="text" :value="activePart.warehouse.totalAmount" disabled />
-      </div>
+      <textInput
+        id="freeInStock"
+        label="Dostępne sztuki"
+        v-model="activePart.warehouse.totalAmount"
+        :disabled="true"
+      />
     </div>
     <table>
       <tr>
