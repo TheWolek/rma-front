@@ -160,8 +160,8 @@ const actions = {
 
         console.log(resData);
         router.push({
-          path: "items",
-          query: { ticketId: resData.ticketId },
+          name: "ticket",
+          params: { id: resData.ticketId },
         });
       })
       .catch((error) => {

@@ -2,6 +2,12 @@
 import store from "../../../store";
 import textInput from "../../../parts/inputs/textInput.vue";
 import submitButton from "../../../parts/buttons/submitButton.vue";
+import selectInput from "../../../parts/inputs/selectInput.vue";
+import {
+  rmaDictionaryDamageTypes,
+  rmaDictionaryAccesoriesTypes,
+  getUrl,
+} from "../../../helpers/endpoints";
 
 export default {
   data() {
@@ -17,7 +23,6 @@ export default {
       deviceCat: "",
       deviceProducer: "",
       type: 1,
-      deviceAccessories: "",
       issue: "",
       err_deviceProducer: "",
       err_deviceName: "",
@@ -31,6 +36,12 @@ export default {
       err_postCode: "",
       err_city: "",
       err_issue: "",
+      damageDescription: "",
+      damageType: "",
+      damageTypes: [],
+      err_damageType: "",
+      accesoriesTypes: [],
+      deviceAccessories: [],
     };
   },
   methods: {
@@ -47,6 +58,7 @@ export default {
       this.err_postCode = "";
       this.err_city = "";
       this.err_deviceCat = "";
+      this.err_damageType = "";
     },
     displayError(context, error = "", state = true) {
       switch (context) {
@@ -89,6 +101,9 @@ export default {
           break;
         case "city":
           state ? (this.err_city = error) : (this.err_city = "");
+          break;
+        case "damage":
+          state ? (this.err_damageType = error) : (this.err_damageType = "");
           break;
       }
     },
@@ -173,6 +188,18 @@ export default {
         good = false;
       } else this.displayError("city", "", false);
 
+      //stan techniczny
+      if (this.damageType === "") {
+        this.displayError("damage", "Wybierz stan urządzenia");
+        good = false;
+      } else this.displayError("damage", "", false);
+
+      //akcesoria
+      if (this.deviceAccessories.length === 0) {
+        this.displayError("deviceAccessories", "Wybierz akcesoria");
+        good = false;
+      } else this.displayError("deviceAccessories", "", false);
+
       //opis problemu
       if (this.issue === "") {
         this.displayError("issue", "Wpisz opis problemu");
@@ -201,10 +228,25 @@ export default {
         lines: this.lines,
         postCode: this.postCode,
         city: this.city,
+        damageType: this.damageType,
+        damageDescription: this.damageDescription,
       });
     },
   },
-  components: { textInput, submitButton },
+  mounted() {
+    fetch(getUrl(rmaDictionaryDamageTypes))
+      .then((res) => res.json())
+      .then((rows) => {
+        this.damageTypes = rows;
+      });
+
+    fetch(getUrl(rmaDictionaryAccesoriesTypes))
+      .then((res) => res.json())
+      .then((rows) => {
+        this.accesoriesTypes = rows;
+      });
+  },
+  components: { textInput, submitButton, selectInput },
 };
 </script>
 <template>
@@ -235,12 +277,6 @@ export default {
           label="Numer seryjny"
           v-model="deviceSn"
           :error="err_deviceSn"
-        />
-        <textInput
-          id="deviceAccessories"
-          label="Dołączone akcesoria"
-          v-model="deviceAccessories"
-          :error="err_deviceAccessories"
         />
       </div>
       <div class="owner">
@@ -285,6 +321,50 @@ export default {
           :error="err_city"
         />
       </div>
+      <div class="damage">
+        <h3>Stan techniczny</h3>
+        <div class="form-group">
+          <selectInput
+            id="damageType"
+            label="Wybierz stan urządzenia"
+            v-model="damageType"
+            :options="damageTypes"
+            :error="err_damageType"
+          ></selectInput>
+        </div>
+        <div class="form-group">
+          <label for="damageDescription">Opis stanu technicznego</label>
+          <textarea
+            name="damageDescription"
+            id="damageDescription"
+            v-model="damageDescription"
+            cols="30"
+            rows="5"
+          ></textarea>
+        </div>
+      </div>
+      <div class="accesories">
+        <h3>Akcesoria</h3>
+        <div class="checkbox-group">
+          <label
+            :for="atype.id"
+            class="checkbox-tile"
+            v-for="atype in accesoriesTypes"
+          >
+            <p>{{ atype.name }}</p>
+            <input
+              type="checkbox"
+              name="deviceAccessories"
+              :id="atype.id"
+              :value="atype.id"
+              v-model="deviceAccessories"
+            />
+          </label>
+        </div>
+        <p class="error" :class="{ active: this.err_deviceAccessories }">
+          {{ err_deviceAccessories }}
+        </p>
+      </div>
       <div class="ticket">
         <h3>Dane zgłoszenia</h3>
         <div class="form-group">
@@ -319,7 +399,9 @@ export default {
             rows="10"
             :class="{ error_input: err_issue }"
           ></textarea>
-          <p class="error" v-if="err_issue">{{ err_issue }}</p>
+          <p class="error err_issue" :class="{ active: this.err_issue }">
+            {{ err_issue }}
+          </p>
         </div>
         <submitButton label="Dodaj" />
       </div>
@@ -329,10 +411,35 @@ export default {
 <style scoped>
 form {
   display: grid;
-  width: 80%;
+  width: 90%;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 0.95fr 1fr;
   padding: 1em 2em 0 2em;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  background: #eee;
+  width: 90%;
+  border: 1px solid var(--vt-c-black-mute);
+}
+
+.checkbox-tile {
+  padding: 0.4em 1em;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.checkbox-tile:nth-of-type(even) {
+  background: #fff;
+}
+
+.checkbox-tile input {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 .owner,
@@ -341,8 +448,7 @@ form {
 }
 
 .ticket {
-  width: 80%;
-  grid-column: 1/3;
+  grid-column: 3;
 }
 
 h3 {
@@ -354,10 +460,6 @@ h3 {
 
 .form-group {
   width: 100%;
-}
-
-.form-group + .form-group {
-  padding-top: 1.2em;
 }
 
 input[type="radio"] {
@@ -374,6 +476,10 @@ input {
   width: fit-content;
 }
 
+p.error.err_issue {
+  bottom: -22px;
+}
+
 input[type="submit"] {
   background: rgb(21, 129, 230);
   color: #fff;
@@ -384,14 +490,8 @@ input[type="submit"] {
   width: 25%;
 }
 
-p.error {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  font-size: 12px;
-  color: red;
-  margin: 0;
-  padding: 0;
+textarea {
+  width: 90%;
 }
 
 input.error_input,

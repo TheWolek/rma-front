@@ -33,7 +33,6 @@ import moduleNavLinkVue from "../moduleNavLink.vue";
   width: 100%;
   padding: 1em 0;
   background: rgb(40, 86, 129);
-  height: calc(100vh - 5vh);
 }
 
 ul {

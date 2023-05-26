@@ -40,6 +40,7 @@ const router = createRouter({
           },
         },
         {
+          name: "ticket",
           path: "ticket/:id",
           components: {
             default: rma,

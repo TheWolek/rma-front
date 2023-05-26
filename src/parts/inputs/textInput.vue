@@ -47,7 +47,7 @@ export default {
       />
       <p
         :id="`error_${id}`"
-        class="error_modal_form"
+        class="error"
         :class="{ active: this.error !== '' }"
       >
         {{ error }}

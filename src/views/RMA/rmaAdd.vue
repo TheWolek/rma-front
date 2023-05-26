@@ -13,6 +13,6 @@ export default {
 </template>
 <style scoped>
 .wrap {
-  padding: 1em;
+  padding: 0.5em;
 }
 </style>
