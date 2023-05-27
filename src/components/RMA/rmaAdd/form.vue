@@ -3,6 +3,7 @@ import store from "../../../store";
 import textInput from "../../../parts/inputs/textInput.vue";
 import submitButton from "../../../parts/buttons/submitButton.vue";
 import selectInput from "../../../parts/inputs/selectInput.vue";
+import checkboxGroup from "../../../parts/inputs/checkboxGroup.vue";
 import {
   rmaDictionaryDamageTypes,
   rmaDictionaryAccesoriesTypes,
@@ -246,7 +247,7 @@ export default {
         this.accesoriesTypes = rows;
       });
   },
-  components: { textInput, submitButton, selectInput },
+  components: { textInput, submitButton, selectInput, checkboxGroup },
 };
 </script>
 <template>
@@ -345,25 +346,12 @@ export default {
       </div>
       <div class="accesories">
         <h3>Akcesoria</h3>
-        <div class="checkbox-group">
-          <label
-            :for="atype.id"
-            class="checkbox-tile"
-            v-for="atype in accesoriesTypes"
-          >
-            <p>{{ atype.name }}</p>
-            <input
-              type="checkbox"
-              name="deviceAccessories"
-              :id="atype.id"
-              :value="atype.id"
-              v-model="deviceAccessories"
-            />
-          </label>
-        </div>
-        <p class="error" :class="{ active: this.err_deviceAccessories }">
-          {{ err_deviceAccessories }}
-        </p>
+        <checkboxGroup
+          v-model="deviceAccessories"
+          :error="err_deviceAccessories"
+          :options="accesoriesTypes"
+          name="deviceAccessories"
+        />
       </div>
       <div class="ticket">
         <h3>Dane zgłoszenia</h3>
@@ -415,31 +403,6 @@ form {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 0.95fr 1fr;
   padding: 1em 2em 0 2em;
-}
-
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  background: #eee;
-  width: 90%;
-  border: 1px solid var(--vt-c-black-mute);
-}
-
-.checkbox-tile {
-  padding: 0.4em 1em;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.checkbox-tile:nth-of-type(even) {
-  background: #fff;
-}
-
-.checkbox-tile input {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
 }
 
 .owner,
