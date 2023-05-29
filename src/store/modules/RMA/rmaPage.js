@@ -9,6 +9,8 @@ import {
   rmaRegister,
 } from "../../../helpers/endpoints";
 
+import router from "../../../router";
+
 const state = {
   apiState: 0,
   rmaPage: {},
@@ -19,6 +21,7 @@ const state = {
   comments: [],
   parts: [],
   partError: "",
+  findError: "",
 };
 
 const getters = {
@@ -71,6 +74,9 @@ const mutations = {
   setRmaPageEditMode(state, newState) {
     state.rmaPageEditMode = newState;
   },
+  setFindError(state, msg) {
+    state.findError = msg;
+  },
 };
 
 const actions = {
@@ -79,19 +85,34 @@ const actions = {
     dispatch("fetchPartsByTicketId", state.rmaPage.ticket_id);
     commit("toggleModal_process", newState);
   },
+  findTicket({ commit, dispatch }, id) {
+    const foundTicket = dispatch("getTicketData", id);
+    foundTicket.then((foundTicket) => {
+      if (!foundTicket) {
+        commit("setFindError", "Nie znaleziono zgłoszenia o podanym numerze");
+        return;
+      }
+
+      router.push({
+        name: "ticket",
+        params: { id: id },
+      });
+    });
+  },
   getTicketData({ commit }, id) {
     commit("setApiState", 1);
-    fetch(`${getUrl(rma)}?ticketId=${id}`)
+    return fetch(`${getUrl(rma)}?ticketId=${id}`)
       .then(async (res) => {
         const resData = await res.json();
 
         if (!res.ok) {
-          if (res.status === 404) return console.log("błędny ticketId");
+          if (res.status === 404) return false;
           const error = (resData && resData.message) || res.status;
           return Promise.reject(error);
         }
 
         commit("setRmaPageDetails", resData[0]);
+        return true;
       })
       .catch((error) => {
         console.log(error);
