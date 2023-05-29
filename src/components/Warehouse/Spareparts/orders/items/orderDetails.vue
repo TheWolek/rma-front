@@ -20,7 +20,7 @@ export default {
     },
     getSupplier() {
       return this.suppliers.find(
-        (o) => o.id === this.order.orderData.supplier_id
+        (o) => o.id == this.order.orderData.supplier_id
       );
     },
   },

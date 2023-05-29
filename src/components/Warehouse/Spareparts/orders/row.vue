@@ -26,7 +26,7 @@ export default {
   },
   mounted() {
     this.supplierData = this.suppliers.find(
-      (o) => o.id === this.data.supplier_id
+      (o) => o.id == this.data.supplier_id
     );
   },
   methods: {
