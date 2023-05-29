@@ -27,4 +27,6 @@ export const rmaComment = "/rma/comment";
 export const rmaSpareparts = "/rma/spareparts";
 export const rmaSparepartsUse = "/rma/spareparts/use";
 export const rmaDictionaryDamageTypes = "/rma/dictionary/damagesTypes";
-export const rmaDictionaryAccesoriesTypes = "/rma/dictionary/accesoriesTypes";
+export const rmaDictionaryAccesoriesTypes = "/rma/dictionary/accessoriesTypes";
+export const rmaGetAccessories = "/rma/accessories";
+export const rmaUpdateAccessories = "/rma/accessories";

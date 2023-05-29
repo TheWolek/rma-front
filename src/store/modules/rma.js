@@ -11,6 +11,10 @@ import {
   rmaComment,
   rmaSpareparts,
   rmaSparepartsUse,
+  rmaDictionaryAccesoriesTypes,
+  rmaDictionaryDamageTypes,
+  rmaGetAccessories,
+  rmaUpdateAccessories,
 } from "../../helpers/endpoints";
 
 const state = {
@@ -34,6 +38,7 @@ const state = {
   parts: [],
   partError: "",
   rmaPageEditMode: false,
+  accessories: [],
 };
 
 const getters = {
@@ -63,6 +68,9 @@ const getters = {
   },
   getRmaPageEditMode(state) {
     return state.rmaPageEditMode;
+  },
+  getAccessories(state) {
+    return state.accessories;
   },
 };
 
@@ -124,6 +132,9 @@ const mutations = {
   },
   setRmaPageEditMode(state, newState) {
     state.rmaPageEditMode = newState;
+  },
+  setAccessories(state, data) {
+    state.accessories = data;
   },
 };
 
@@ -254,6 +265,23 @@ const actions = {
         }
 
         commit("setWaybills", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  fetchAccessoriesByTicketId({ commit, state }, ticketId) {
+    fetch(`${getUrl(rmaGetAccessories)}/${ticketId}`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 404) return commit("setAccessories", []);
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setAccessories", resData);
       })
       .catch((error) => {
         console.log(error);

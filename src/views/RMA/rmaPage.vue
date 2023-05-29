@@ -13,6 +13,7 @@ export default {
   mounted() {
     store.dispatch("rma/getTicketData", this.$route.params.id);
     store.dispatch("rma/fetchWaybillsByTicketId", this.$route.params.id);
+    store.dispatch("rma/fetchAccessoriesByTicketId", this.$route.params.id);
   },
   computed: {
     ...mapState({
