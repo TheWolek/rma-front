@@ -3,7 +3,7 @@ import {
   sparepartsCategories,
   sparepartsAdd,
   spareparts,
-} from "../../helpers/endpoints";
+} from "../../../helpers/endpoints";
 
 const state = {
   parts: {},

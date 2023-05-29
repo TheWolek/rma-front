@@ -7,7 +7,7 @@ import {
   sparepartsOrdersItems,
   sparepartsOrders,
   sparepartsOrdersItemsCodes,
-} from "../../helpers/endpoints";
+} from "../../../helpers/endpoints";
 
 const state = {
   createModal_active: false,

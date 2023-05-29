@@ -16,15 +16,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
-      waybills: "rma/getWaybills",
+      rmaPage: "rmaPage/getRmaPage",
+      waybills: "rmaWaybills/getWaybills",
     }),
     ...mapState({
-      statusModalActive: (state) => state.rma.statusModalActive,
-      statuses: (state) => state.rma.statuses,
+      statusModalActive: (state) => state.rmaPage.statusModalActive,
+      statuses: (state) => state.rmaMain.statuses,
     }),
     availableStatuses() {
-      if (this.waybills[0].status !== "odebrany") return [1, 9];
+      if (this.waybills.length !== 0 && this.waybills[0].status !== "odebrany")
+        return [1, 9];
       if (!this.rmaPage.inWarehouse) return [1, 2, 9];
       if (this.rmaPage.status === 1) return [1, 2, 9];
       if (this.rmaPage.status === 2) return [2, 3, 5, 7, 9];
@@ -37,11 +38,11 @@ export default {
   },
   methods: {
     toggleModal_status() {
-      store.commit("rma/toggleModal_status", false);
+      store.commit("rmaPage/toggleModal_status", false);
     },
     onSubmit() {
       if (this.status === this.rmaPage.status) return false;
-      store.dispatch("rma/changeTicketStatus", {
+      store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
         newStatus: this.status,
       });

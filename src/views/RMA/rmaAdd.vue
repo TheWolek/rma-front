@@ -1,8 +1,13 @@
 <script>
 import addForm from "@/components/RMA/rmaAdd/form.vue";
+import store from "../../store";
 
 export default {
   components: { addForm },
+  mounted() {
+    store.dispatch("rmaMain/fetchDictionary_AccessoriesTypes");
+    store.dispatch("rmaMain/fetchDictionary_DamageTypes");
+  },
 };
 </script>
 <template>

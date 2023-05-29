@@ -8,7 +8,7 @@ export default {
   },
   computed: {
     ...mapState({
-      statuses: (state) => state.rma.statuses,
+      statuses: (state) => state.rmaMain.statuses,
     }),
     getDisplayName() {
       if (this.data.name === "status") {

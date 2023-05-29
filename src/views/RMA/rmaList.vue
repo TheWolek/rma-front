@@ -8,7 +8,7 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState({
-      filtersModalActive: (state) => state.rma.filtersModalActive,
+      filtersModalActive: (state) => state.rmaList.filtersModalActive,
     }),
   },
   components: {

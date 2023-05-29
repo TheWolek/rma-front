@@ -21,25 +21,26 @@ export default {
     },
     onSave() {},
     onEdit() {
-      store.commit("rma/setRmaPageEditMode", !this.editMode);
+      store.commit("rmaPage/setRmaPageEditMode", !this.editMode);
     },
     toggleStatusModal() {
-      if (this.isStatusBtnActive) store.commit("rma/toggleModal_status", true);
+      if (this.isStatusBtnActive)
+        store.commit("rmaPage/toggleModal_status", true);
     },
     toggleWaybillModal() {
-      store.commit("rma/toggleModal_shipment", true);
+      store.commit("rmaPage/toggleModal_shipment", true);
     },
     toggleProcessModal() {
       if (this.isProcessBtnActive)
-        store.dispatch("rma/toggleModal_process", true);
+        store.dispatch("rmaPage/toggleModal_process", true);
     },
     toggleHistoryModal() {},
     onRefresh() {},
   },
   computed: {
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
-      editMode: "rma/getRmaPageEditMode",
+      rmaPage: "rmaPage/getRmaPage",
+      editMode: "rmaPage/getRmaPageEditMode",
     }),
     isSaveBtnActive() {
       return false;

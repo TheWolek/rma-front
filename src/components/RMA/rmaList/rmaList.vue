@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     ...mapState({
-      tickets: (state) => state.rma.tickets,
+      tickets: (state) => state.rmaList.tickets,
     }),
   },
   components: { loadingDots, rmaRow },

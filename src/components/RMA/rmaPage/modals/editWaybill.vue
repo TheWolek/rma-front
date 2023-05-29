@@ -28,16 +28,17 @@ export default {
   },
   computed: {
     ...mapState({
-      editWaybillModalActive: (state) => state.rma.editWaybillModalActive,
+      editWaybillModalActive: (state) =>
+        state.rmaWaybills.editWaybillModalActive,
     }),
     ...mapGetters({
-      data: "rma/getEditWaybillModalData",
+      data: "rmaWaybills/getEditWaybillModalData",
     }),
   },
   methods: {
     toggleModal_editWaybill() {
-      store.commit("rma/toggleModal_editWaybill", false);
-      store.commit("rma/setEditWaybillModalData", {});
+      store.commit("rmaWaybills/toggleModal_editWaybill", false);
+      store.commit("rmaWaybills/setEditWaybillModalData", {});
     },
     onSubmit() {
       this.error_waybill = "";
@@ -46,7 +47,7 @@ export default {
         return;
       }
 
-      store.dispatch("rma/saveWaybillData", {
+      store.dispatch("rmaWaybills/saveWaybillData", {
         id: this.id,
         ticketId: this.ticketId,
         waybillNumber: this.waybillNumber,

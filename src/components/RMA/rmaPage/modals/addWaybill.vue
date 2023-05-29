@@ -19,15 +19,15 @@ export default {
   components: { smallModal, textInput, selectInput, submitButton },
   computed: {
     ...mapState({
-      addWaybillModalActive: (state) => state.rma.addWaybillModalActive,
+      addWaybillModalActive: (state) => state.rmaWaybills.addWaybillModalActive,
     }),
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
+      rmaPage: "rmaPage/getRmaPage",
     }),
   },
   methods: {
     toggleModal_addWaybill() {
-      store.commit("rma/toggleModal_addWaybill", false);
+      store.commit("rmaWaybills/toggleModal_addWaybill", false);
     },
     onSubmit() {
       this.error_type = "";
@@ -41,7 +41,7 @@ export default {
         return;
       }
 
-      store.dispatch("rma/addWaybill", {
+      store.dispatch("rmaWaybills/addWaybill", {
         ticketId: this.rmaPage.ticket_id,
         waybillNumber: this.waybill,
         type: this.type,

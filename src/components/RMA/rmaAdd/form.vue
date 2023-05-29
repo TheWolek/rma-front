@@ -4,11 +4,7 @@ import textInput from "../../../parts/inputs/textInput.vue";
 import submitButton from "../../../parts/buttons/submitButton.vue";
 import selectInput from "../../../parts/inputs/selectInput.vue";
 import checkboxGroup from "../../../parts/inputs/checkboxGroup.vue";
-import {
-  rmaDictionaryDamageTypes,
-  rmaDictionaryAccesoriesTypes,
-  getUrl,
-} from "../../../helpers/endpoints";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -39,11 +35,15 @@ export default {
       err_issue: "",
       damageDescription: "",
       damageType: "",
-      damageTypes: [],
       err_damageType: "",
-      accesoriesTypes: [],
       deviceAccessories: [],
     };
+  },
+  computed: {
+    ...mapState({
+      accessoriesTypes: (state) => state.rmaMain.accessoriesTypes,
+      damageTypes: (state) => state.rmaMain.damageTypes,
+    }),
   },
   methods: {
     clearErrors() {
@@ -215,7 +215,7 @@ export default {
         return console.log("error");
       }
 
-      store.dispatch("rma/submitNewTicket", {
+      store.dispatch("rmaMain/submitNewTicket", {
         email: this.email,
         name: this.name,
         phone: this.phone,
@@ -233,19 +233,6 @@ export default {
         damageDescription: this.damageDescription,
       });
     },
-  },
-  mounted() {
-    fetch(getUrl(rmaDictionaryDamageTypes))
-      .then((res) => res.json())
-      .then((rows) => {
-        this.damageTypes = rows;
-      });
-
-    fetch(getUrl(rmaDictionaryAccesoriesTypes))
-      .then((res) => res.json())
-      .then((rows) => {
-        this.accesoriesTypes = rows;
-      });
   },
   components: { textInput, submitButton, selectInput, checkboxGroup },
 };
@@ -349,7 +336,7 @@ export default {
         <checkboxGroup
           v-model="deviceAccessories"
           :error="err_deviceAccessories"
-          :options="accesoriesTypes"
+          :options="accessoriesTypes"
           name="deviceAccessories"
         />
       </div>

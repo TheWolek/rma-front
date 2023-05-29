@@ -13,13 +13,13 @@ export default {
   components: { submitButton },
   computed: {
     ...mapGetters({
-      ticketId: "rma/getTicketId",
+      ticketId: "rmaPage/getTicketId",
     }),
   },
   methods: {
     onSubmit() {
       if (this.comment !== "") {
-        store.dispatch("rma/addCommentToTicket", {
+        store.dispatch("rmaPage/addCommentToTicket", {
           ticketId: this.ticketId,
           comment: this.comment,
         });

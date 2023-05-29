@@ -1,9 +1,13 @@
 import { createStore } from "vuex";
-import changeShelve from "./modules/changeShelve";
-import items from "./modules/items";
-import spareparts from "./modules/spareparts";
-import sparepartsOrders from "./modules/sparepartsOrders";
-import rma from "./modules/rma";
+import changeShelve from "./modules/Warehouse/changeShelve";
+import items from "./modules/Warehouse/items";
+import spareparts from "./modules/Warehouse/spareparts";
+import sparepartsOrders from "./modules/Warehouse/sparepartsOrders";
+import rmaMain from "./modules/RMA/rma";
+import rmaList from "./modules/RMA/rmaList";
+import rmaPage from "./modules/RMA/rmaPage";
+import rmaWaybills from "./modules/RMA/rmaWaybills";
+import rmaAccessories from "./modules/RMA/rmaAccessories";
 
 export default createStore({
   modules: {
@@ -11,6 +15,10 @@ export default createStore({
     items,
     sparepartsOrders,
     spareparts,
-    rma,
+    rmaMain,
+    rmaList,
+    rmaPage,
+    rmaWaybills,
+    rmaAccessories,
   },
 });

@@ -11,12 +11,12 @@ import process_commentList from "./process_commentList.vue";
 export default {
   computed: {
     ...mapState({
-      processModalActive: (state) => state.rma.processModalActive,
+      processModalActive: (state) => state.rmaPage.processModalActive,
     }),
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
-      comments: "rma/getComments",
-      parts: "rma/getParts",
+      rmaPage: "rmaPage/getRmaPage",
+      comments: "rmaPage/getComments",
+      parts: "rmaPage/getParts",
     }),
   },
   components: {
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     toggleModal_process() {
-      store.commit("rma/toggleModal_process", false);
+      store.commit("rmaPage/toggleModal_process", false);
     },
   },
 };

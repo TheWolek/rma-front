@@ -14,14 +14,14 @@ export default {
   components: { submitButton, textInput },
   computed: {
     ...mapGetters({
-      ticketId: "rma/getTicketId",
-      partError: "rma/getPartError",
+      ticketId: "rmaPage/getTicketId",
+      partError: "rmaPage/getPartError",
     }),
   },
   methods: {
     onSubmit() {
       if (this.sn !== "") {
-        store.dispatch("rma/addPartToTicket", {
+        store.dispatch("rmaPage/addPartToTicket", {
           sn: this.sn,
           ticketId: this.ticketId,
         });

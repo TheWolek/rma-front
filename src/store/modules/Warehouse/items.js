@@ -1,4 +1,4 @@
-import { getUrl, shelve } from "../../helpers/endpoints";
+import { getUrl, shelve } from "../../../helpers/endpoints";
 
 const state = {
   createModal_Active: false,

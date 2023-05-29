@@ -18,8 +18,8 @@ export default {
   },
   methods: {
     openEditModal(id) {
-      store.commit("rma/setEditWaybillModalData", this.data);
-      store.commit("rma/toggleModal_editWaybill", true);
+      store.commit("rmaWaybills/setEditWaybillModalData", this.data);
+      store.commit("rmaWaybills/toggleModal_editWaybill", true);
     },
   },
 };

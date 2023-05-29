@@ -12,7 +12,7 @@ export default {
   components: { waybillRow },
   computed: {
     ...mapGetters({
-      waybills: "rma/getWaybills",
+      waybills: "rmaWaybills/getWaybills",
     }),
   },
 };

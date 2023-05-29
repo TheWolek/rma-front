@@ -8,12 +8,12 @@ export default {
   components: { rmaFilterChip },
   computed: {
     ...mapState({
-      appliedFilter: (state) => state.rma.appliedFilter,
+      appliedFilter: (state) => state.rmaList.appliedFilter,
     }),
   },
   methods: {
     clearAllFilters() {
-      store.commit("rma/clearAllFilters");
+      store.commit("rmaList/clearAllFilters");
     },
   },
 };

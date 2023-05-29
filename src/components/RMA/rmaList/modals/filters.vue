@@ -33,11 +33,11 @@ export default {
   },
   computed: {
     ...mapState({
-      filtersModalActive: (state) => state.rma.filtersModalActive,
-      statuses: (state) => state.rma.statuses,
+      filtersModalActive: (state) => state.rmaList.filtersModalActive,
+      statuses: (state) => state.rmaMain.statuses,
     }),
     ...mapGetters({
-      getActiveFilters: "rma/getActiveFilters",
+      getActiveFilters: "rmaList/getActiveFilters",
     }),
   },
   methods: {
@@ -51,7 +51,7 @@ export default {
       this.error_form = "";
     },
     toggleModal_filters() {
-      store.commit("rma/toggleModal_filters", false);
+      store.commit("rmaList/toggleModal_filters", false);
       this.clearData();
     },
     displayError(error) {
@@ -78,7 +78,7 @@ export default {
         filters.push({ name: "producent", value: this.producer });
 
       if (filters.length !== 0) {
-        store.dispatch("rma/applyFilters", filters);
+        store.dispatch("rmaList/applyFilters", filters);
         this.toggleModal_filters();
         this.clearData();
       } else {

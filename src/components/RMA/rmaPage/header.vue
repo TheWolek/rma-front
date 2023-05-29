@@ -18,10 +18,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
+      rmaPage: "rmaPage/getRmaPage",
     }),
     ...mapState({
-      statuses: (state) => state.rma.statuses,
+      statuses: (state) => state.rmaMain.statuses,
     }),
     inEditMode_issue() {
       return this.editMode_issue;

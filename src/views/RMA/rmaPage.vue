@@ -11,16 +11,22 @@ import store from "../../store";
 
 export default {
   mounted() {
-    store.dispatch("rma/getTicketData", this.$route.params.id);
-    store.dispatch("rma/fetchWaybillsByTicketId", this.$route.params.id);
-    store.dispatch("rma/fetchAccessoriesByTicketId", this.$route.params.id);
+    store.dispatch("rmaPage/getTicketData", this.$route.params.id);
+    store.dispatch(
+      "rmaWaybills/fetchWaybillsByTicketId",
+      this.$route.params.id
+    );
+    store.dispatch(
+      "rmaAccessories/fetchAccessoriesByTicketId",
+      this.$route.params.id
+    );
   },
   computed: {
     ...mapState({
-      apiState: (state) => state.rma.apiState,
+      apiState: (state) => state.rmaPage.apiState,
       createModal_Active: (state) => state.items.createModal_Active,
-      statusModal_Active: (state) => state.rma.statusModalActive,
-      processModal_Active: (state) => state.rma.processModalActive,
+      statusModal_Active: (state) => state.rmaPage.statusModalActive,
+      processModal_Active: (state) => state.rmaPage.processModalActive,
     }),
     apiState_loaded() {
       return this.apiState === 2;

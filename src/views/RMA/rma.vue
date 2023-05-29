@@ -2,7 +2,7 @@
 import rmaNav from "@/components/RMA/rmaNav.vue";
 import { RouterView } from "vue-router";
 import store from "../../store";
-store.dispatch("rma/fetchAllStatuses");
+store.dispatch("rmaMain/fetchAllStatuses");
 </script>
 <template>
   <div id="rma">

@@ -76,7 +76,10 @@ export default {
             store.dispatch("items/submitModal_Create", item);
           }
 
-          store.dispatch("rma/registerDeviceInWarehouse", resData.ticket_id);
+          store.dispatch(
+            "rmaPage/registerDeviceInWarehouse",
+            resData.ticket_id
+          );
           this.error_barcode = "";
           this.barcode = "";
           this.toggleModal();

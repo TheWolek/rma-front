@@ -11,18 +11,19 @@ import addWaybill from "./addWaybill.vue";
 export default {
   computed: {
     ...mapState({
-      shipmentModalActive: (state) => state.rma.shipmentModalActive,
-      editWaybillModalActive: (state) => state.rma.editWaybillModalActive,
-      addWaybillModalActive: (state) => state.rma.addWaybillModalActive,
+      shipmentModalActive: (state) => state.rmaPage.shipmentModalActive,
+      editWaybillModalActive: (state) =>
+        state.rmaWaybills.editWaybillModalActive,
+      addWaybillModalActive: (state) => state.rmaWaybills.addWaybillModalActive,
     }),
   },
   components: { bigModal, actionButton, waybillTable, editWaybill, addWaybill },
   methods: {
     toggleModal_shipment() {
-      store.commit("rma/toggleModal_shipment", false);
+      store.commit("rmaPage/toggleModal_shipment", false);
     },
     toggleModal_addWaybill() {
-      store.commit("rma/toggleModal_addWaybill", true);
+      store.commit("rmaWaybills/toggleModal_addWaybill", true);
     },
   },
 };

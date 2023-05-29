@@ -25,8 +25,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      rmaPage: "rma/getRmaPage",
-      editMode: "rma/getRmaPageEditMode",
+      rmaPage: "rmaPage/getRmaPage",
+      editMode: "rmaPage/getRmaPageEditMode",
     }),
     inWarehouse() {
       return this.rmaPage.inWarehouse;
@@ -84,7 +84,11 @@ export default {
     />
 
     <div class="register">
-      <actionButton :event="toggleModal_createItem" display="Zarejestruj" />
+      <actionButton
+        :event="toggleModal_createItem"
+        display="Zarejestruj"
+        v-if="!inWarehouse"
+      />
       <h3 v-if="inWarehouse">
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
       </h3>

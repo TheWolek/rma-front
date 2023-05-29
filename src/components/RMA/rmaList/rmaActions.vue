@@ -15,11 +15,11 @@ export default {
   },
   methods: {
     toggleFiltersModal() {
-      store.commit("rma/toggleModal_filters", true);
+      store.commit("rmaList/toggleModal_filters", true);
     },
     toggleStatusModal() {},
     onRefresh() {
-      store.dispatch("rma/fetchTicketsByFilters");
+      store.dispatch("rmaList/fetchTicketsByFilters");
     },
   },
 };

@@ -7,7 +7,7 @@ export default {
   methods: {},
   computed: {
     ...mapState({
-      statuses: (state) => state.rma.statuses,
+      statuses: (state) => state.rmaMain.statuses,
     }),
     getStatusDisplayName() {
       return this.statuses.find((o) => o.id === this.data.status).displayName;
