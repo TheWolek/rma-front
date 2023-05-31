@@ -4,6 +4,7 @@ import rma from "../views/RMA/rma.vue";
 import rmaList from "../views/RMA/rmaList.vue";
 import rmaAdd from "../views/RMA/rmaAdd.vue";
 import rmaPage from "../views/RMA/rmaPage.vue";
+import dictionaries from "../views/RMA/dictionaries.vue";
 import warehouse from "../views/Warehouse/warehouse.vue";
 import warehouseItems from "../views/Warehouse/Items/Items.vue";
 import warehouseShelves from "../views/Warehouse/Shelves/shelves.vue";
@@ -45,6 +46,14 @@ const router = createRouter({
           components: {
             default: rma,
             innerView: rmaPage,
+          },
+        },
+        {
+          name: "dictionary",
+          path: "dictionary/:name",
+          components: {
+            default: rma,
+            innerView: dictionaries,
           },
         },
       ],

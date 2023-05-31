@@ -11,6 +11,16 @@ import moduleNavLinkVue from "../moduleNavLink.vue";
           { path: '/rma/add', text: 'dodaj zgłoszenie serwisowe' },
         ]"
       />
+      <moduleNavLinkVue
+        text="słowniki"
+        v-bind:children="[
+          {
+            path: '/rma/dictionary/damagetypes',
+            text: 'typy stanu urządzenia',
+          },
+          { path: '/rma/dictionary/accessoriestypes', text: 'typy akcesoriów' },
+        ]"
+      />
     </ul>
   </div>
 </template>

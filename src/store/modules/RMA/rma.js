@@ -16,12 +16,6 @@ const state = {
 const getters = {};
 
 const mutations = {
-  setAccessoriesTypes(state, data) {
-    state.accessoriesTypes = data;
-  },
-  setDamageTypes(state, data) {
-    state.damageTypes = data;
-  },
   setStatuses(state, data) {
     state.statuses = data;
   },
@@ -67,32 +61,6 @@ const actions = {
       { id: 8, displayName: "Zakończone" },
       { id: 9, displayName: "Anulowane" },
     ]);
-  },
-  fetchDictionary_AccessoriesTypes({ commit }) {
-    fetch(getUrl(rmaDictionaryAccesoriesTypes))
-      .then(async (res) => {
-        const resData = await res.json();
-
-        if (!res.ok) {
-          const error = (resData && resData.message) || res.status;
-          Promise.reject(error);
-        }
-        commit("setAccessoriesTypes", resData);
-      })
-      .catch((err) => console.log(err));
-  },
-  fetchDictionary_DamageTypes({ commit }) {
-    fetch(getUrl(rmaDictionaryDamageTypes))
-      .then(async (res) => {
-        const resData = await res.json();
-
-        if (!res.ok) {
-          const error = (resData && resData.message) || res.status;
-          Promise.reject(error);
-        }
-        commit("setDamageTypes", resData);
-      })
-      .catch((err) => console.log(err));
   },
 };
 

@@ -41,8 +41,8 @@ export default {
   },
   computed: {
     ...mapState({
-      accessoriesTypes: (state) => state.rmaMain.accessoriesTypes,
-      damageTypes: (state) => state.rmaMain.damageTypes,
+      accessoriesTypes: (state) => state.rmaDictionaries.accessoriesTypes,
+      damageTypes: (state) => state.rmaDictionaries.damageTypes,
     }),
   },
   methods: {

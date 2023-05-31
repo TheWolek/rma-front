@@ -8,6 +8,7 @@ import rmaList from "./modules/RMA/rmaList";
 import rmaPage from "./modules/RMA/rmaPage";
 import rmaWaybills from "./modules/RMA/rmaWaybills";
 import rmaAccessories from "./modules/RMA/rmaAccessories";
+import rmaDictionaries from "./modules/RMA/rmaDictionaries";
 
 export default createStore({
   modules: {
@@ -20,5 +21,6 @@ export default createStore({
     rmaPage,
     rmaWaybills,
     rmaAccessories,
+    rmaDictionaries,
   },
 });
