@@ -5,8 +5,8 @@ import store from "../../store";
 export default {
   components: { addForm },
   mounted() {
-    store.dispatch("rmaDictionaries/fetchDictionary_AccessoriesTypes");
-    store.dispatch("rmaDictionaries/fetchDictionary_DamageTypes");
+    store.dispatch("rmaDictionaries/fetchDictionary", "accessoriesTypes");
+    store.dispatch("rmaDictionaries/fetchDictionary", "damageTypes");
   },
 };
 </script>

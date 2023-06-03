@@ -21,7 +21,7 @@ export default {
     }),
     ...mapState({
       statusModalActive: (state) => state.rmaPage.statusModalActive,
-      statuses: (state) => state.rmaMain.statuses,
+      statuses: (state) => state.rmaDictionaries.statuses,
     }),
     availableStatuses() {
       if (this.waybills.length !== 0 && this.waybills[0].status !== "odebrany")
@@ -94,7 +94,7 @@ export default {
           v-model="status"
           :disabled="!availableStatuses.includes(s.id)"
         />
-        <p>{{ s.displayName }}</p>
+        <p>{{ s.name }}</p>
         <span class="tooltipText" v-if="!availableStatuses.includes(s.id)">{{
           getTooltipText(s.id)
         }}</span>

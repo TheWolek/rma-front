@@ -7,10 +7,10 @@ export default {
   methods: {},
   computed: {
     ...mapState({
-      statuses: (state) => state.rmaMain.statuses,
+      statuses: (state) => state.rmaDictionaries.statuses,
     }),
     getStatusDisplayName() {
-      return this.statuses.find((o) => o.id === this.data.status).displayName;
+      return this.statuses.find((o) => o.id === this.data.status).name;
     },
     getFormattedCreateDate() {
       return formatDateAndHours(this.data.created);

@@ -8,12 +8,12 @@ export default {
   },
   computed: {
     ...mapState({
-      statuses: (state) => state.rmaMain.statuses,
+      statuses: (state) => state.rmaDictionaries.statuses,
     }),
     getDisplayName() {
       if (this.data.name === "status") {
         return this.statuses.find((o) => o.id === parseInt(this.data.value))
-          .displayName;
+          .name;
       }
       return this.data.value;
     },

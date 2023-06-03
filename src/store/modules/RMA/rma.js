@@ -1,24 +1,17 @@
-import {
-  getUrl,
-  rmaDictionaryAccesoriesTypes,
-  rmaDictionaryDamageTypes,
-  rmaCreate,
-} from "../../../helpers/endpoints";
+import { getUrl, rmaCreate } from "../../../helpers/endpoints";
 
 import router from "../../../router";
 
 const state = {
-  accessoriesTypes: [],
-  damageTypes: [],
   statuses: {},
 };
 
 const getters = {};
 
 const mutations = {
-  setStatuses(state, data) {
-    state.statuses = data;
-  },
+  // setStatuses(state, data) {
+  //   state.statuses = data;
+  // },
 };
 
 const actions = {
@@ -49,19 +42,19 @@ const actions = {
         console.log(error);
       });
   },
-  fetchAllStatuses({ commit }) {
-    commit("setStatuses", [
-      { id: 1, displayName: "Nowy" },
-      { id: 2, displayName: "Przyjęto w serwisie" },
-      { id: 3, displayName: "Przekazano do diagnozy" },
-      { id: 4, displayName: "W realizacji" },
-      { id: 5, displayName: "Zlecono kontakt" },
-      { id: 6, displayName: "Oczekuje na części" },
-      { id: 7, displayName: "Przekazano do odesłania" },
-      { id: 8, displayName: "Zakończone" },
-      { id: 9, displayName: "Anulowane" },
-    ]);
-  },
+  // fetchAllStatuses({ commit }) {
+  //   commit("setStatuses", [
+  //     { id: 1, displayName: "Nowy" },
+  //     { id: 2, displayName: "Przyjęto w serwisie" },
+  //     { id: 3, displayName: "Przekazano do diagnozy" },
+  //     { id: 4, displayName: "W realizacji" },
+  //     { id: 5, displayName: "Zlecono kontakt" },
+  //     { id: 6, displayName: "Oczekuje na części" },
+  //     { id: 7, displayName: "Przekazano do odesłania" },
+  //     { id: 8, displayName: "Zakończone" },
+  //     { id: 9, displayName: "Anulowane" },
+  //   ]);
+  // },
 };
 
 export default {

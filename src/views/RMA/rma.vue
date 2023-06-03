@@ -24,7 +24,7 @@ export default {
   },
   components: { rmaNav, dateClock, tilesLinks, rmaFindInput },
   mounted() {
-    store.dispatch("rmaMain/fetchAllStatuses");
+    store.dispatch("rmaDictionaries/fetchDictionary", "statusesTypes");
   },
   computed: {
     isDefaultView() {

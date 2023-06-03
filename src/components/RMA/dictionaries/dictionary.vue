@@ -2,47 +2,46 @@
 import { useRoute } from "vue-router";
 import store from "../../../store";
 import router from "../../../router";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import dictTable from "./table.vue";
 
 export default {
   data() {
     return {
-      type: 0,
+      type: "",
       name: "",
     };
   },
   components: { dictTable },
   computed: {
+    ...mapGetters({
+      findDictionary: "rmaDictionaries/findDictionaryByName",
+    }),
     ...mapState({
       damageTypes: (state) => state.rmaDictionaries.damageTypes,
       accessoriesTypes: (state) => state.rmaDictionaries.accessoriesTypes,
+      statusesTypes: (state) => state.rmaDictionaries.statuses,
     }),
     getData() {
-      if (this.type === 1) return this.damageTypes;
-      if (this.type === 2) return this.accessoriesTypes;
+      if (this.type !== "") {
+        return this[this.findDictionary(this.type).name];
+      }
     },
   },
   methods: {
     setType(type) {
-      if (type === "damagetypes") {
-        store.dispatch("rmaDictionaries/fetchDictionary_DamageTypes");
-        this.type = 1;
-        this.name = "Typy stanu urządzenia";
-        return;
+      const dictionary = this.findDictionary(type);
+
+      if (!dictionary) {
+        router.push({
+          name: "rma",
+        });
       }
 
-      if (type === "accessoriestypes") {
-        store.dispatch("rmaDictionaries/fetchDictionary_AccessoriesTypes");
-        this.type = 2;
-        this.name = "Typy akcesoriów";
-        return;
-      }
-
-      router.push({
-        name: "rma",
-      });
+      store.dispatch("rmaDictionaries/fetchDictionary", dictionary.name);
+      this.type = dictionary.name;
+      this.name = dictionary.displayName;
     },
   },
   mounted() {
@@ -51,6 +50,7 @@ export default {
   },
   watch: {
     $route(to, from) {
+      if (to.name !== "dictionary") return false;
       this.setType(to.params.name);
     },
   },

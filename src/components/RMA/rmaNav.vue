@@ -19,6 +19,7 @@ import moduleNavLinkVue from "../moduleNavLink.vue";
             text: 'typy stanu urządzenia',
           },
           { path: '/rma/dictionary/accessoriestypes', text: 'typy akcesoriów' },
+          { path: '/rma/dictionary/statusestypes', text: 'Statusy zgłoszeń' },
         ]"
       />
     </ul>

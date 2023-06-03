@@ -34,7 +34,7 @@ export default {
   computed: {
     ...mapState({
       filtersModalActive: (state) => state.rmaList.filtersModalActive,
-      statuses: (state) => state.rmaMain.statuses,
+      statuses: (state) => state.rmaDictionaries.statuses,
     }),
     ...mapGetters({
       getActiveFilters: "rmaList/getActiveFilters",
@@ -115,7 +115,7 @@ export default {
       >
         <option value="" selected disabled hidden>Wybierz status</option>
         <option v-for="status in statuses" :value="status.id">
-          {{ status.displayName }}
+          {{ status.name }}
         </option>
       </selectInput>
 

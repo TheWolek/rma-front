@@ -21,7 +21,7 @@ export default {
       rmaPage: "rmaPage/getRmaPage",
     }),
     ...mapState({
-      statuses: (state) => state.rmaMain.statuses,
+      statuses: (state) => state.rmaDictionaries.statuses,
     }),
     inEditMode_issue() {
       return this.editMode_issue;
@@ -30,8 +30,7 @@ export default {
       return this.editMode_sn;
     },
     getStatusDisplayName() {
-      return this.statuses.find((o) => o.id === this.rmaPage.status)
-        .displayName;
+      return this.statuses.find((o) => o.id === this.rmaPage.status).name;
     },
     getTypeDisplayName() {
       return getTypeDisplayName(this.rmaPage.type);

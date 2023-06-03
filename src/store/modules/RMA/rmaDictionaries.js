@@ -1,12 +1,48 @@
 import {
   getUrl,
-  rmaDictionaryAccesoriesTypes,
+  rmaDictionaryAccessoriesTypes,
   rmaDictionaryDamageTypes,
+  rmaDictionaryStatusesTypes,
 } from "../../../helpers/endpoints";
 
 const state = {
+  dictionaries: [
+    {
+      id: 1,
+      name: "accessoriesTypes",
+      displayName: "Typy akcesoriów",
+      url: rmaDictionaryAccessoriesTypes,
+      mutation: "setAccessoriesTypes",
+    },
+    {
+      id: 2,
+      name: "damageTypes",
+      displayName: "Typy stanu urządzenia",
+      url: rmaDictionaryDamageTypes,
+      mutation: "setDamageTypes",
+    },
+    {
+      id: 3,
+      name: "statusesTypes",
+      displayName: "Statusy zgłoszeń",
+      url: rmaDictionaryStatusesTypes,
+      mutation: "setStatusesTypes",
+    },
+  ],
   accessoriesTypes: [],
   damageTypes: [],
+  statuses: [],
+};
+
+const getters = {
+  findDictionaryByName: (state) => (name) => {
+    if (typeof name !== "string") return false;
+    return (
+      state.dictionaries.find(
+        (d) => d.name.toLowerCase() === name.toLowerCase()
+      ) || false
+    );
+  },
 };
 
 const mutations = {
@@ -16,11 +52,18 @@ const mutations = {
   setDamageTypes(state, data) {
     state.damageTypes = data;
   },
+  setStatusesTypes(state, data) {
+    state.statuses = data;
+  },
 };
 
 const actions = {
-  fetchDictionary_AccessoriesTypes({ commit }) {
-    fetch(getUrl(rmaDictionaryAccesoriesTypes))
+  fetchDictionary({ getters, commit }, dictName) {
+    console.log(dictName);
+    const dictionary = getters.findDictionaryByName(dictName);
+    if (!dictionary) return console.log("niepoprawna nazwa słownika", dictName);
+
+    fetch(getUrl(dictionary.url))
       .then(async (res) => {
         const resData = await res.json();
 
@@ -28,32 +71,18 @@ const actions = {
           const error = (resData && resData.message) || res.status;
           Promise.reject(error);
         }
-        commit("setAccessoriesTypes", resData);
+        commit(dictionary.mutation, resData);
       })
       .catch((err) => console.log(err));
   },
-  fetchDictionary_DamageTypes({ commit }) {
-    fetch(getUrl(rmaDictionaryDamageTypes))
-      .then(async (res) => {
-        const resData = await res.json();
+  editDictionary({ getters, dispatch }, { dictType, id, newValue }) {
+    const dictionary = getters.findDictionaryByName(dictType);
 
-        if (!res.ok) {
-          const error = (resData && resData.message) || res.status;
-          Promise.reject(error);
-        }
-        commit("setDamageTypes", resData);
-      })
-      .catch((err) => console.log(err));
-  },
-  editDictionary({ dispatch }, { dictType, id, newValue }) {
-    let url = "";
-    if (dictType === 1) {
-      url = getUrl(rmaDictionaryDamageTypes);
-    }
-    if (dictType === 2) {
-      url = getUrl(rmaDictionaryAccesoriesTypes);
+    if (!dictionary) {
+      return console.log("niepoprawna nazwa słownika", dictType);
     }
 
+    let url = getUrl(dictionary.url);
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -73,18 +102,14 @@ const actions = {
         }
       })
       .then(() => {
-        if (dictType === 1) {
-          dispatch("fetchDictionary_DamageTypes");
-        }
-        if (dictType === 2) {
-          dispatch("fetchDictionary_AccessoriesTypes");
-        }
+        dispatch("fetchDictionary", dictionary.name);
       });
   },
 };
 
 export default {
   state,
+  getters,
   mutations,
   actions,
   namespaced: true,
