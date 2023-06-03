@@ -17,6 +17,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.code === "") return;
       store.dispatch("rmaPage/findTicket", this.code);
     },
   },
