@@ -18,11 +18,6 @@ export default {
     inWarehouse() {
       return this.rmaPage.inWarehouse;
     },
-    ableToRegister() {
-      if (this.inWarehouse) return false;
-      if (![1, 8, 9].includes(this.rmaPage.status)) return true;
-      return false;
-    },
     sn: {
       get() {
         return this.rmaPage.device_sn;
@@ -121,13 +116,6 @@ export default {
     },
   },
   methods: {
-    toggleModal_createItem() {
-      // store.dispatch("items/fetchAllShelves");
-      let barcode = `${this.rmaPage.ticket_id}-${this.rmaPage.device_producer}-${this.rmaPage.device_cat}`;
-      store.commit("items/setCreateModal_externalBarcode", barcode);
-      store.commit("items/setcreateModal_externalSn", this.rmaPage.device_sn);
-      store.commit("items/toggleCreateModal");
-    },
     changeShelve() {
       store.dispatch("items/fetchAllShelves");
       setTimeout(() => {
@@ -167,11 +155,6 @@ export default {
     />
 
     <div class="register">
-      <actionButton
-        :event="toggleModal_createItem"
-        display="Zarejestruj"
-        v-if="ableToRegister"
-      />
       <h3 v-if="inWarehouse">
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
       </h3>

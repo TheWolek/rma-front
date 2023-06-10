@@ -1,4 +1,4 @@
-import { getUrl, shelve } from "../../../helpers/endpoints";
+import { getUrl, items, shelve } from "../../../helpers/endpoints";
 
 const state = {
   createModal_Active: false,
@@ -115,6 +115,31 @@ const actions = {
         }
 
         commit("setShelves", resData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  deleteItemFromWarehouse({ commit }, { barcode, shelveId }) {
+    //send DELETE request to delete product from warehouse
+    //recive {barcode: STR, shelveId: INT}
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        barcode: barcode,
+        shelve: shelveId,
+      }),
+    };
+    fetch(getUrl(items), requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
       })
       .catch((error) => {
         console.log(error);

@@ -46,6 +46,9 @@ const getters = {
   getApiState(state) {
     return state.apiState;
   },
+  getBarcode(state) {
+    return `${state.rmaPage.ticket_id}-${state.rmaPage.device_producer}-${state.rmaPage.device_cat}`;
+  },
 };
 
 const mutations = {
@@ -147,6 +150,10 @@ const actions = {
       });
   },
   changeTicketStatus({ commit, dispatch, getters }, data) {
+    //send PUT request to change ticket status
+    //recive {ticketId: INT, newStatus: INT}
+    //calls getTicketData to refresh data and if newStatus == 3 open modal to register product
+
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -166,7 +173,7 @@ const actions = {
         commit("toggleModal_status", false);
         dispatch("getTicketData", data.ticketId);
 
-        if (data.newStatus === 2) {
+        if (data.newStatus === 3) {
           const rmaPage = getters.getRmaPage;
           let barcode = `${rmaPage.ticket_id}-${rmaPage.device_producer}-${rmaPage.device_cat}`;
           commit("items/setCreateModal_externalBarcode", barcode, {
