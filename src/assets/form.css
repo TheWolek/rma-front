@@ -73,6 +73,7 @@ textarea:disabled {
     background: rgb(209 209 209);
     border: 1px solid #000;
     color: var(--vt-c-black-mute);
+    cursor: not-allowed;
 }
 
 input:disabled:hover,

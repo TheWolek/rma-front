@@ -43,5 +43,9 @@ export default {
 <style scoped>
 label {
   color: var(--vt-c-black-mute);
+  line-height: 26px;
+}
+input {
+  font-size: 0.9em;
 }
 </style>

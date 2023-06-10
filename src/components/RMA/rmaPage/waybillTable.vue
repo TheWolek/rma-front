@@ -33,7 +33,6 @@ export default {
 <style scoped>
 table {
   width: 100%;
-  margin-left: 0.5em;
 }
 
 .edit_col {

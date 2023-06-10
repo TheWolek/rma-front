@@ -43,6 +43,8 @@ const getters = {
       ) || false
     );
   },
+  getStatuses: (state) => state.statuses,
+  getAccessoriesTypes: (state) => state.accessoriesTypes,
 };
 
 const mutations = {
@@ -59,7 +61,6 @@ const mutations = {
 
 const actions = {
   fetchDictionary({ getters, commit }, dictName) {
-    console.log(dictName);
     const dictionary = getters.findDictionaryByName(dictName);
     if (!dictionary) return console.log("niepoprawna nazwa słownika", dictName);
 

@@ -19,9 +19,28 @@ export default {
     onBack() {
       router.go(-1);
     },
-    onSave() {},
+    onSave() {
+      let body = {
+        ticketId: this.rmaPage.ticket_id,
+        email: this.rmaPage.email,
+        lines: this.rmaPage.lines,
+        postCode: this.rmaPage.postCode,
+        city: this.rmaPage.city,
+        type: this.rmaPage.type,
+        name: this.rmaPage.name,
+        phone: this.rmaPage.phone,
+        deviceSn: this.rmaPage.device_sn,
+        deviceAccessories: this.rmaAccessories,
+        issue: this.rmaPage.issue,
+      };
+      store.dispatch("rmaPage/saveTicketData", body);
+    },
     onEdit() {
-      store.commit("rmaPage/setRmaPageEditMode", !this.editMode);
+      if (this.editMode) {
+        router.go();
+      } else {
+        store.commit("rmaPage/setRmaPageEditMode", true);
+      }
     },
     toggleStatusModal() {
       if (this.isStatusBtnActive)
@@ -41,9 +60,11 @@ export default {
     ...mapGetters({
       rmaPage: "rmaPage/getRmaPage",
       editMode: "rmaPage/getRmaPageEditMode",
+      apiState: "rmaPage/getApiState",
+      rmaAccessories: "rmaAccessories/getAccessories",
     }),
     isSaveBtnActive() {
-      return false;
+      return this.editMode && this.apiState === 2 ? true : false;
     },
     isProcessBtnActive() {
       if (this.rmaPage.status === 4) return true;

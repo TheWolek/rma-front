@@ -1,8 +1,4 @@
-import {
-  getUrl,
-  rmaGetAccessories,
-  rmaUpdateAccessories,
-} from "../../../helpers/endpoints";
+import { getUrl, rmaAccessories } from "../../../helpers/endpoints";
 
 const state = {
   accessories: [],
@@ -22,7 +18,7 @@ const mutations = {
 
 const actions = {
   fetchAccessoriesByTicketId({ commit, state }, ticketId) {
-    fetch(`${getUrl(rmaGetAccessories)}/${ticketId}`)
+    fetch(`${getUrl(rmaAccessories)}/${ticketId}`)
       .then(async (res) => {
         const resData = await res.json();
 

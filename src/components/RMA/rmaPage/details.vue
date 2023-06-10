@@ -3,30 +3,17 @@ import { mapGetters } from "vuex";
 import store from "../../../store";
 import actionButton from "../../../parts/buttons/actionButton.vue";
 import inlineEditInput from "../../../parts/inputs/inlineEditInput.vue";
-
+import checkboxGroup2 from "../../../parts/inputs/checkboxGroup2.vue";
 import waybillTable from "./waybillTable.vue";
 
 export default {
-  data() {
-    return {
-      editMode_issue: false,
-      issue: "",
-      editMode_sn: false,
-      sn: "",
-      editMode_accessories: false,
-      accessories: "",
-    };
-  },
-  components: { actionButton, waybillTable, inlineEditInput },
-  mounted() {
-    this.issue = this.rmaPage.issue;
-    this.sn = this.rmaPage.device_sn;
-    this.accessories = this.rmaPage.device_accessories;
-  },
+  components: { actionButton, waybillTable, inlineEditInput, checkboxGroup2 },
   computed: {
     ...mapGetters({
       rmaPage: "rmaPage/getRmaPage",
       editMode: "rmaPage/getRmaPageEditMode",
+      getAccessories: "rmaAccessories/getAccessories",
+      getAccessoriesTypes: "rmaDictionaries/getAccessoriesTypes",
     }),
     inWarehouse() {
       return this.rmaPage.inWarehouse;
@@ -35,6 +22,102 @@ export default {
       if (this.inWarehouse) return false;
       if (![1, 8, 9].includes(this.rmaPage.status)) return true;
       return false;
+    },
+    sn: {
+      get() {
+        return this.rmaPage.device_sn;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "device_sn",
+          newVaule: value,
+        });
+      },
+    },
+    issue: {
+      get() {
+        return this.rmaPage.issue;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "issue",
+          newVaule: value,
+        });
+      },
+    },
+    name: {
+      get() {
+        return this.rmaPage.name;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "name",
+          newVaule: value,
+        });
+      },
+    },
+    email: {
+      get() {
+        return this.rmaPage.email;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "email",
+          newVaule: value,
+        });
+      },
+    },
+    phone: {
+      get() {
+        return this.rmaPage.phone;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "phone",
+          newVaule: value,
+        });
+      },
+    },
+    accessories: {
+      get() {
+        return this.$store.state.rmaAccessories.accessories;
+      },
+      set(value) {
+        this.$store.commit("rmaAccessories/setAccessories", value);
+      },
+    },
+    lines: {
+      get() {
+        return this.rmaPage.lines;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "lines",
+          newVaule: value,
+        });
+      },
+    },
+    postCode: {
+      get() {
+        return this.rmaPage.postCode;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "postCode",
+          newVaule: value,
+        });
+      },
+    },
+    city: {
+      get() {
+        return this.rmaPage.city;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "city",
+          newVaule: value,
+        });
+      },
     },
   },
   methods: {
@@ -76,18 +159,18 @@ export default {
       v-model="sn"
       :disabled="!this.editMode"
     />
-    <inlineEditInput
-      id="accessories"
-      label="Akcesoria:"
-      v-model="accessories"
-      :disabled="!this.editMode"
+    <checkboxGroup2
+      v-model:value="accessories"
+      name="accessories"
+      :options="getAccessoriesTypes"
+      :disabledAll="!this.editMode"
     />
 
     <div class="register">
       <actionButton
         :event="toggleModal_createItem"
         display="Zarejestruj"
-        v-if="!inWarehouse"
+        v-if="ableToRegister"
       />
       <h3 v-if="inWarehouse">
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
@@ -115,23 +198,74 @@ export default {
   </div>
   <div class="owner">
     <h2>Dane zleceniodawcy</h2>
-    <h3>
-      <b>{{ rmaPage.name }}</b>
-    </h3>
-    <h3 class="email">E-mail: {{ rmaPage.email }}</h3>
-    <h3>Telefon: {{ rmaPage.phone }}</h3>
+    <div class="wrap">
+      <inlineEditInput
+        id="name"
+        label="Imię i nazwisko:"
+        v-model="name"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="email"
+        label="E-mail:"
+        v-model="email"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="phone"
+        label="Telefon:"
+        v-model="phone"
+        :disabled="!this.editMode"
+      />
+    </div>
   </div>
   <div class="shipment">
     <h2>Dane adresowe i przesyłki</h2>
-    <h3>
-      <b>{{ rmaPage.name }}</b>
-    </h3>
-    <h3>{{ rmaPage.lines }}</h3>
-    <h3>{{ rmaPage.postCode }} {{ rmaPage.city }}</h3>
-    <h3 class="email">E-mail: {{ rmaPage.email }}</h3>
-    <h3>Telefon: {{ rmaPage.phone }}</h3>
-    <h3><b>Historia listów przewozowych:</b></h3>
-    <waybillTable />
+    <div class="wrap">
+      <inlineEditInput
+        id="name"
+        label="Imię i nazwisko:"
+        v-model="name"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="lines"
+        label="Ulica i numer:"
+        v-model="lines"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="postCode"
+        label="Kod pocztowy:"
+        v-model="postCode"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="city"
+        label="Miejscowość:"
+        v-model="city"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="email"
+        label="E-mail:"
+        v-model="email"
+        :disabled="!this.editMode"
+      />
+      <inlineEditInput
+        id="phone"
+        label="Telefon:"
+        v-model="phone"
+        :disabled="!this.editMode"
+      />
+    </div>
+  </div>
+  <div></div>
+  <div class="waybills">
+    <h2>Historia listów przewozowych</h2>
+    <div class="wrap">
+      <waybillTable />
+    </div>
   </div>
 </template>
 <style scoped>
@@ -166,5 +300,14 @@ export default {
 
 textarea:disabled {
   background-color: rgb(248, 248, 248);
+}
+
+.owner .wrap,
+.shipment .wrap,
+.waybills .wrap {
+  margin-left: 0.6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
 }
 </style>

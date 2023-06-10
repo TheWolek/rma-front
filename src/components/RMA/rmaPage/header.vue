@@ -4,33 +4,13 @@ import getTypeDisplayName from "../../../utils/getRmaTypeDisplayName";
 import formatDateAndHours from "../../../utils/formatDateAndHours";
 
 export default {
-  data() {
-    return {
-      editMode_issue: false,
-      issue: "",
-      editMode_sn: false,
-      sn: "",
-    };
-  },
-  mounted() {
-    this.issue = this.rmaPage.issue;
-    this.sn = this.rmaPage.device_sn;
-  },
   computed: {
     ...mapGetters({
       rmaPage: "rmaPage/getRmaPage",
+      statuses: "rmaDictionaries/getStatuses",
     }),
-    ...mapState({
-      statuses: (state) => state.rmaDictionaries.statuses,
-    }),
-    inEditMode_issue() {
-      return this.editMode_issue;
-    },
-    inEditMode_sn() {
-      return this.editMode_sn;
-    },
     getStatusDisplayName() {
-      return this.statuses.find((o) => o.id === this.rmaPage.status).name;
+      return this.statuses.find((o) => o.id === this.rmaPage?.status)?.name;
     },
     getTypeDisplayName() {
       return getTypeDisplayName(this.rmaPage.type);
@@ -41,14 +21,6 @@ export default {
     getFormattedStatusDate() {
       if (this.rmaPage.lastStatusUpdate === null) return "--";
       return formatDateAndHours(this.rmaPage.lastStatusUpdate);
-    },
-  },
-  methods: {
-    toggleEdit_issue() {
-      this.editMode_issue = !this.editMode_issue;
-    },
-    toggleEdit_sn() {
-      this.editMode_sn = !this.editMode_sn;
     },
   },
 };

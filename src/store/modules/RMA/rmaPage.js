@@ -43,6 +43,9 @@ const getters = {
   getPartError(state) {
     return state.partError;
   },
+  getApiState(state) {
+    return state.apiState;
+  },
 };
 
 const mutations = {
@@ -52,6 +55,11 @@ const mutations = {
   setRmaPageDetails(state, data) {
     state.rmaPage = data;
     state.apiState = 2;
+  },
+  setRmaPageField(state, { field, newVaule }) {
+    if (state.rmaPage[field]) {
+      state.rmaPage[field] = newVaule;
+    }
   },
   toggleModal_status(state, newState) {
     state.statusModalActive = newState;
@@ -272,6 +280,34 @@ const actions = {
             dispatch("fetchPartsByTicketId", data.ticketId);
           })
           .catch((e) => console.log(e));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  saveTicketData({ commit, dispatch }, newData) {
+    //sends PUT request to save ticket data
+    //have to recive {email: STR, lines: STR, postCode: STR, city: STR, type: 1 | 2,
+    // name: STR, phone: STR, deviceSN: STR, deviceAccessories: [INT, INT, ...], issue: STR}
+    //calls getTicketData to refresh rmaPage data
+
+    commit("setApiState", 1);
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newData),
+    };
+    fetch(`${getUrl(rma)}/${newData.ticketId}`, requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setRmaPageEditMode", false);
+        dispatch("getTicketData", newData.ticketId);
       })
       .catch((error) => {
         console.log(error);

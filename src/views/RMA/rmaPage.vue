@@ -20,6 +20,8 @@ export default {
       "rmaAccessories/fetchAccessoriesByTicketId",
       this.$route.params.id
     );
+    store.dispatch("rmaDictionaries/fetchDictionary", "statusesTypes");
+    store.dispatch("rmaDictionaries/fetchDictionary", "accessoriesTypes");
   },
   computed: {
     ...mapState({
@@ -70,7 +72,8 @@ export default {
   width: 80%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4em 2em;
+  gap: 48px;
+  margin-bottom: 48px;
 }
 
 .inlineEdit {
