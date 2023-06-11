@@ -37,6 +37,8 @@ export default {
         issue: this.rmaPage.issue,
         damage_type: this.rmaPage.damage_type,
         damage_description: this.rmaPage.damage_description,
+        result_type: this.rmaPage.result_type,
+        result_description: this.rmaPage.result_description,
       };
       store.dispatch("rmaPage/saveTicketData", body);
     },

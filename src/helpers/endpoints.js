@@ -29,4 +29,5 @@ export const SparepartsUse = "/warehouse/spareparts/use";
 export const rmaDictionaryDamageTypes = "/rma/dictionary/damagesTypes";
 export const rmaDictionaryAccessoriesTypes = "/rma/dictionary/accessoriesTypes";
 export const rmaDictionaryStatusesTypes = "/rma/dictionary/statusesTypes";
+export const rmaDictionaryResultTypes = "/rma/dictionary/resultTypes";
 export const rmaAccessories = "/rma/accessories";

@@ -3,6 +3,7 @@ import {
   rmaDictionaryAccessoriesTypes,
   rmaDictionaryDamageTypes,
   rmaDictionaryStatusesTypes,
+  rmaDictionaryResultTypes,
 } from "../../../helpers/endpoints";
 
 const state = {
@@ -28,10 +29,18 @@ const state = {
       url: rmaDictionaryStatusesTypes,
       mutation: "setStatusesTypes",
     },
+    {
+      id: 4,
+      name: "resultTypes",
+      displayName: "Typy rezultatów zgłoszeń",
+      url: rmaDictionaryResultTypes,
+      mutation: "setResultTypes",
+    },
   ],
   accessoriesTypes: [],
   damageTypes: [],
   statuses: [],
+  resultTypes: [],
 };
 
 const getters = {
@@ -46,6 +55,7 @@ const getters = {
   getStatuses: (state) => state.statuses,
   getAccessoriesTypes: (state) => state.accessoriesTypes,
   getDamageTypes: (state) => state.damageTypes,
+  getResultTypes: (state) => state.resultTypes,
 };
 
 const mutations = {
@@ -57,6 +67,9 @@ const mutations = {
   },
   setStatusesTypes(state, data) {
     state.statuses = data;
+  },
+  setResultTypes(state, data) {
+    state.resultTypes = data;
   },
 };
 

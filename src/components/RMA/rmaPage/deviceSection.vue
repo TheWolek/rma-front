@@ -4,6 +4,7 @@ import checkboxGroup2 from "@/parts/inputs/checkboxGroup2.vue";
 import actionButton from "@/parts/buttons/actionButton.vue";
 import selectInput from "@/parts/inputs/selectInput.vue";
 import { mapGetters } from "vuex";
+import store from "@/store";
 
 export default {
   components: { inlineEditInput, checkboxGroup2, actionButton, selectInput },
@@ -132,5 +133,9 @@ textarea {
 
 .form-group {
   margin-top: 8px;
+}
+
+.register {
+  margin-top: 16px;
 }
 </style>

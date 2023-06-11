@@ -23,6 +23,7 @@ export default {
     store.dispatch("rmaDictionaries/fetchDictionary", "statusesTypes");
     store.dispatch("rmaDictionaries/fetchDictionary", "accessoriesTypes");
     store.dispatch("rmaDictionaries/fetchDictionary", "damageTypes");
+    store.dispatch("rmaDictionaries/fetchDictionary", "resultTypes");
   },
   computed: {
     ...mapState({
