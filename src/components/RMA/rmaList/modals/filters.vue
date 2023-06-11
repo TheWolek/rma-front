@@ -1,15 +1,16 @@
 <script>
 import { mapGetters, mapState } from "vuex";
-import store from "../../../../store";
-import bigModal from "../../../../parts/bigModal.vue";
-import textInput from "../../../../parts/inputs/textInput.vue";
-import selectInput from "../../../../parts/inputs/selectInput.vue";
-import submitButton from "../../../../parts/buttons/submitButton.vue";
+import store from "@/store";
+import bigModal from "@/parts/bigModal.vue";
+import textInput from "@/parts/inputs/textInput.vue";
+import selectInput from "@/parts/inputs/selectInput.vue";
+import submitButton from "@/parts/buttons/submitButton.vue";
 
 export default {
   data() {
     return {
       ticketId: "",
+      barcode: "",
       status: "",
       type: "",
       sn: "",
@@ -43,6 +44,7 @@ export default {
   methods: {
     clearData() {
       this.ticketId = "";
+      this.barcode = "";
       this.status = "";
       this.type = "";
       this.sn = "";
@@ -60,10 +62,13 @@ export default {
     onSubmit() {
       const filters = [];
 
-      if (this.ticketId !== "" && this.ticketId !== "")
+      if (this.ticketId !== "")
         filters.push({ name: "zgłoszenie", value: this.ticketId });
 
-      if (this.waybill !== "" && this.waybill !== "")
+      if (this.barcode !== "")
+        filters.push({ name: "zgłoszenie", value: this.barcode.split("-")[0] });
+
+      if (this.waybill !== "")
         filters.push({ name: "list", value: this.waybill });
 
       if (this.status !== "")
@@ -71,10 +76,9 @@ export default {
 
       if (this.type !== "") filters.push({ name: "typ", value: this.type });
 
-      if (this.sn !== "" && this.sn !== "")
-        filters.push({ name: "SN", value: this.sn });
+      if (this.sn !== "") filters.push({ name: "SN", value: this.sn });
 
-      if (this.producer !== "" && this.producer !== "")
+      if (this.producer !== "")
         filters.push({ name: "producent", value: this.producer });
 
       if (filters.length !== 0) {
@@ -101,6 +105,7 @@ export default {
         inputType="number"
         v-model="ticketId"
       />
+      <textInput id="barcode" label="Kod kreskowy" v-model="barcode" />
       <textInput
         id="waybill"
         label="Numer listu przewozowego"

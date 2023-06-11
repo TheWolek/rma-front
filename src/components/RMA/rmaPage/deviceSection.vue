@@ -40,7 +40,7 @@ export default {
     },
     damageType: {
       get() {
-        return this.rmaPage.damage_type;
+        return this.rmaPage.damage_type.toString();
       },
       set(value) {
         this.$store.commit("rmaPage/setRmaPageField", {
@@ -113,6 +113,11 @@ export default {
       :disabled="!this.editMode"
     ></textarea>
 
+    <div class="barcode" v-if="inWarehouse">
+      <h3>
+        Barcode: <b>{{ getBarcode }}</b>
+      </h3>
+    </div>
     <div class="register" v-if="inWarehouse">
       <h3>
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
@@ -135,7 +140,7 @@ textarea {
   margin-top: 8px;
 }
 
-.register {
+.barcode {
   margin-top: 16px;
 }
 </style>

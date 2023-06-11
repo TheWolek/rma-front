@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from "vuex";
 import selectInput from "@/parts/inputs/selectInput.vue";
-import SelectInput from "../../../parts/inputs/selectInput.vue";
+import SelectInput from "@/parts/inputs/selectInput.vue";
 
 export default {
   components: { selectInput, SelectInput },
@@ -24,7 +24,7 @@ export default {
     },
     resultType: {
       get() {
-        return this.rmaPage.result_type;
+        return this.rmaPage.result_type?.toString();
       },
       set(value) {
         this.$store.commit("rmaPage/setRmaPageField", {

@@ -58,7 +58,13 @@ export default {
         store.dispatch("rmaPage/toggleModal_process", true);
     },
     toggleHistoryModal() {},
-    onRefresh() {},
+    onRefresh() {
+      if (this.editMode) {
+        this.onSave();
+      } else {
+        router.go();
+      }
+    },
     addWaybillIn() {
       store.commit("rmaPage/toggleModal_shipment", true);
       store.commit("rmaWaybills/toggleModal_addWaybill", true);

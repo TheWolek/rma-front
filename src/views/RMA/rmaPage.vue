@@ -7,7 +7,7 @@ import shipmentModal from "@/components/RMA/rmaPage/modals/shipment.vue";
 import itemCreateModal from "@/components/Warehouse/Items/itemCreateModal.vue";
 import statusModal from "@/components/RMA/rmaPage/modals/status.vue";
 import processModal from "@/components/RMA/rmaPage/modals/process.vue";
-import store from "../../store";
+import store from "@/store";
 
 export default {
   mounted() {
@@ -20,6 +20,7 @@ export default {
       "rmaAccessories/fetchAccessoriesByTicketId",
       this.$route.params.id
     );
+    store.dispatch("rmaPage/fetchCommentsByTicketId", this.$route.params.id);
     store.dispatch("rmaDictionaries/fetchDictionary", "statusesTypes");
     store.dispatch("rmaDictionaries/fetchDictionary", "accessoriesTypes");
     store.dispatch("rmaDictionaries/fetchDictionary", "damageTypes");
