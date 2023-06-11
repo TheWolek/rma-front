@@ -111,7 +111,7 @@ export default {
     validate() {
       const regString = /^([a-żA-Ż0-9 ]){2,}$/;
       const regEmail = /^(.){1,}@(.){1,}\.([A-z]){1,}$/;
-      const regNumber = /^([0-9]{9})$/;
+      const regNumber = /^(\d{3}) (\d{3}) (\d{3})$/;
       const regLines = /^([a-żA-Ż0-9/. ]){2,}([1-9]){0,}([0-9]){1,}$/;
       const regPostCode = /^([0-9]){2}-([0-9]){3}$/;
       let good = true;
@@ -233,6 +233,24 @@ export default {
         damageDescription: this.damageDescription,
       });
     },
+    formatPhone() {
+      let number = this.phone;
+      number = number.replace(/\D/g, "");
+      if (number.length <= 9) {
+        number = number.replace(/^(\d{3})(\d{3})(\d{3})$/, "$1 $2 $3");
+      } else {
+        number = number.replace(/^(\d{3})(\d{3})(\d{3})(\d+)$/, "$1 $2 $3 $4");
+      }
+      this.phone = number;
+    },
+    formatPostCode() {
+      let code = this.postCode;
+      code = code.replace(/\D/g, "");
+      if (code.length <= 5) {
+        code = code.replace(/^(\d{2})(\d{3})$/, "$1-$2");
+      }
+      this.postCode = code;
+    },
   },
   components: { textInput, submitButton, selectInput, checkboxGroup },
 };
@@ -280,6 +298,8 @@ export default {
           label="Telefon"
           v-model="phone"
           :error="err_phone"
+          :input="formatPhone"
+          max="9"
         />
         <textInput
           id="email"
@@ -301,6 +321,8 @@ export default {
           label="Kod pocztowy"
           v-model="postCode"
           :error="err_postCode"
+          :input="formatPostCode"
+          max="5"
         />
         <textInput
           id="city"

@@ -22,12 +22,20 @@ export default {
       type: Function,
       default: null,
     },
+    input: Function,
+    max: String,
   },
   // props: ["id", "label", "inputType", "modelValue", "change", "error"],
   methods: {
     onChange(event) {
       this.$emit("update:modelValue", event.target.value);
       if (this.change) this.change();
+    },
+    onInput(event) {
+      if (this.input) {
+        this.$emit("update:modelValue", event.target.value);
+        this.input();
+      }
     },
   },
 };
@@ -44,6 +52,8 @@ export default {
         :min="min"
         :disabled="disabled"
         v-on:keyup.enter="onEnter"
+        @input="onInput"
+        :maxlength="max"
       />
       <p
         :id="`error_${id}`"
