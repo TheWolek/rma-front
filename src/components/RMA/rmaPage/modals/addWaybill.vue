@@ -1,11 +1,11 @@
 <script>
 import { mapGetters, mapState } from "vuex";
-import store from "../../../../store";
+import store from "@/store";
 
-import smallModal from "../../../../parts/smallModal.vue";
-import textInput from "../../../../parts/inputs/textInput.vue";
-import selectInput from "../../../../parts/inputs/selectInput.vue";
-import submitButton from "../../../../parts/buttons/submitButton.vue";
+import smallModal from "@/parts/smallModal.vue";
+import textInput from "@/parts/inputs/textInput.vue";
+import selectInput from "@/parts/inputs/selectInput.vue";
+import submitButton from "@/parts/buttons/submitButton.vue";
 
 export default {
   data() {
@@ -24,6 +24,12 @@ export default {
     ...mapGetters({
       rmaPage: "rmaPage/getRmaPage",
     }),
+    incommingActive() {
+      return this.rmaPage.status <= 2;
+    },
+    outcomingActive() {
+      return this.rmaPage.status === 8 || this.rmaPage.status === 10;
+    },
   },
   methods: {
     toggleModal_addWaybill() {
@@ -73,8 +79,12 @@ export default {
         :display="true"
       >
         <option value="null" selected hidden>Wybierz typ</option>
-        <option value="przychodzący">Przychodzący</option>
-        <option value="wychodzący">Wychodzący</option>
+        <option value="przychodzący" :disabled="!incommingActive">
+          Przychodzący
+        </option>
+        <option value="wychodzący" :disabled="!outcomingActive">
+          Wychodzący
+        </option>
       </selectInput>
       <submitButton label="Zapisz" />
     </form>

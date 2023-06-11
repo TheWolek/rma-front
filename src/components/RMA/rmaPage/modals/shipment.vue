@@ -1,8 +1,8 @@
 <script>
-import { mapState } from "vuex";
-import store from "../../../../store";
-import actionButton from "../../../../parts/buttons/actionButton.vue";
-import bigModal from "../../../../parts/bigModal.vue";
+import { mapGetters, mapState } from "vuex";
+import store from "@/store";
+import actionButton from "@/parts/buttons/actionButton.vue";
+import bigModal from "@/parts/bigModal.vue";
 
 import waybillTable from "../waybillTable.vue";
 import editWaybill from "./editWaybill.vue";
@@ -16,6 +16,36 @@ export default {
         state.rmaWaybills.editWaybillModalActive,
       addWaybillModalActive: (state) => state.rmaWaybills.addWaybillModalActive,
     }),
+    ...mapGetters({
+      getWaybills: "rmaWaybills/getWaybills",
+      rmaPage: "rmaPage/getRmaPage",
+    }),
+    isAddActive() {
+      let waybillsIn = this.getWaybills.filter(
+        (o) => o.type === "przychodzący"
+      );
+      let waybillsOut = this.getWaybills.filter((o) => o.type === "wychodzący");
+      let good = true;
+
+      waybillsIn.forEach((i) => {
+        if (i?.status === "potwierdzony") good = false;
+      });
+
+      waybillsOut.forEach((i) => {
+        if (i?.status === "potwierdzony") good = false;
+      });
+
+      if (
+        this.rmaPage.status >= 3 &&
+        this.rmaPage.status !== 8 &&
+        this.rmaPage.status !== 10
+      )
+        good = false;
+
+      if (this.rmaPage.status === 9 && this.rmaPage.status === 11) good = false;
+
+      return good;
+    },
   },
   components: { bigModal, actionButton, waybillTable, editWaybill, addWaybill },
   methods: {
@@ -23,6 +53,7 @@ export default {
       store.commit("rmaPage/toggleModal_shipment", false);
     },
     toggleModal_addWaybill() {
+      if (!this.isAddActive) return;
       store.commit("rmaWaybills/toggleModal_addWaybill", true);
     },
   },
@@ -43,6 +74,7 @@ export default {
           :event="toggleModal_addWaybill"
           display="Dodaj"
           :icon="`add.svg`"
+          :disabled="!isAddActive"
         />
       </div>
     </div>

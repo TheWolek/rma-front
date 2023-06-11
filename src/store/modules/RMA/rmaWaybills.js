@@ -50,6 +50,10 @@ const actions = {
       });
   },
   saveWaybillData({ commit, dispatch }, newData) {
+    //send PUT request to update waybill data
+    //recive {id: INT, waybillNumber: STR, status: STR, type: STR, ticketId: INT}
+    //calls fetchWaybillsByTicketId to refresh data
+
     commit("toggleModal_editWaybill", false);
     commit("setEditWaybillModalData", {});
 

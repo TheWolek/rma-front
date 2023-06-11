@@ -1,10 +1,10 @@
 <script>
 import { mapGetters } from "vuex";
-import router from "../../../router";
-import store from "../../../store";
-import actionButton from "../../../parts/buttons/actionButton.vue";
-import actionButtonRefresh from "../../../parts/buttons/actionButtonRefresh.vue";
-import ActionButton from "../../../parts/buttons/actionButton.vue";
+import router from "@/router";
+import store from "@/store";
+import actionButton from "@/parts/buttons/actionButton.vue";
+import actionButtonRefresh from "@/parts/buttons/actionButtonRefresh.vue";
+import ActionButton from "@/parts/buttons/actionButton.vue";
 
 export default {
   data() {
@@ -70,6 +70,14 @@ export default {
       });
     },
     collect() {
+      const waybillIn = this.rmaWaybills.find((o) => o.type === "przychodzący");
+      store.dispatch("rmaWaybills/saveWaybillData", {
+        id: waybillIn.id,
+        waybillNumber: waybillIn.waybill_number,
+        status: "odebrany",
+        type: waybillIn.type,
+        ticketId: waybillIn.ticket_id,
+      });
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
         newStatus: 3,
