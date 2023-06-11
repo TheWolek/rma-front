@@ -70,4 +70,8 @@ export default {
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+select {
+  padding: 0.35em;
+}
+</style>

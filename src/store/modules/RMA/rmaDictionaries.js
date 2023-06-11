@@ -45,6 +45,7 @@ const getters = {
   },
   getStatuses: (state) => state.statuses,
   getAccessoriesTypes: (state) => state.accessoriesTypes,
+  getDamageTypes: (state) => state.damageTypes,
 };
 
 const mutations = {

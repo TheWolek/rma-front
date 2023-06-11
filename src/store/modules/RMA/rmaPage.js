@@ -60,7 +60,7 @@ const mutations = {
     state.apiState = 2;
   },
   setRmaPageField(state, { field, newVaule }) {
-    if (state.rmaPage[field]) {
+    if (state.rmaPage[field] !== undefined) {
       state.rmaPage[field] = newVaule;
     }
   },

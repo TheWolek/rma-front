@@ -22,6 +22,7 @@ export default {
     );
     store.dispatch("rmaDictionaries/fetchDictionary", "statusesTypes");
     store.dispatch("rmaDictionaries/fetchDictionary", "accessoriesTypes");
+    store.dispatch("rmaDictionaries/fetchDictionary", "damageTypes");
   },
   computed: {
     ...mapState({
@@ -105,7 +106,6 @@ textarea {
 }
 
 textarea:disabled {
-  background: none;
   cursor: default !important;
 }
 

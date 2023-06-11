@@ -35,6 +35,8 @@ export default {
         deviceSn: this.rmaPage.device_sn,
         deviceAccessories: this.rmaAccessories,
         issue: this.rmaPage.issue,
+        damage_type: this.rmaPage.damage_type,
+        damage_description: this.rmaPage.damage_description,
       };
       store.dispatch("rmaPage/saveTicketData", body);
     },

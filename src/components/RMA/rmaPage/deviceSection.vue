@@ -1,16 +1,18 @@
 <script>
 import inlineEditInput from "@/parts/inputs/inlineEditInput.vue";
 import checkboxGroup2 from "@/parts/inputs/checkboxGroup2.vue";
-import actionButton from "../../../parts/buttons/actionButton.vue";
+import actionButton from "@/parts/buttons/actionButton.vue";
+import selectInput from "@/parts/inputs/selectInput.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  components: { inlineEditInput, checkboxGroup2, actionButton },
+  components: { inlineEditInput, checkboxGroup2, actionButton, selectInput },
   computed: {
     ...mapGetters({
       rmaPage: "rmaPage/getRmaPage",
       editMode: "rmaPage/getRmaPageEditMode",
       getAccessoriesTypes: "rmaDictionaries/getAccessoriesTypes",
+      getDamageTypes: "rmaDictionaries/getDamageTypes",
       getBarcode: "rmaPage/getBarcode",
     }),
     inWarehouse() {
@@ -33,6 +35,28 @@ export default {
       },
       set(value) {
         this.$store.commit("rmaAccessories/setAccessories", value);
+      },
+    },
+    damageType: {
+      get() {
+        return this.rmaPage.damage_type;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "damage_type",
+          newVaule: value,
+        });
+      },
+    },
+    damageDescription: {
+      get() {
+        return this.rmaPage.damage_description;
+      },
+      set(value) {
+        this.$store.commit("rmaPage/setRmaPageField", {
+          field: "damage_description",
+          newVaule: value,
+        });
       },
     },
   },
@@ -69,6 +93,25 @@ export default {
       :options="getAccessoriesTypes"
       :disabledAll="!this.editMode"
     />
+    <div class="form-group">
+      <selectInput
+        id="damageType"
+        label="Stan urządzenia"
+        v-model="damageType"
+        :options="getDamageTypes"
+        :disabled="!this.editMode"
+      />
+    </div>
+    <h3>Opis stanu technicznego</h3>
+    <textarea
+      name="damageDescription"
+      id="damageDescription"
+      v-model="damageDescription"
+      cols="30"
+      rows="5"
+      :disabled="!this.editMode"
+    ></textarea>
+
     <div class="register" v-if="inWarehouse">
       <h3>
         Warehouse ID: <b>#{{ rmaPage.item_id }}</b>
@@ -82,3 +125,12 @@ export default {
     </div>
   </div>
 </template>
+<style scoped>
+textarea {
+  width: 80%;
+}
+
+.form-group {
+  margin-top: 8px;
+}
+</style>
