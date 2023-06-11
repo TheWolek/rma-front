@@ -16,13 +16,11 @@ export default {
       this.emitter.emit("refreshing", true);
       if (mode === "url") {
         waitUntil("items.shelves", (storeShelves) => {
-          console.log(storeShelves);
           shelve = storeShelves.find((o) => o.code == code);
           if (shelve === undefined) {
             this.emitter.emit("refreshing", false);
             return;
           }
-          console.log(shelve);
           fetchItems(shelve.shelve_id);
         });
       } else {
@@ -32,7 +30,6 @@ export default {
           return this.displayError("zły format kodu");
 
         shelve = this.shelves.find((o) => o.code == this.shelve_code);
-        console.log(shelve);
         this.toggleModal_shelveFind();
         this.error_shelveCode = "";
         this.shelve_code = "";

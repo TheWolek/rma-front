@@ -293,7 +293,6 @@ const actions = {
     }
   },
   toggleEditOrder({ commit, state }, data) {
-    console.log("EditOrder", data);
     fetch(`${getUrl(sparepartsOrdersItems)}?order_id=${data.part_order_id}`)
       .then(async (res) => {
         const resData = await res.json();
@@ -363,7 +362,6 @@ const actions = {
         part_id: insertedRowsIds[index].insertedId,
       });
     });
-    console.log(itemsToUpdate);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -383,7 +381,6 @@ const actions = {
         //add items to warehouse. Then push their insertId into state as ''
         //await dispatch("spareparts/addSpareparts", itemsToUpdate, { root: true });
 
-        console.log("updated");
         dispatch("reciveOrder", {
           order_id: state.ordersItems.orderData.part_order_id,
           status: 2,
@@ -395,7 +392,6 @@ const actions = {
   closeCurrentOrder({ state, commit }) {
     let currOrderData = state.ordersItems.orderData;
     currOrderData.status = 2;
-    console.log(currOrderData);
     commit("setOrdersItemsOrderData", currOrderData);
   },
 };

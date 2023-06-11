@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     onAdd() {
-      console.log(this.tempCode);
       if (this.tempCode !== "") {
         store.commit("sparepartsOrders/addSnToPart", {
           index: this.item.index,

@@ -11,7 +11,6 @@ export default {
   },
   methods: {
     handleSubmit_find(params) {
-      console.log(params);
       let url = `${getUrl(spareparts)}/?`;
 
       if (params.cat !== undefined) url += `category=${params.cat}`;
@@ -37,8 +36,6 @@ export default {
           if (params.prod !== undefined) filters.names.producer = params.prod;
           if (params.name !== undefined) filters.names.name = params.name;
 
-          console.log(resData);
-
           if (!res.ok) {
             store.commit("spareparts/toggleRefreshTable", false);
             if (res.status == 404) {
@@ -46,8 +43,6 @@ export default {
                 data: [],
                 filters: filters,
               });
-              console.log("nothing was found");
-
               return;
             }
             const error = (resData && resData.message) || res.status;
@@ -64,11 +59,8 @@ export default {
         .catch((error) => {
           return console.log(error); //this.showError("error_form", error);
         });
-
-      console.log(url);
     },
     handleSubmit_findByCode(code) {
-      console.log(code);
       fetch(`${getUrl(sparepartsCode)}?codes=${code}`)
         .then(async (res) => {
           const resData = await res.json();

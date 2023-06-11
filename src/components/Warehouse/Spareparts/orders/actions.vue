@@ -56,8 +56,6 @@ export default {
               ...this.order.orderData,
               open: false,
             });
-
-            console.log("saved");
           })
           .catch((error) => {
             return console.log(error);

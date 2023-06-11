@@ -16,7 +16,6 @@ const mutations = {
 
 const actions = {
   submitNewTicket({ commit, state }, data) {
-    console.log(data);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -32,7 +31,6 @@ const actions = {
           return Promise.reject(error);
         }
 
-        console.log(resData);
         router.push({
           name: "ticket",
           params: { id: resData.ticketId },

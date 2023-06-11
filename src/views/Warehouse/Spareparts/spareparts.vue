@@ -39,7 +39,6 @@ export default {
   },
   mounted() {
     const route = useRoute();
-    console.log(route.query);
     if (route.query.cat || route.query.prod || route.query.name) {
       return this.handleSubmit_find(route.query);
     }
