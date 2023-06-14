@@ -143,4 +143,8 @@ textarea {
 .barcode {
   margin-top: 16px;
 }
+
+.barcode h3 {
+  text-transform: none;
+}
 </style>

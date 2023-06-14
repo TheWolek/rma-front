@@ -14,7 +14,6 @@ import router from "../../../router";
 const state = {
   apiState: 0,
   rmaPage: {},
-  statusModalActive: false,
   shipmentModalActive: false,
   processModalActive: false,
   rmaPageEditMode: false,
@@ -63,9 +62,6 @@ const mutations = {
     if (state.rmaPage[field] !== undefined) {
       state.rmaPage[field] = newVaule;
     }
-  },
-  toggleModal_status(state, newState) {
-    state.statusModalActive = newState;
   },
   toggleModal_shipment(state, newState) {
     state.shipmentModalActive = newState;
@@ -170,7 +166,6 @@ const actions = {
           return Promise.reject(error);
         }
 
-        commit("toggleModal_status", false);
         dispatch("getTicketData", data.ticketId);
 
         if (data.newStatus === 3) {

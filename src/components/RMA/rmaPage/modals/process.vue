@@ -46,7 +46,7 @@ export default {
         <process_partsList :parts="parts" />
       </div>
       <div class="comments">
-        <h2>Ustalenia do zlecenia</h2>
+        <h2>Ustalenia do zgłoszenia</h2>
         <process_commentForm />
         <process_commentList :comments="comments" />
       </div>
