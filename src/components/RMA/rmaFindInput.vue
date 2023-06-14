@@ -18,7 +18,7 @@ export default {
   methods: {
     onSubmit() {
       if (this.code === "") return;
-      store.dispatch("rmaPage/findTicket", this.code);
+      store.dispatch("rmaPage/findTicket", this.code.split("-")[0]);
     },
   },
   components: { TextInput },
@@ -28,7 +28,7 @@ export default {
   <div class="wrap">
     <TextInput
       id="id"
-      label="Numer zgłoszenia serwisowego"
+      label="Numer zgłoszenia lub kod kreskowy"
       v-model="code"
       :onEnter="onSubmit"
       :error="this.findError"
