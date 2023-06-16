@@ -4,14 +4,21 @@ import { useRoute } from "vue-router";
 import ChangeShelveActions from "@/components/Warehouse/Items/ChangeShelve/Actions.vue";
 import ChangeShelveModal from "@/components/Warehouse/Items/ChangeShelve/Modal.vue";
 import ChangeShelveForm from "@/components/Warehouse/Items/ChangeShelve/Form.vue";
-import store from "../../../store";
+import moveTaskList from "@/components/Warehouse/tasks/changeShelve/moveTaskList.vue";
+import store from "@/store";
 import { mapState } from "vuex";
 
 export default {
-  components: { ChangeShelveActions, ChangeShelveModal, ChangeShelveForm },
+  components: {
+    ChangeShelveActions,
+    ChangeShelveModal,
+    ChangeShelveForm,
+    moveTaskList,
+  },
   computed: {
     ...mapState({
       shelves: (state) => state.items.shelves,
+      taskListActive: (state) => state.changeShelve.taskListActive,
     }),
   },
   mounted() {
@@ -35,7 +42,10 @@ export default {
     <ChangeShelveActions />
     <div class="warehouseItemsChangeShelve_wrap">
       <h1>Zmiana lokalizacji produktu</h1>
-      <ChangeShelveForm />
+      <div class="warehouseItemsChangeShelve_content">
+        <ChangeShelveForm />
+        <moveTaskList v-if="taskListActive" />
+      </div>
     </div>
   </div>
 </template>
@@ -50,5 +60,10 @@ export default {
 
 .warehouseItemsChangeShelve_wrap {
   padding: 0.5em;
+}
+
+.warehouseItemsChangeShelve_content {
+  display: flex;
+  gap: 16px;
 }
 </style>

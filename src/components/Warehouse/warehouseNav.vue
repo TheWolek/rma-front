@@ -20,6 +20,12 @@ import moduleNavLinkVue from "../moduleNavLink.vue";
         ]"
       />
       <moduleNavLinkVue
+        text="Zadania"
+        v-bind:children="[
+          { path: '/warehouse/tasks/move', text: 'Zadania przeniesienia' },
+        ]"
+      />
+      <moduleNavLinkVue
         text="miejsca magazynowe"
         v-bind:children="[
           { path: '/warehouse/shelves', text: 'wszystkie miejsca magazynowe' },

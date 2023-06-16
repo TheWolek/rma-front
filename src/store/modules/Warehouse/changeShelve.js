@@ -1,3 +1,5 @@
+import { getUrl, tasks } from "../../../helpers/endpoints";
+
 // initial state
 const state = () => ({
   modal_active: false,
@@ -7,6 +9,8 @@ const state = () => ({
   ableToSubmit: false,
   fail: false,
   notification: { active: false, message: "", mode: null },
+  taskListActive: false,
+  taskList: [],
 });
 
 // mutations
@@ -51,6 +55,10 @@ const mutations = {
     state.notification.mode = data.mode;
     state.notification.message = data.message;
   },
+  setTaskList(state, tasks) {
+    state.taskListActive = true;
+    state.taskList = tasks;
+  },
 };
 
 const actions = {
@@ -68,6 +76,8 @@ const actions = {
     commit("toggleAbleToSubmit", false);
     state.fail = false;
     commit("clearMsg");
+    state.taskList = [];
+    state.taskListActive = false;
   },
   submitSuccess({ commit, dispatch }, msg) {
     dispatch("clearData");
@@ -99,6 +109,27 @@ const actions = {
       model: data.outside_barcode.split("-")[1],
       category: data.outside_barcode.split("-")[2],
     });
+  },
+  setDataFromMoveTask({ commit, dispatch }, data) {
+    fetch(`${getUrl(tasks)}/${data.taskName}/tasks`)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        commit("setTaskList", resData);
+        commit("toggleFormStatus", {
+          status: true,
+          active: data.from,
+          new: data.to,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 

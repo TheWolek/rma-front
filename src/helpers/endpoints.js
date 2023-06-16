@@ -17,6 +17,7 @@ export const sparepartsCategories = "/warehouse/spareparts/categories";
 export const sparepartsAdd = "/warehouse/spareparts/add";
 export const sparepartsSuppliers = "/warehouse/spareparts/suppliers";
 export const sparepartsStatuses = "/warehouse/spareparts/statuses";
+export const tasks = "/warehouse/tasks";
 export const rma = "/rma";
 export const rmaCreate = "/rma/create";
 export const rmaWaybills = "/rma/waybills";
