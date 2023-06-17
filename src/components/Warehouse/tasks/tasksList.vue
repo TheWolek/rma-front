@@ -1,4 +1,5 @@
 <script>
+import store from "@/store";
 import TaskTile from "./taskTile.vue";
 import taskTile from "./taskTile.vue";
 
@@ -10,6 +11,9 @@ export default {
     },
   },
   components: { taskTile, TaskTile },
+  mounted() {
+    store.dispatch("items/fetchAllShelves");
+  },
 };
 </script>
 <template>

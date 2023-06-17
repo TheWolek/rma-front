@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     onClick() {
-      store.dispatch("items/fetchAllShelves");
       const shelve_out = this.shelves.find(
         (o) => o.shelve_id === this.item.shelve_out
       )?.code;
