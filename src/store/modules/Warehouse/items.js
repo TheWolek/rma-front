@@ -23,6 +23,9 @@ const getters = {
   getcreateModalExternalSn(state) {
     return state.createModal_externalSn;
   },
+  getShelves(state) {
+    return state.shelves;
+  },
 };
 
 const mutations = {
