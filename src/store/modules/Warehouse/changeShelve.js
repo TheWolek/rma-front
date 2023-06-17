@@ -1,4 +1,4 @@
-import { getUrl, tasks } from "../../../helpers/endpoints";
+import { getUrl, itemsChangeShelve, tasks } from "../../../helpers/endpoints";
 
 // initial state
 const state = () => ({
@@ -109,6 +109,36 @@ const actions = {
       model: data.outside_barcode.split("-")[1],
       category: data.outside_barcode.split("-")[2],
     });
+  },
+  submit({ dispatch }, data) {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        barcodes: data.itemsArr,
+        new_shelve: data.new,
+        shelve: data.active,
+      }),
+    };
+
+    fetch(getUrl(itemsChangeShelve), requestOptions)
+      .then(async (res) => {
+        const resData = await res.json();
+
+        if (!res.ok) {
+          const error = (resData && resData.message) || res.status;
+          return Promise.reject(error);
+        }
+
+        dispatch("displayNotifi", {
+          mode: 0,
+          status: true,
+          message: "Produkty zostały pomyślnie przeniesione",
+        });
+      })
+      .catch((error) => {
+        return this.displayError(error);
+      });
   },
   setDataFromMoveTask({ commit, dispatch }, data) {
     fetch(`${getUrl(tasks)}/${data.taskName}/tasks`)

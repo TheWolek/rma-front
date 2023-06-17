@@ -4,7 +4,7 @@ import store from "../../../../store";
 import actionButton from "../../../../parts/buttons/actionButton.vue";
 import actionButtonRefresh from "../../../../parts/buttons/actionButtonRefresh.vue";
 
-import { getUrl, itemsChangeShelve } from "../../../../helpers/endpoints";
+// import { getUrl, itemsChangeShelve } from "../../../../helpers/endpoints";
 
 export default {
   components: {
@@ -26,36 +26,13 @@ export default {
         let itemsArr = this.items.map((el) => {
           return el.barcode;
         });
-        const requestOptions = {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            barcodes: itemsArr,
-            new_shelve: this.shelves.find((o) => o.code == this.form_active.new)
-              .shelve_id,
-            shelve: this.shelves.find((o) => o.code == this.form_active.active)
-              .shelve_id,
-          }),
-        };
-
-        fetch(getUrl(itemsChangeShelve), requestOptions)
-          .then(async (res) => {
-            const resData = await res.json();
-
-            if (!res.ok) {
-              const error = (resData && resData.message) || res.status;
-              return Promise.reject(error);
-            }
-
-            store.dispatch("changeShelve/displayNotifi", {
-              mode: 0,
-              status: true,
-              message: "Produkty zostały pomyślnie przeniesione",
-            });
-          })
-          .catch((error) => {
-            return this.displayError(error);
-          });
+        store.dispatch("changeShelve/submit", {
+          itemsArr: itemsArr,
+          active: this.shelves.find((o) => o.code === this.form_active.active)
+            .shelve_id,
+          new: this.shelves.find((o) => o.code === this.form_active.new)
+            .shelve_id,
+        });
       }
     },
     displayError(error) {

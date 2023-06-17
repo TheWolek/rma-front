@@ -28,7 +28,7 @@ export default {
       return this.rmaPage.status <= 2;
     },
     outcomingActive() {
-      return this.rmaPage.status === 8 || this.rmaPage.status === 10;
+      return this.rmaPage.status === 9 || this.rmaPage.status === 11;
     },
   },
   methods: {

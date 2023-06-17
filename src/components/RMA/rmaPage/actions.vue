@@ -89,64 +89,112 @@ export default {
         newStatus: 3,
       });
     },
+    //z przyjęto w serwisie do przekazano do diagnozy
     toDiagnose() {
+      store.dispatch("changeShelve/submit", {
+        itemsArr: [this.barcode],
+        active: this.rmaPage.shelve_id,
+        new: 2,
+      });
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
         newStatus: 4,
       });
     },
-    contact() {
-      store.dispatch("rmaPage/changeTicketStatus", {
-        ticketId: this.rmaPage.ticket_id,
-        newStatus: 6,
-      });
-    },
-    repair() {
+    //z przekazano do diagnozy do w realizacji
+    diagnose() {
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
         newStatus: 5,
       });
     },
-    endRepair() {
+    //z w realizacji do zlecono kontakt
+    contact() {
+      store.dispatch("changeShelve/submit", {
+        itemsArr: [this.barcode],
+        active: this.rmaPage.shelve_id,
+        new: 4,
+      });
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
-        newStatus: 8,
+        newStatus: 7,
+      });
+    },
+    //z w realizacji do naprawa
+    repair() {
+      store.dispatch("rmaPage/changeTicketStatus", {
+        ticketId: this.rmaPage.ticket_id,
+        newStatus: 6,
+      });
+    },
+    //z naprawa do przekazano do odesłania
+    endRepair() {
+      store.dispatch("changeShelve/submit", {
+        itemsArr: [this.barcode],
+        active: this.rmaPage.shelve_id,
+        new: 4,
+      });
+      store.dispatch("rmaPage/changeTicketStatus", {
+        ticketId: this.rmaPage.ticket_id,
+        newStatus: 9,
       });
     },
     addWaybillOut() {
       store.commit("rmaPage/toggleModal_shipment", true);
       store.commit("rmaWaybills/toggleModal_addWaybill", true);
     },
+    //z przekazano do odesłania do zakończone
     send() {
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
-        newStatus: 9,
+        newStatus: 10,
       });
       store.dispatch("items/deleteItemFromWarehouse", {
         barcode: this.barcode,
         shelveId: this.rmaPage.shelve_id,
       });
     },
+    //do anulowane
     sendCanceled() {
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
-        newStatus: 11,
+        newStatus: 12,
       });
       store.dispatch("items/deleteItemFromWarehouse", {
         barcode: this.barcode,
         shelveId: this.rmaPage.shelve_id,
       });
     },
+    //do anulowane
     cancel() {
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
-        newStatus: 11,
+        newStatus: 12,
       });
     },
+    //do do anulowania
     toCancel() {
+      //anulowanie na weryfikacji = zmiana półki na wyjście
+      if (this.rmaPage.status === 3) {
+        store.dispatch("changeShelve/submit", {
+          itemsArr: [this.barcode],
+          active: this.rmaPage.shelve_id,
+          new: 2,
+        });
+      }
+
+      //anulowanie na naprawie = zmiana półki na wyjście
+      if (this.rmaPage.status === 6) {
+        store.dispatch("changeShelve/submit", {
+          itemsArr: [this.barcode],
+          active: this.rmaPage.shelve_id,
+          new: 4,
+        });
+      }
+
       store.dispatch("rmaPage/changeTicketStatus", {
         ticketId: this.rmaPage.ticket_id,
-        newStatus: 10,
+        newStatus: 11,
       });
     },
   },
@@ -163,7 +211,7 @@ export default {
       return this.editMode && this.apiState === 2 ? true : false;
     },
     isProcessBtnActive() {
-      if (this.rmaPage.status === 5) return true;
+      if (this.rmaPage.status === 6) return true;
       return false;
     },
     editBtnText() {
@@ -173,7 +221,8 @@ export default {
       return this.editMode ? "cancel.svg" : "edit.svg";
     },
     isEditActive() {
-      if ([9, 11].includes(this.rmaPage.status)) return false;
+      //jeśli zakończone lub anulowane
+      if ([10, 12].includes(this.rmaPage.status)) return false;
       return true;
     },
     nextSteps() {
@@ -196,31 +245,37 @@ export default {
         output.push("collect");
       }
 
-      //Przyjęto w serwisie
+      //Przyjęto w serwisie (weryfikacja)
       if (this.rmaPage.status === 3) {
         output.push("toDiagnose");
         output.push("toCancel");
       }
 
+      //Przekazano do diagnozy
       if (this.rmaPage.status === 4) {
+        output.push("diagnose");
+      }
+
+      //W realizacji (diagnoza)
+      if (this.rmaPage.status === 5) {
         output.push("repair");
       }
 
-      //W realizacji
-      if (this.rmaPage.status === 5) {
+      //Naprawa
+      if (this.rmaPage.status === 6) {
         output.push("contact");
         output.push("endRepair");
         output.push("toCancel");
       }
 
       //Zlecono kontakt
-      if (this.rmaPage.status === 6) {
+      if (this.rmaPage.status === 7) {
         output.push("repair");
         output.push("toCancel");
       }
 
       //Przekazano do odesłania
-      if (this.rmaPage.status === 8) {
+      if (this.rmaPage.status === 9) {
         let waybill = this.rmaWaybills.find((o) => o.type === "wychodzący");
         if (waybill) {
           output.push("send");
@@ -230,7 +285,7 @@ export default {
       }
 
       //Do anulowania
-      if (this.rmaPage.status === 10) {
+      if (this.rmaPage.status === 11) {
         let waybill = this.rmaWaybills.find((o) => o.type === "wychodzący");
         if (waybill) {
           output.push("sendCanceled");
@@ -298,6 +353,11 @@ export default {
         display="Do diagnozy"
         :event="toDiagnose"
         v-if="this.nextSteps.includes('toDiagnose')"
+      />
+      <ActionButton
+        display="Diagnoza"
+        :event="diagnose"
+        v-if="this.nextSteps.includes('diagnose')"
       />
       <ActionButton
         display="Zleć kontakt"
