@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from "vuex";
 import textInput from "../../../parts/inputs/textInput.vue";
+import store from "../../../store";
 
 export default {
   data() {
