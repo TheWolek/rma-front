@@ -26,6 +26,13 @@ import moduleNavLinkVue from "../moduleNavLink.vue";
         ]"
       />
       <moduleNavLinkVue
+        text="Odbiór paczek"
+        v-bind:children="[
+          { path: '/warehouse/collect/add', text: 'Nowy odbiór' },
+          { path: '/warehouse/collect', text: 'Wszystkie odbiory paczek' },
+        ]"
+      />
+      <moduleNavLinkVue
         text="miejsca magazynowe"
         v-bind:children="[
           { path: '/warehouse/shelves', text: 'wszystkie miejsca magazynowe' },

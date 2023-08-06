@@ -13,6 +13,9 @@ import warehouseItemsChangeShelve from "@/views/Warehouse/Items/ChangeShelve.vue
 import warehouseSparepartsOrders from "@/views/Warehouse/Spareparts/orders.vue";
 import warehouseSparepartsStock from "@/views/Warehouse/Spareparts/stock.vue";
 import tasksMove from "@/views/Warehouse/tasks/tasksMove.vue";
+import addCollectPackages from "../views/Warehouse/collectPackages/addCollectPackages.vue";
+import collectPackagesList from "../views/Warehouse/collectPackages/collectPackagesList.vue";
+import collectPackage from "../views/Warehouse/collectPackages/collectPackage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -124,6 +127,30 @@ const router = createRouter({
           components: {
             default: warehouse,
             innerView: tasksMove,
+          },
+        },
+        {
+          path: "collect/add",
+          name: "addCollectPackages",
+          components: {
+            default: warehouse,
+            innerView: addCollectPackages,
+          },
+        },
+        {
+          path: "collect",
+          name: "collectPackagesList",
+          components: {
+            default: warehouse,
+            innerView: collectPackagesList,
+          },
+        },
+        {
+          path: "collect/:id",
+          name: "collectPackage",
+          components: {
+            default: warehouse,
+            innerView: collectPackage,
           },
         },
       ],

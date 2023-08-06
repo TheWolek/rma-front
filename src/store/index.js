@@ -10,6 +10,7 @@ import rmaWaybills from "./modules/RMA/rmaWaybills";
 import rmaAccessories from "./modules/RMA/rmaAccessories";
 import rmaDictionaries from "./modules/RMA/rmaDictionaries";
 import tasks from "./modules/Warehouse/tasks";
+import collectPackages from "./modules/Warehouse/collectPackages";
 
 export default createStore({
   modules: {
@@ -24,5 +25,6 @@ export default createStore({
     rmaAccessories,
     rmaDictionaries,
     tasks,
+    collectPackages,
   },
 });
